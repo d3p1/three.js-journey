@@ -14,13 +14,14 @@ const builder = new Builder({width: innerWidth, height: innerHeight})
 /**
  * @note Create cube
  */
-const cube = new Processor(builder.scene)
+const cube = new Processor()
 
 /**
- * @note Add cube to the animation and animate
  * @note Move camera from (0, 0, 0) to (0, 0, 5)
  *       because the cube is also at (0, 0, 0)
  *       so it is not possible to see it
+ * @note Add cube to the scene and to the animation
+ * @note Init animation
  */
 builder.camera.position.z = 5
 builder.addObjProcessor(cube)

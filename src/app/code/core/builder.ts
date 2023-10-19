@@ -26,19 +26,19 @@ export class Builder {
    * Constructor
    *
    * @param {{width: number, height: number}} dimensions
-   * @param {THREE.Scene} scene
    * @param {THREE.Camera} camera
+   * @param {THREE.Scene} scene
    * @param {THREE.WebGLRenderer} _renderer
    */
   constructor(
     public dimensions: RenderDimensions,
-    public scene: THREE.Scene = new THREE.Scene(),
     public camera: THREE.Camera = new THREE.PerspectiveCamera(
       75,
       dimensions.width / dimensions.height,
       0.1,
       1000,
     ),
+    public scene: THREE.Scene = new THREE.Scene(),
     protected _renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer(),
   ) {
     this.#create()
@@ -52,6 +52,7 @@ export class Builder {
    */
   public addObjProcessor(objProcessor: Processor): void {
     this._objProcessors.push(objProcessor)
+    this.scene.add(objProcessor.obj)
   }
 
   /**

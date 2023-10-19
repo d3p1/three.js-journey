@@ -9,27 +9,23 @@ export default class Processor extends MeshProcessor {
   /**
    * Constructor
    *
-   * @param {THREE.Scene} _scene
    * @param {THREE.BoxGeometry} _geometry
    * @param {THREE.Material} _material
    */
   constructor(
-    protected _scene: THREE.Scene,
     protected _geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 1),
     protected _material: THREE.Material = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
     }),
   ) {
-    super(_scene, _geometry, _material)
+    super(_geometry, _material)
   }
 
   /**
-   * Update
-   *
-   * @returns {void}
+   * @inheritdoc
    */
   public update(): void {
-    this._obj.rotation.x += 0.01
-    this._obj.rotation.y += 0.01
+    this.obj.rotation.x += 0.01
+    this.obj.rotation.y += 0.01
   }
 }
