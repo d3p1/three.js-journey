@@ -13,14 +13,14 @@ export default abstract class Processor {
   /**
    * Constructor
    *
+   * @param {THREE.Scene} _scene
    * @param {THREE.BufferGeometry} _geometry
    * @param {THREE.Material} _material
-   * @param {THREE.Scene} _scene
    */
   constructor(
+    protected _scene: THREE.Scene,
     protected _geometry: THREE.BufferGeometry,
     protected _material: THREE.Material,
-    protected _scene: THREE.Scene,
   ) {
     this.init()
   }
