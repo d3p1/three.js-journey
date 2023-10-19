@@ -18,27 +18,40 @@ export type RenderDimensions = {
  */
 export class Builder {
   /**
+   * @type {Processor[]}
+   */
+  protected _objProcessors: Processor[] = []
+
+  /**
    * Constructor
    *
-   * @param {{width: number, height: number}} _dimensions
-   * @param {Processor[]} _objProcessors
+   * @param {{width: number, height: number}} dimensions
+   * @param {THREE.Scene} scene
+   * @param {THREE.Camera} camera
    * @param {THREE.WebGLRenderer} _renderer
-   * @param {THREE.Scene} _scene
-   * @param {THREE.Camera} _camera
    */
   constructor(
-    protected _dimensions: RenderDimensions,
-    protected _objProcessors: Processor[],
-    protected _renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer(),
-    protected _scene: THREE.Scene = new THREE.Scene(),
-    protected _camera: THREE.Camera = new THREE.PerspectiveCamera(
+    public dimensions: RenderDimensions,
+    public scene: THREE.Scene = new THREE.Scene(),
+    public camera: THREE.Camera = new THREE.PerspectiveCamera(
       75,
-      _dimensions.width / _dimensions.height,
+      dimensions.width / dimensions.height,
       0.1,
       1000,
     ),
+    protected _renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer(),
   ) {
     this.#create()
+  }
+
+  /**
+   * Add object processor
+   *
+   * @param   {Processor} objProcessor
+   * @returns {void}
+   */
+  public addObjProcessor(objProcessor: Processor): void {
+    this._objProcessors.push(objProcessor)
   }
 
   /**
@@ -50,6 +63,7 @@ export class Builder {
     for (const objProcessor of this._objProcessors) {
       objProcessor.update()
     }
+    this._renderer.render(this.scene, this.camera)
     requestAnimationFrame(this.animate.bind(this))
   }
 
@@ -59,7 +73,7 @@ export class Builder {
    * @returns {void}
    */
   #create(): void {
-    this._renderer.setSize(this._dimensions.width, this._dimensions.height)
+    this._renderer.setSize(this.dimensions.width, this.dimensions.height)
     document.body.appendChild(this._renderer.domElement)
   }
 }
