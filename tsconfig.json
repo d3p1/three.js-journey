@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "ES6",
+    "moduleResolution": "Node",
     "strict": true,
     "sourceMap": true,
     "allowJs": true,
