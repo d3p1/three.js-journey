@@ -11,12 +11,14 @@ export default class Processor extends MeshProcessor {
    *
    * @param {object} _scene
    */
-  constructor(protected _scene: THREE.Scene) {
-    super(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshBasicMaterial({color: 0x00ff00}),
-      _scene,
-    )
+  constructor(
+    protected _geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 1),
+    protected _material: THREE.Material = new THREE.MeshBasicMaterial({
+      color: 0x00ff00,
+    }),
+    protected _scene: THREE.Scene,
+  ) {
+    super(_geometry, _material, _scene)
   }
 
   /**
