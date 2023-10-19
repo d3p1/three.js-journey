@@ -9,7 +9,9 @@ export default class Processor extends MeshProcessor {
   /**
    * Constructor
    *
-   * @param {object} _scene
+   * @param {THREE.BoxGeometry} _geometry
+   * @param {THREE.Material} _material
+   * @param {THREE.Scene} _scene
    */
   constructor(
     protected _geometry: THREE.BoxGeometry = new THREE.BoxGeometry(1, 1, 1),
@@ -26,7 +28,7 @@ export default class Processor extends MeshProcessor {
    *
    * @returns {void}
    */
-  public update() {
+  public update(): void {
     this._obj.rotation.x += 0.01
     this._obj.rotation.y += 0.01
   }

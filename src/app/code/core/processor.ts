@@ -6,16 +6,16 @@ import * as THREE from 'three'
 
 export default abstract class Processor {
   /**
-   * @type {object}
+   * @type {THREE.Object3D}
    */
   protected _obj: THREE.Object3D
 
   /**
    * Constructor
    *
-   * @param {object} _geometry
-   * @param {object} _material
-   * @param {object} _scene
+   * @param {THREE.BufferGeometry} _geometry
+   * @param {THREE.Material} _material
+   * @param {THREE.Scene} _scene
    */
   constructor(
     protected _geometry: THREE.BufferGeometry,
@@ -45,7 +45,7 @@ export default abstract class Processor {
   /**
    * Create object
    *
-   * @returns {object}
+   * @returns {THREE.Object3D}
    */
   protected abstract _create(): THREE.Object3D
 }
