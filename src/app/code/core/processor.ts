@@ -6,6 +6,11 @@ import * as THREE from 'three'
 
 export default abstract class Processor {
   /**
+   * @type {object}
+   */
+  protected _obj: THREE.Object3D
+
+  /**
    * Constructor
    *
    * @param {object} _geometry
@@ -26,7 +31,8 @@ export default abstract class Processor {
    * @returns {void}
    */
   public init(): void {
-    this._scene.add(this._create())
+    this._obj = this._create()
+    this._scene.add(this._obj)
   }
 
   /**
