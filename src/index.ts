@@ -2,35 +2,26 @@
  * @description Index
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
-import * as THREE from 'three'
-import './styles.scss';
+import './styles.scss'
+import Processor from './app/code/cuboid/processor'
+import {Builder} from './app/code/core/builder'
 
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000,
-)
+/**
+ * @note Create animation builder
+ */
+const builder = new Builder({width: innerWidth, height: innerHeight})
 
-const renderer = new THREE.WebGLRenderer()
-renderer.setSize(window.innerWidth, window.innerHeight)
-document.body.appendChild(renderer.domElement)
+/**
+ * @note Create cube
+ */
+const cube = new Processor(builder.scene)
 
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({color: 0x00ff00})
-const cube = new THREE.Mesh(geometry, material)
-scene.add(cube)
-
-camera.position.z = 5
-
-function animate() {
-  requestAnimationFrame(animate)
-
-  cube.rotation.x += 0.01
-  cube.rotation.y += 0.01
-
-  renderer.render(scene, camera)
-}
-
-animate()
+/**
+ * @note Add cube to the animation and animate
+ * @note Move camera from (0, 0, 0) to (0, 0, 5)
+ *       because the cube is also at (0, 0, 0)
+ *       so it is not possible to see it
+ */
+builder.camera.position.z = 5
+builder.addObjProcessor(cube)
+builder.animate()
