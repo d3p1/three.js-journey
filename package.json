@@ -1,0 +1,68 @@
+{
+  "name": "@d3p1/three.js-journey",
+  "version": "0.0.0",
+  "description": "My journey to Three.js",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint:code": "eslint --ignore-path .gitignore --ext .js,.ts src",
+    "lint:code:fix": "npm run lint:code -- --fix",
+    "format:code": "prettier --ignore-path .gitignore --check src",
+    "format:code:fix": "npm run format:code -- --write",
+    "refactor": "npm run format:code:fix && npm run lint:code:fix",
+    "start": "webpack serve --open --config webpack.dev.cjs",
+    "test": "jest --verbose",
+    "build": "webpack --config webpack.prod.cjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d3p1/three.js-journey.git"
+  },
+  "keywords": [
+    "webgl",
+    "threejs",
+    "canvas",
+    "virtual-reality",
+    "3d",
+    "threejs-learning",
+    "threejs-journey"
+  ],
+  "author": "C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/d3p1/three.js-journey/issues"
+  },
+  "homepage": "https://github.com/d3p1/three.js-journey#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^17.8.0",
+    "@d3p1/commitlint-config": "^1.0.0",
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.5",
+    "@types/node": "^20.8.6",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
+    "canvas": "^2.11.2",
+    "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "eslint": "^8.51.0",
+    "eslint-config-prettier": "^9.0.0",
+    "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.5.3",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "jest-canvas-mock": "^2.5.2",
+    "jest-environment-jsdom": "^29.7.0",
+    "mini-css-extract-plugin": "^2.7.6",
+    "prettier": "3.0.3",
+    "sass": "^1.69.4",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "ts-jest": "^29.1.1",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "webpack-merge": "^5.10.0"
+  }
+}
