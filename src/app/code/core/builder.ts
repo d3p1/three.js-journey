@@ -23,6 +23,11 @@ export class Builder {
   protected _objProcessors: Processor[] = []
 
   /**
+   * @type {number|null}
+   */
+  protected _animationId: number | null = null
+
+  /**
    * Constructor
    *
    * @param {{width: number, height: number}} dimensions
@@ -65,7 +70,18 @@ export class Builder {
       objProcessor.update()
     }
     this._renderer.render(this.scene, this.camera)
-    requestAnimationFrame(this.animate.bind(this))
+    this._animationId = requestAnimationFrame(this.animate.bind(this))
+  }
+
+  /**
+   * Inanimate
+   *
+   * @returns {void}
+   */
+  public inanimate(): void {
+    if (this._animationId) {
+      cancelAnimationFrame(this._animationId)
+    }
   }
 
   /**
