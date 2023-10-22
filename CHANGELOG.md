@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/d3p1/three.js-journey/compare/v1.0.0...v1.1.0) (2023-10-22)
+
+
+### Features
+
+* add inanimate method to builder [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([13db2fc](https://github.com/d3p1/three.js-journey/commit/13db2fc53b0566a74879a3960d8394137a688b46))
+* add topic animation logic [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([9a53262](https://github.com/d3p1/three.js-journey/commit/9a5326273ba53d52daa0bb8b30af0e29188a7ff7))
+* include add object processors logic to builder [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([bdb9dd7](https://github.com/d3p1/three.js-journey/commit/bdb9dd76d2dd1f4ef5ebaa5e6c966f24a08481b2))
+
 # 1.0.0 (2023-10-19)
 
 
