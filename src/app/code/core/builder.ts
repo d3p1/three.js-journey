@@ -47,6 +47,29 @@ export class Builder {
     protected _renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer(),
   ) {
     this.#create()
+    this.init()
+  }
+
+  /**
+   * Init
+   *
+   * @returns {void}
+   * @note    By default, move camera out from the origin to be able to watch
+   *          scene elements
+   */
+  public init(): void {
+    this.camera.position.z = 3
+  }
+
+  /**
+   * Set object processors
+   *
+   * @param   {Processor[]} objProcessor
+   * @returns {void}
+   */
+  public setObjProcessors(objProcessors: Processor[]): void {
+    this._objProcessors = objProcessors
+    this.scene.add(...this._objProcessors.map((processor) => processor.obj))
   }
 
   /**
