@@ -13,12 +13,14 @@ export default abstract class Processor {
   /**
    * Constructor
    *
-   * @param {THREE.BufferGeometry} _geometry
-   * @param {THREE.Material} _material
+   * @param {THREE.BufferGeometry}                        _geometry
+   * @param {THREE.Material}                              _material
+   * @param {(time: number, obj: THREE.Object3D) => void} _process
    */
   constructor(
     protected _geometry: THREE.BufferGeometry,
     protected _material: THREE.Material,
+    protected _process: (time: number, obj: THREE.Object3D) => void,
   ) {
     this.obj = this._create()
   }
@@ -26,9 +28,12 @@ export default abstract class Processor {
   /**
    * Update object
    *
+   * @param   {number} time
    * @returns {void}
    */
-  public abstract update(): void
+  public update(time: number): void {
+    this._process(time, this.obj)
+  }
 
   /**
    * Create object

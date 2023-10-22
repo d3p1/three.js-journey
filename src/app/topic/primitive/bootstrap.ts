@@ -1,25 +1,18 @@
 /**
- * @description Bootstrap primitive topic
+ * @description Bootstrap topic related to primitives
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
-import {Builder} from '../../code/core/builder'
-import Processor from '../../code/core/processor'
+import AbstractBootstrap from '../../code/core/bootstrap'
+import Processor from '../../code/core/bootstrap/processor'
 import Cuboid from './processor/mesh/cuboid'
 
-export default class Bootstrap {
+export default class Bootstrap extends AbstractBootstrap {
   /**
    * Constructor
    *
-   * @param {Builder}     builder
-   * @param {Processor[]} _objProcessors
+   * @param {Processor[]} processors
    */
-  constructor(
-    public builder: Builder = new Builder({
-      width: innerWidth,
-      height: innerHeight,
-    }),
-    protected _objProcessors: Processor[] = [new Cuboid()],
-  ) {
-    builder.setObjProcessors(_objProcessors)
+  constructor(processors: Processor[] = [new Cuboid()]) {
+    super(processors)
   }
 }
