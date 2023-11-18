@@ -54,10 +54,12 @@ export class Builder {
    * Init
    *
    * @returns {void}
+   * @note    Add camera to scene as a recommended best practice
    * @note    By default, move camera out from the origin to be able to watch
    *          scene elements
    */
   public init(): void {
+    this.scene.add(this.camera)
     this.camera.position.z = 3
   }
 
