@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/d3p1/three.js-journey/compare/v1.1.0...v1.1.1) (2023-11-18)
+
+
+### Bug Fixes
+
+* add camera to scene [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([3d2d23a](https://github.com/d3p1/three.js-journey/commit/3d2d23a3bd3975e76bbb064303663f8d13697b6c))
+
 # [1.1.0](https://github.com/d3p1/three.js-journey/compare/v1.0.0...v1.1.0) (2023-10-22)
 
 
