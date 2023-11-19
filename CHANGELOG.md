@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/d3p1/three.js-journey/compare/v1.0.0...v1.1.0) (2023-11-19)
+
+
+### Bug Fixes
+
+* add camera to scene [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([622598a](https://github.com/d3p1/three.js-journey/commit/622598aca0db082a7f21ff662f418704a5ee2c2c))
+* init rubik piece [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([71fd447](https://github.com/d3p1/three.js-journey/commit/71fd447a706514419a1e0fe93c3a338c66d8ab83))
+
+
+### Features
+
+* add inanimate method to builder [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([13db2fc](https://github.com/d3p1/three.js-journey/commit/13db2fc53b0566a74879a3960d8394137a688b46))
+* add topic animation logic [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([9a53262](https://github.com/d3p1/three.js-journey/commit/9a5326273ba53d52daa0bb8b30af0e29188a7ff7))
+* include add object processors logic to builder [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([bdb9dd7](https://github.com/d3p1/three.js-journey/commit/bdb9dd76d2dd1f4ef5ebaa5e6c966f24a08481b2))
+
 ## [1.1.1](https://github.com/d3p1/three.js-journey/compare/v1.1.0...v1.1.1) (2023-11-18)
 
 
