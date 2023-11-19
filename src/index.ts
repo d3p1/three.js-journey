@@ -4,8 +4,8 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
 import './styles.scss'
-import PrimitiveTopic from './app/topic/primitive/bootstrap'
-import Bootstrap from './app/code/core/bootstrap'
+import Bootstrap from './app/code/core/model/bootstrap'
+import PrimitiveTopic from './app/topic/primitive/model/bootstrap'
 
 class Index {
   /**
