@@ -19,8 +19,8 @@ export default class Piece extends MeshProcessor {
    * @param {THREE.MeshBasicMaterial}                        material
    */
   constructor(
-    size: number,
-    color: string | number,
+    public size: number,
+    public color: string | number,
     process: (time: number, obj: THREE.Object3D) => void = () => {},
     geometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(size, size),
     material: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial({
