@@ -15,13 +15,9 @@ export default abstract class ObjectProcessor {
    * Constructor
    *
    * @param {(time: number, object: THREE.Object3D) => void} _process
-   * @param {THREE.BufferGeometry}                           _geometry
-   * @param {THREE.Material}                                 _material
    */
   constructor(
     protected _process: (time: number, object: THREE.Object3D) => void,
-    protected _geometry: THREE.BufferGeometry,
-    protected _material: THREE.Material,
   ) {
     this.object = this._create()
   }

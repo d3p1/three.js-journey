@@ -5,7 +5,7 @@
  */
 import AbstractBootstrap from '../../../code/core/model/bootstrap'
 import ObjectProcessor from '../../../code/core/model/bootstrap/object-processor'
-import Cuboid from './object-processor/mesh/cuboid'
+import Cuboid from './object-processor/geometry-processor/mesh-processor/cuboid'
 
 export default class Bootstrap extends AbstractBootstrap {
   /**

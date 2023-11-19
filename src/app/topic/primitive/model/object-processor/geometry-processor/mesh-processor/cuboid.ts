@@ -4,7 +4,7 @@
  * @todo        Add unit test
  */
 import * as THREE from 'three'
-import MeshProcessor from '../../../../../code/core/model/bootstrap/object-processor/mesh-processor'
+import MeshProcessor from '../../../../../../code/core/model/bootstrap/object-processor/geometry-processor/mesh-processor'
 
 export default class Cuboid extends MeshProcessor {
   /**

@@ -6,7 +6,7 @@
  * @todo        Improve `color` property type
  */
 import * as THREE from 'three'
-import MeshProcessor from '../../../../../../code/core/model/bootstrap/object-processor/mesh-processor'
+import MeshProcessor from '../../../../../../code/core/model/bootstrap/object-processor/geometry-processor/mesh-processor'
 
 export default class Piece extends MeshProcessor {
   /**
