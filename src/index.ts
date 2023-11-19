@@ -1,5 +1,5 @@
 /**
- * @description Index. Create a pool of learned topics to show
+ * @description Index. Create a pool of learned topics. Switch between them
  *              using the keyboard
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  * @todo        Improve unit test
