@@ -9,6 +9,7 @@
 import './styles.scss'
 import Bootstrap from './app/code/core/model/bootstrap'
 import PrimitiveTopic from './app/topic/primitive/model/bootstrap'
+import RubikTopic from './app/topic/rubik/model/bootstrap'
 
 class Index {
   /**
@@ -21,7 +22,9 @@ class Index {
    *
    * @param {Bootstrap[]} topicPool
    */
-  constructor(public topicPool: Bootstrap[] = [new PrimitiveTopic()]) {
+  constructor(
+    public topicPool: Bootstrap[] = [new PrimitiveTopic(), new RubikTopic()],
+  ) {
     this.#addKeydownEvent()
   }
 
