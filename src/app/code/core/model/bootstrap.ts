@@ -2,24 +2,25 @@
  * @description Bootstrap. Init app related to learned topic
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
-import {Builder} from './bootstrap/builder'
-import Processor from './bootstrap/processor'
+import {IBuilder} from '../api/bootstrap/builder'
+import Builder from './bootstrap/builder'
+import ObjectProcessor from './bootstrap/object-processor'
 
 export default abstract class Bootstrap {
   /**
    * Constructor
    *
-   * @param {Builder}     builder
-   * @param {Processor[]} processors
+   * @param {ObjectProcessor[]} objectProcessors
+   * @param {IBuilder}          builder
    */
   constructor(
-    public processors: Processor[] = [],
-    public builder: Builder = new Builder({
+    public objectProcessors: ObjectProcessor[] = [],
+    public builder: IBuilder = new Builder({
       width: innerWidth,
       height: innerHeight,
     }),
   ) {
-    builder.addProcessors(processors)
+    builder.addObjectProcessors(objectProcessors)
   }
 
   /**
