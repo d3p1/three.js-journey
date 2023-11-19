@@ -1,28 +1,29 @@
 /**
- * @description Object processor
+ * @description Object 3D processor
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
+ * {@link       https://threejs.org/docs/index.html#api/en/core/Object3D}
  */
 import * as THREE from 'three'
 
-export default abstract class Processor {
+export default abstract class ObjectProcessor {
   /**
    * @type {THREE.Object3D}
    */
-  public obj: THREE.Object3D
+  public object: THREE.Object3D
 
   /**
    * Constructor
    *
-   * @param {THREE.BufferGeometry}                        _geometry
-   * @param {THREE.Material}                              _material
-   * @param {(time: number, obj: THREE.Object3D) => void} _process
+   * @param {(time: number, object: THREE.Object3D) => void} _process
+   * @param {THREE.BufferGeometry}                           _geometry
+   * @param {THREE.Material}                                 _material
    */
   constructor(
+    protected _process: (time: number, object: THREE.Object3D) => void,
     protected _geometry: THREE.BufferGeometry,
     protected _material: THREE.Material,
-    protected _process: (time: number, obj: THREE.Object3D) => void,
   ) {
-    this.obj = this._create()
+    this.object = this._create()
   }
 
   /**
@@ -32,7 +33,7 @@ export default abstract class Processor {
    * @returns {void}
    */
   public update(time: number): void {
-    this._process(time, this.obj)
+    this._process(time, this.object)
   }
 
   /**
