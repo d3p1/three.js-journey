@@ -12,11 +12,11 @@ export default class Piece extends MeshProcessor {
   /**
    * Constructor
    *
-   * @param {number}                  size
-   * @param {number|string}           color
-   * @param {THREE.MeshBasicMaterial} process
-   * @param {THREE.PlaneGeometry}     geometry
-   * @param {THREE.MeshBasicMaterial} material
+   * @param {number}                                         size
+   * @param {number|string}                                  color
+   * @param {(time: number, object: THREE.Object3D) => void} process
+   * @param {THREE.PlaneGeometry}                            geometry
+   * @param {THREE.MeshBasicMaterial}                        material
    */
   constructor(
     size: number,

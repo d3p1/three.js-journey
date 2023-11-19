@@ -10,9 +10,9 @@ export default class Cuboid extends MeshProcessor {
   /**
    * Constructor
    *
-   * @param {THREE.MeshBasicMaterial} process
-   * @param {THREE.BoxGeometry}       geometry
-   * @param {THREE.MeshBasicMaterial} material
+   * @param {(time: number, object: THREE.Object3D) => void} process
+   * @param {THREE.BoxGeometry}                              geometry
+   * @param {THREE.MeshBasicMaterial}                        material
    */
   constructor(
     process: (time: number, obj: THREE.Object3D) => void = (
