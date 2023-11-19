@@ -7,9 +7,18 @@ import AbstractProcessor from '../../object-processor/geometry-processor'
 
 export default abstract class MeshProcessor extends AbstractProcessor {
   /**
-   * @inheritdoc
+   * Constructor
+   *
+   * @param {(time: number, object: THREE.Object3D) => void} process
+   * @param {THREE.BufferGeometry}                           geometry
+   * @param {THREE.Material}                                 material
    */
-  protected _create(): THREE.Object3D {
-    return new THREE.Mesh(this._geometry, this._material)
+  constructor(
+    process: (time: number, object: THREE.Object3D) => void,
+    geometry: THREE.BufferGeometry,
+    material: THREE.Material,
+  ) {
+    super(process, geometry, material)
+    this.object = new THREE.Mesh(this._geometry, this._material)
   }
 }

@@ -7,9 +7,12 @@ import AbstractProcessor from '../object-processor'
 
 export default abstract class GroupProcessor extends AbstractProcessor {
   /**
-   * @inheritdoc
+   * Constructor
+   *
+   * @param {(time: number, object: THREE.Object3D) => void} process
    */
-  protected _create(): THREE.Object3D {
-    return new THREE.Group()
+  constructor(process: (time: number, object: THREE.Object3D) => void) {
+    super(process)
+    this.object = new THREE.Group()
   }
 }

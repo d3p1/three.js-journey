@@ -23,14 +23,6 @@ export default class Rubik extends GroupProcessor {
     process: (time: number, obj: THREE.Object3D) => void = () => {},
   ) {
     super(process)
-  }
-
-  /**
-   * @inheritdoc
-   */
-  protected _create(): THREE.Object3D {
-    const group = super._create()
-    group.add(new Piece(1, 1).object)
-    return group
+    this.object.add(new Piece(1, 1).object)
   }
 }
