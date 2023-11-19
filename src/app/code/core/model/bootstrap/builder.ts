@@ -3,24 +3,14 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
 import * as THREE from 'three'
-import Processor from './processor'
+import ObjectProcessor from './object-processor'
+import { RenderDimensions, IBuilder } from '../../api/bootstrap/builder'
 
-/**
- * @type {{width: number, height: number}}
- */
-export type RenderDimensions = {
-  readonly width: number
-  readonly height: number
-}
-
-/**
- * @class
- */
-export class Builder {
+export default class Builder implements IBuilder {
   /**
-   * @type {Processor[]}
+   * @type {ObjectProcessor[]}
    */
-  protected _processors: Processor[] = []
+  protected _objectProcessors: ObjectProcessor[] = []
 
   /**
    * @type {number|null}
@@ -47,7 +37,41 @@ export class Builder {
     public renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer(),
   ) {
     this.#create()
-    this.init()
+    this.#init()
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public addObjectProcessors(objectProcessors: ObjectProcessor[]): void {
+    this._objectProcessors = objectProcessors
+    this.scene.add(...this._objectProcessors.map(
+      (objectProcessor) => objectProcessor.object)
+    )
+  }
+
+  /**
+   * @inheritdoc
+   * @note    `requestAnimationFrame` callback receives the elapsed time
+   *          from its first call
+   * {@link   https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame}
+   */
+  public animate(elapsedTime: number = 0): void {
+    for (const objectProcessor of this._objectProcessors) {
+      objectProcessor.update(elapsedTime)
+    }
+    this.renderer.render(this.scene, this.camera)
+    this._animationId = requestAnimationFrame(this.animate.bind(this))
+  }
+
+  /**
+   * @inheritdoc
+   */
+  public cancelAnimation(): void {
+    if (this._animationId) {
+      this.renderer.dispose()
+      cancelAnimationFrame(this._animationId)
+    }
   }
 
   /**
@@ -58,49 +82,9 @@ export class Builder {
    * @note    By default, move camera out from the origin to be able to watch
    *          scene elements
    */
-  public init(): void {
+  #init(): void {
     this.scene.add(this.camera)
     this.camera.position.z = 3
-  }
-
-  /**
-   * Add object processors
-   *
-   * @param   {Processor[]} processors
-   * @returns {void}
-   */
-  public addProcessors(processors: Processor[]): void {
-    this._processors = processors
-    this.scene.add(...this._processors.map((processor) => processor.obj))
-  }
-
-  /**
-   * Animate
-   *
-   * @param   {number} elapsedTime
-   * @returns {void}
-   * @note    `requestAnimationFrame` callback receives the elapsed time
-   *          from its first call
-   * {@link   https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame}
-   */
-  public animate(elapsedTime: number = 0): void {
-    for (const processor of this._processors) {
-      processor.update(elapsedTime)
-    }
-    this.renderer.render(this.scene, this.camera)
-    this._animationId = requestAnimationFrame(this.animate.bind(this))
-  }
-
-  /**
-   * Cancel animation
-   *
-   * @returns {void}
-   */
-  public cancelAnimation(): void {
-    if (this._animationId) {
-      this.renderer.dispose()
-      cancelAnimationFrame(this._animationId)
-    }
   }
 
   /**
