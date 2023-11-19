@@ -3,6 +3,8 @@
  *              using the keyboard
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  * @todo        Improve unit test
+ * @todo        Separate this class from the execute logic
+ * @todo        Analyze to create an interface for this class
  */
 import './styles.scss'
 import Bootstrap from './app/code/core/model/bootstrap'
