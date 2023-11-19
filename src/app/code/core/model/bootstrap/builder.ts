@@ -4,7 +4,7 @@
  */
 import * as THREE from 'three'
 import ObjectProcessor from './object-processor'
-import { RenderDimensions, IBuilder } from '../../api/bootstrap/builder'
+import {RenderDimensions, IBuilder} from '../../api/bootstrap/builder'
 
 export default class Builder implements IBuilder {
   /**
@@ -45,8 +45,10 @@ export default class Builder implements IBuilder {
    */
   public addObjectProcessors(objectProcessors: ObjectProcessor[]): void {
     this._objectProcessors = objectProcessors
-    this.scene.add(...this._objectProcessors.map(
-      (objectProcessor) => objectProcessor.object)
+    this.scene.add(
+      ...this._objectProcessors.map(
+        (objectProcessor) => objectProcessor.object,
+      ),
     )
   }
 
