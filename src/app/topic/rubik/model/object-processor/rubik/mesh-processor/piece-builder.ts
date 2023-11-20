@@ -22,7 +22,7 @@ export default class PieceBuilder {
    */
   constructor(
     public pieceSize: number,
-    public pieceOutlineColor: number,
+    public pieceOutlineColor: number = 0x000000,
     protected _pieceGeometry: THREE.PlaneGeometry = new THREE.PlaneGeometry(
       pieceSize,
       pieceSize,
