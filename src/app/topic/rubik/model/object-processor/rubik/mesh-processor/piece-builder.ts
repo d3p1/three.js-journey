@@ -5,7 +5,7 @@
  * @todo        Improve `pieceSize` property type
  * @todo        Improve `pieceOutlineColor` property type
  * @todo        Analyze if there is a way to improve class hierarchy.
- *              Create an abstraction to init/build objects/groups/meshes 
+ *              Create an abstraction to init/build objects/groups/meshes
  *              like this class does
  */
 import * as THREE from 'three'
@@ -36,7 +36,7 @@ export default class PieceBuilder {
 
   /**
    * Build Rubik piece with outline
-   * 
+   *
    * @param   {number}                  pieceColor
    * @param   {THREE.MeshBasicMaterial} pieceMaterial
    * @returns {THREE.Group}
@@ -44,14 +44,15 @@ export default class PieceBuilder {
    * {@link   https://jsfiddle.net/w1tfrL6p/}
    */
   public build(
-    pieceColor: number, 
-    pieceMaterial: THREE.MeshBasicMaterial
+    pieceColor: number,
+    pieceMaterial: THREE.MeshBasicMaterial,
   ): THREE.Group {
     const pieceGroup = new THREE.Group()
     const piece = this.#createPiece(pieceColor, pieceMaterial)
     const pieceOutline = this.#createPieceOutline()
-    piece.renderOrder = 0;
-    pieceOutline.renderOrder = 1;
+    piece.scale.multiplyScalar(0.95)
+    piece.renderOrder = 1
+    pieceOutline.renderOrder = 0
     pieceGroup.add(piece)
     pieceGroup.add(pieceOutline)
     return pieceGroup
@@ -59,7 +60,7 @@ export default class PieceBuilder {
 
   /**
    * Create Rubik piece outline
-   * 
+   *
    * @returns {THREE.Mesh}
    * {@link   https://discourse.threejs.org/t/how-can-i-add-an-outline-to-a-plane/10605}
    * {@link   https://jsfiddle.net/w1tfrL6p/}
@@ -69,28 +70,27 @@ export default class PieceBuilder {
       this.pieceSize,
       this.pieceOutlineColor,
       this._pieceGeometry,
-      this._pieceOutlineMaterial
+      this._pieceOutlineMaterial,
     ).object as THREE.Mesh
-    pieceOutline.scale.multiplyScalar(1.05)
     return pieceOutline
   }
 
   /**
    * Create Rubik piece
-   * 
+   *
    * @param   {number}                  pieceColor
    * @param   {THREE.MeshBasicMaterial} pieceMaterial
    * @returns {THREE.Mesh}
    */
   #createPiece(
-    pieceColor: number, 
-    pieceMaterial: THREE.MeshBasicMaterial
+    pieceColor: number,
+    pieceMaterial: THREE.MeshBasicMaterial,
   ): THREE.Mesh {
     return new Piece(
       this.pieceSize,
       pieceColor,
       this._pieceGeometry,
-      pieceMaterial
+      pieceMaterial,
     ).object as THREE.Mesh
   }
 }
