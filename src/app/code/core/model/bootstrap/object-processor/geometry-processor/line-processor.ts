@@ -7,18 +7,9 @@ import AbstractProcessor from '../../object-processor/geometry-processor'
 
 export default abstract class LineProcessor extends AbstractProcessor {
   /**
-   * Constructor
-   *
-   * @param {(time: number, object: THREE.Object3D) => void} process
-   * @param {THREE.BufferGeometry}                           geometry
-   * @param {THREE.Material}                                 material
+   * @inheritdoc
    */
-  constructor(
-    process: (time: number, object: THREE.Object3D) => void,
-    geometry: THREE.BufferGeometry,
-    material: THREE.Material,
-  ) {
-    super(process, geometry, material)
+  protected _create(): void {
     this.object = new THREE.Line(this._geometry, this._material)
   }
 }

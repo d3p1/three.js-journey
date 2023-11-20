@@ -12,6 +12,11 @@ export default abstract class GeometryProcessor extends AbstractProcessor {
    * @param {(time: number, object: THREE.Object3D) => void} process
    * @param {THREE.BufferGeometry}                           _geometry
    * @param {THREE.Material}                                 _material
+   * @note  It is necessary to call `_create()` again after the parent
+   *        constructor is called (that also calls `_create()`),
+   *        because `_geometry` and `_material` properties will not
+   *        be initialized when the parent constructor (and parent `_create()`)
+   *        is called
    */
   constructor(
     process: (time: number, object: THREE.Object3D) => void,
@@ -19,5 +24,6 @@ export default abstract class GeometryProcessor extends AbstractProcessor {
     protected _material: THREE.Material,
   ) {
     super(process)
+    this._create()
   }
 }

@@ -18,7 +18,9 @@ export default abstract class ObjectProcessor {
    */
   constructor(
     protected _process: (time: number, object: THREE.Object3D) => void,
-  ) {}
+  ) {
+    this._create()
+  }
 
   /**
    * Update object
@@ -29,4 +31,11 @@ export default abstract class ObjectProcessor {
   public update(time: number): void {
     this._process(time, this.object)
   }
+
+  /**
+   * Create object
+   *
+   * @returns void
+   */
+  protected abstract _create(): void
 }
