@@ -3,7 +3,6 @@
 # [THREE.JS JOURNEY]
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-[![Build](https://github.com/d3p1/three.js-journey/actions/workflows/build.yml/badge.svg)](https://github.com/d3p1/three.js-journey/actions/workflows/build.yml)
 [![Release](https://github.com/d3p1/three.js-journey/actions/workflows/release.yml/badge.svg)](https://github.com/d3p1/three.js-journey/actions/workflows/release.yml)
 [![CodeQL](https://github.com/d3p1/three.js-journey/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/d3p1/three.js-journey/actions/workflows/github-code-scanning/codeql)
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
