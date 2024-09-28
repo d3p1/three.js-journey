@@ -1,38 +1,11 @@
 /**
- * @description Dev container configuration
+ * @description Dev Container configuration
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
 {
   "name": "Node.js",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-20-bullseye",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "esbenp.prettier-vscode",
-        "rohit-gohri.format-code-action",
-        "dbaeumer.vscode-eslint",
-        "formulahendry.auto-rename-tag",
-        "mikestead.dotenv",
-        "usernamehw.errorlens",
-        "xabikos.JavaScriptSnippets",
-        "formulahendry.auto-close-tag",
-        "streetsidesoftware.code-spell-checker",
-        "github.vscode-github-actions",
-        "eamodio.gitlens",
-        "bierner.markdown-preview-github-styles",
-        "DavidAnson.vscode-markdownlint",
-        "christian-kohler.npm-intellisense",
-        "yoavbls.pretty-ts-errors"
-      ],
-      "settings": {
-        "editor.rulers": [80],
-        "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.formatOnSave": false,
-        "editor.codeActionsOnSave": [
-          "source.formatDocument",
-          "source.fixAll.eslint"
-        ]
-      }
-    }
-  }
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "remoteUser": "node"
 }
