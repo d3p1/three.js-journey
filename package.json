@@ -33,16 +33,10 @@
   "devDependencies": {
     "@commitlint/cli": "^17.8.0",
     "@d3p1/commitlint-config": "^1.0.0",
-    "@types/node": "^20.8.6",
-    "@types/three": "^0.157.2",
-    "@typescript-eslint/eslint-plugin": "^6.8.0",
-    "@typescript-eslint/parser": "^6.8.0",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
-    "prettier": "3.0.3",
-    "ts-loader": "^9.5.0",
-    "typescript": "^5.2.2"
+    "prettier": "3.0.3"
   },
   "dependencies": {
     "three": "^0.157.0"
