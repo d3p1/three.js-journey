@@ -9,9 +9,7 @@
     "lint:code:fix": "npm run lint:code -- --fix",
     "format:code": "prettier --ignore-path .gitignore --check src",
     "format:code:fix": "npm run format:code -- --write",
-    "refactor": "npm run format:code:fix && npm run lint:code:fix",
-    "start": "webpack serve --open --config webpack.dev.cjs",
-    "build": "webpack --config webpack.prod.cjs"
+    "refactor": "npm run format:code:fix && npm run lint:code:fix"
   },
   "repository": {
     "type": "git",
@@ -39,24 +37,12 @@
     "@types/three": "^0.157.2",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
-    "css-loader": "^6.8.1",
-    "css-minimizer-webpack-plugin": "^5.0.1",
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
-    "html-loader": "^4.2.0",
-    "html-webpack-plugin": "^5.5.3",
     "husky": "^8.0.3",
-    "mini-css-extract-plugin": "^2.7.6",
     "prettier": "3.0.3",
-    "sass": "^1.69.4",
-    "sass-loader": "^13.3.2",
-    "style-loader": "^3.3.3",
     "ts-loader": "^9.5.0",
-    "typescript": "^5.2.2",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1",
-    "webpack-merge": "^5.10.0"
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "three": "^0.157.0"
