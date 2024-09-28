@@ -1,3 +1,24 @@
+# [1.2.0](https://github.com/d3p1/three.js-journey/compare/v1.1.0...v1.2.0) (2024-09-28)
+
+
+### Bug Fixes
+
+* improve object processor hierarchy [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([8006452](https://github.com/d3p1/three.js-journey/commit/8006452c7db76a1e06579e6de5db57336a9b6202))
+* improve object processor logic [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([b96dfda](https://github.com/d3p1/three.js-journey/commit/b96dfdac7083ec0c4c37cad076ad55697cf3ed4b))
+* improve Rubik piece builder piece outline logic [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([d606c34](https://github.com/d3p1/three.js-journey/commit/d606c34833347e2e5b6bea36448d3547f98eb747))
+* improve Rubik piece builder property default values [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([8e72750](https://github.com/d3p1/three.js-journey/commit/8e727507f3d9aece3e03fb853eb122203b7acaf5))
+* improve styles [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([f84afba](https://github.com/d3p1/three.js-journey/commit/f84afba645931b23d5f003c25461a09b22a89c68))
+
+
+### Features
+
+* add group processor [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([750de06](https://github.com/d3p1/three.js-journey/commit/750de06234c7f06f26118e76b31bf6b455d47639))
+* Add GSAP to play [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([75c26a0](https://github.com/d3p1/three.js-journey/commit/75c26a00e99c31042b9db95c672a121d8d8b9d19))
+* improve Rubik piece builder [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([de7c38d](https://github.com/d3p1/three.js-journey/commit/de7c38d4c133c1af97a46fc03c155e0382aca7bd))
+* improve Rubik piece initialization [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([f9bf7fd](https://github.com/d3p1/three.js-journey/commit/f9bf7fde9be8a1d26c5a33129972890c90d5dceb))
+* init Rubik cube processor [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([e921660](https://github.com/d3p1/three.js-journey/commit/e92166007f09c370b069a7148dad16a38f1707c9))
+* init Rubik topic [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([8b035d7](https://github.com/d3p1/three.js-journey/commit/8b035d70b0525332ed6421dd119cb961066cfd19))
+
 # [1.1.0](https://github.com/d3p1/three.js-journey/compare/v1.0.0...v1.1.0) (2023-11-19)
 
 
