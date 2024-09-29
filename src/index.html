@@ -15,8 +15,11 @@
 <body>
   <script type="module">
     import Bootstrap from './js/bootstrap.js'
+    import Lesson03 from './js/lesson/03/lesson.js'
 
-    const boot = new Bootstrap([])
+    const boot = new Bootstrap([
+      new Lesson03()
+    ])
     boot.run()
   </script>
 </body>
