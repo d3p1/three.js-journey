@@ -7,11 +7,19 @@ import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
+  /**
+   * @type {{width: number, height: number}}
+   */
   #sizes = {
     width: 800,
     height: 600,
   }
 
+  /**
+   * Open lesson
+   *
+   * @returns {void}
+   */
   open() {
     super.open()
 
