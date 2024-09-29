@@ -9,7 +9,9 @@
     "lint:code:fix": "npm run lint:code -- --fix",
     "format:code": "prettier --ignore-path .gitignore --check src",
     "format:code:fix": "npm run format:code -- --write",
-    "refactor": "npm run format:code:fix && npm run lint:code:fix"
+    "refactor": "npm run format:code:fix && npm run lint:code:fix",
+    "dev": "vite",
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -36,7 +38,9 @@
     "eslint": "^8.51.0",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
-    "prettier": "3.0.3"
+    "prettier": "3.0.3",
+    "vite": "^5.4.8",
+    "vite-plugin-restart": "^0.4.1"
   },
   "dependencies": {
     "three": "^0.157.0"
