@@ -1,5 +1,5 @@
 /**
- * @description 03 Lesson class
+ * @description 03 lesson class
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  * @link        https://threejs-journey.com/lessons/first-threejs-project
  */
