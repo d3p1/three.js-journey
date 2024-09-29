@@ -2,6 +2,7 @@ import restart from 'vite-plugin-restart'
 
 export default {
   root: 'src/',
+  base: './',
   publicDir: '../public/static/',
   server: {
     host: true,
