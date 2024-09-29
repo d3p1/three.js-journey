@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/d3p1/three.js-journey/compare/v1.2.0...v1.3.0) (2024-09-29)
+
+
+### Features
+
+* incorporate Vite to the project [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([7c7aca8](https://github.com/d3p1/three.js-journey/commit/7c7aca8ff984613933664209b263cd0ba40a5bfc))
+
 # [1.2.0](https://github.com/d3p1/three.js-journey/compare/v1.1.0...v1.2.0) (2024-09-28)
 
 
