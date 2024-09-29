@@ -13,6 +13,11 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <script type="module" src="js/three.js"></script>
+  <script type="module">
+    import Bootstrap from './js/bootstrap.js'
+
+    const boot = new Bootstrap([])
+    boot.run()
+  </script>
 </body>
 </html>
