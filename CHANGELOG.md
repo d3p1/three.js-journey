@@ -1,3 +1,13 @@
+# [1.4.0](https://github.com/d3p1/three.js-journey/compare/v1.3.1...v1.4.0) (2024-09-29)
+
+
+### Features
+
+* add lesson number 03 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([065045a](https://github.com/d3p1/three.js-journey/commit/065045a6d1e963feb8d04018115135cf4f53ecce))
+* init bootstrap class [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([550d0c6](https://github.com/d3p1/three.js-journey/commit/550d0c62b2c728e95d72e884e6ee88f2408bb295))
+* init general lesson class [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([dc2d29b](https://github.com/d3p1/three.js-journey/commit/dc2d29b1c35371ca30ff6256e35fd6db2dd206e6))
+* init lesson class [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([4890fec](https://github.com/d3p1/three.js-journey/commit/4890fec61797c3fb80344af472acb3797fa1a501))
+
 ## [1.3.1](https://github.com/d3p1/three.js-journey/compare/v1.3.0...v1.3.1) (2024-09-29)
 
 
