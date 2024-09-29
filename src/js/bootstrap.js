@@ -40,7 +40,7 @@ export default class Bootstrap {
    * @returns {void}
    */
   #initListener() {
-    document.addEventListener('keypress', (e) => {
+    document.addEventListener('keydown', (e) => {
       if (
         e.key === 'ArrowRight' &&
         this.#currentLessonIndex < this.#lessons.length - 1

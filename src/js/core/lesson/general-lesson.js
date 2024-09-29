@@ -20,12 +20,11 @@ export default class GeneralLesson extends Lesson {
   }
 
   /**
-   * Init canvas
+   * Open lesson
    *
    * @returns {void}
    */
-  #initCanvas() {
-    this.canvas = document.createElement('canvas')
+  open() {
     document.body.appendChild(this.canvas)
   }
 
@@ -36,5 +35,14 @@ export default class GeneralLesson extends Lesson {
    */
   close() {
     document.body.removeChild(this.canvas)
+  }
+
+  /**
+   * Init canvas
+   *
+   * @returns {void}
+   */
+  #initCanvas() {
+    this.canvas = document.createElement('canvas')
   }
 }

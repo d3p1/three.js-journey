@@ -13,6 +13,8 @@ export default class Lesson extends GeneralLesson {
   }
 
   open() {
+    super.open()
+
     const scene = new THREE.Scene()
 
     const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
