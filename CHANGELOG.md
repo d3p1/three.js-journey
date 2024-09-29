@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/d3p1/three.js-journey/compare/v1.3.0...v1.3.1) (2024-09-29)
+
+
+### Bug Fixes
+
+* adjust Vite configuration so uses relative paths to link JS and CSS resources [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([4f82088](https://github.com/d3p1/three.js-journey/commit/4f820883f4c7db25d4c7915163ba9ee51a13e3dc))
+
 # [1.3.0](https://github.com/d3p1/three.js-journey/compare/v1.2.0...v1.3.0) (2024-09-29)
 
 
