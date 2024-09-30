@@ -8,14 +8,6 @@ import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
   /**
-   * @type {{width: number, height: number}}
-   */
-  #sizes = {
-    width: 800,
-    height: 600,
-  }
-
-  /**
    * Open lesson
    *
    * @returns {void}
@@ -32,14 +24,11 @@ export default class Lesson extends GeneralLesson {
 
     const camera = new THREE.PerspectiveCamera(
       75,
-      this.#sizes.width / this.#sizes.height,
+      this.canvas.width / this.canvas.height,
     )
     camera.position.z = 3
     scene.add(camera)
 
-    const renderer = new THREE.WebGLRenderer({canvas: this.canvas})
-    renderer.setSize(this.#sizes.width, this.#sizes.height)
-
-    renderer.render(scene, camera)
+    this.renderer.render(scene, camera)
   }
 }

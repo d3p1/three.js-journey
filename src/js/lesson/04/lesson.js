@@ -1,5 +1,5 @@
 /**
- * @description 04 Lesson class
+ * @description 04 lesson class
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  * @link        https://threejs-journey.com/lessons/transform-objects
  */
@@ -7,14 +7,6 @@ import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {{width: number, height: number}}
-   */
-  #sizes = {
-    width: 800,
-    height: 600,
-  }
-
   /**
    * Open lesson
    *
@@ -30,7 +22,7 @@ export default class Lesson extends GeneralLesson {
 
     const camera = new THREE.PerspectiveCamera(
       75,
-      this.#sizes.width / this.#sizes.height,
+      this.canvas.width / this.canvas.height,
     )
     camera.position.z = 3
     scene.add(camera)
@@ -61,9 +53,6 @@ export default class Lesson extends GeneralLesson {
 
     camera.lookAt(box1.position)
 
-    const renderer = new THREE.WebGLRenderer({canvas: this.canvas})
-    renderer.setSize(this.#sizes.width, this.#sizes.height)
-
-    renderer.render(scene, camera)
+    this.renderer.render(scene, camera)
   }
 }
