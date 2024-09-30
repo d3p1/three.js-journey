@@ -7,6 +7,16 @@ import Lesson from '../lesson.js'
 
 export default class GeneralLesson extends Lesson {
   /**
+   * @type {THREE.Scene}
+   */
+  scene
+
+  /**
+   * @type {THREE.PerspectiveCamera|THREE.Camera}
+   */
+  camera
+
+  /**
    * @type {THREE.WebGLRenderer}
    */
   renderer
@@ -15,6 +25,11 @@ export default class GeneralLesson extends Lesson {
    * @type {HTMLCanvasElement}
    */
   canvas
+
+  /**
+   * @type {boolean}
+   */
+  hasAnimation
 
   /**
    * @type {number}
@@ -28,7 +43,22 @@ export default class GeneralLesson extends Lesson {
     super()
 
     this.#initCanvas()
-    this.#initRenderer()
+    this.initScene()
+    this.initCamera()
+    this.initRenderer()
+  }
+
+  /**
+   * Update
+   *
+   * @params  {number} t
+   * @returns {void}
+   * @throws  {Error}
+   */
+  update(t) {
+    throw new Error(
+      'General lesson class with animations must implement an `update` method that implements current lesson logic',
+    )
   }
 
   /**
@@ -38,6 +68,8 @@ export default class GeneralLesson extends Lesson {
    * @returns {void}
    */
   animate(t = 0) {
+    this.update(t)
+    this.renderer.render(this.scene, this.camera)
     this.#requestAnimationId = requestAnimationFrame(this.animate.bind(this))
   }
 
@@ -48,7 +80,10 @@ export default class GeneralLesson extends Lesson {
    */
   open() {
     document.body.appendChild(this.canvas)
-    this.animate()
+
+    if (this.hasAnimation) {
+      this.animate()
+    }
   }
 
   /**
@@ -58,7 +93,44 @@ export default class GeneralLesson extends Lesson {
    */
   close() {
     document.body.removeChild(this.canvas)
-    cancelAnimationFrame(this.#requestAnimationId)
+
+    if (this.#requestAnimationId) {
+      cancelAnimationFrame(this.#requestAnimationId)
+    }
+  }
+
+  /**
+   * Init scene
+   *
+   * @returns {void}
+   */
+  initScene() {
+    this.scene = new THREE.Scene()
+  }
+
+  /**
+   * Init camera
+   *
+   * @returns {void}
+   */
+  initCamera() {
+    this.camera = new THREE.PerspectiveCamera(
+      75,
+      this.canvas.width / this.canvas.height,
+    )
+    this.camera.position.z = 3
+    this.scene.add(this.camera)
+  }
+
+  /**
+   * Init renderer
+   *
+   * @returns {void}
+   */
+  initRenderer() {
+    this.renderer = new THREE.WebGLRenderer({canvas: this.canvas})
+    this.#resizeRenderer()
+    window.addEventListener('resize', this.#resizeRenderer.bind(this))
   }
 
   /**
@@ -71,22 +143,14 @@ export default class GeneralLesson extends Lesson {
   }
 
   /**
-   * Init renderer
-   *
-   * @returns {void}
-   */
-  #initRenderer() {
-    this.renderer = new THREE.WebGLRenderer({canvas: this.canvas})
-    this.#resizeRenderer()
-    window.addEventListener('resize', this.#resizeRenderer.bind(this))
-  }
-
-  /**
    * Resize renderer
    *
    * @returns {void}
    */
   #resizeRenderer() {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.camera.aspect = window.innerWidth / window.innerHeight
+    this.camera.updateProjectionMatrix()
+    this.renderer.render(this.scene, this.camera)
   }
 }

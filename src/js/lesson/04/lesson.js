@@ -15,23 +15,14 @@ export default class Lesson extends GeneralLesson {
   open() {
     super.open()
 
-    const scene = new THREE.Scene()
-
     const axes = new THREE.AxesHelper(6)
-    scene.add(axes)
-
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      this.canvas.width / this.canvas.height,
-    )
-    camera.position.z = 3
-    scene.add(camera)
+    this.scene.add(axes)
 
     const group = new THREE.Group()
     group.scale.y = 2
     group.scale.x = 0.5
     group.rotation.y = Math.PI * 0.25
-    scene.add(group)
+    this.scene.add(group)
 
     const boxGeometry1 = new THREE.BoxGeometry(1, 1, 1)
     const boxMaterial1 = new THREE.MeshBasicMaterial({color: 0xff0000})
@@ -51,8 +42,8 @@ export default class Lesson extends GeneralLesson {
     box3.position.x = 1.5
     group.add(box3)
 
-    camera.lookAt(box1.position)
+    this.camera.lookAt(box1.position)
 
-    this.renderer.render(scene, camera)
+    this.renderer.render(this.scene, this.camera)
   }
 }
