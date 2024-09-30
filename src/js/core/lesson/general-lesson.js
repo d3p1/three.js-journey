@@ -78,7 +78,7 @@ export default class GeneralLesson extends Lesson {
   #initRenderer() {
     this.renderer = new THREE.WebGLRenderer({canvas: this.canvas})
     this.#resizeRenderer()
-    document.addEventListener('resize', this.#resizeRenderer.bind(this))
+    window.addEventListener('resize', this.#resizeRenderer.bind(this))
   }
 
   /**
