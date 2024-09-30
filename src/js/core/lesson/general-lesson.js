@@ -17,6 +17,11 @@ export default class GeneralLesson extends Lesson {
   canvas
 
   /**
+   * @type {number}
+   */
+  #requestAnimationId
+
+  /**
    * Constructor
    */
   constructor() {
@@ -27,12 +32,23 @@ export default class GeneralLesson extends Lesson {
   }
 
   /**
+   * Animate
+   *
+   * @param   {number} t
+   * @returns {void}
+   */
+  animate(t = 0) {
+    this.#requestAnimationId = requestAnimationFrame(this.animate.bind(this))
+  }
+
+  /**
    * Open lesson
    *
    * @returns {void}
    */
   open() {
     document.body.appendChild(this.canvas)
+    this.animate()
   }
 
   /**
@@ -42,6 +58,7 @@ export default class GeneralLesson extends Lesson {
    */
   close() {
     document.body.removeChild(this.canvas)
+    cancelAnimationFrame(this.#requestAnimationId)
   }
 
   /**
