@@ -1,3 +1,20 @@
+# [1.5.0](https://github.com/d3p1/three.js-journey/compare/v1.4.0...v1.5.0) (2024-09-30)
+
+
+### Bug Fixes
+
+* adjust open lesson logic [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([9ec89a1](https://github.com/d3p1/three.js-journey/commit/9ec89a11c630200ef914d47e478a6c5087508344))
+* adjust resize event for renderer resize [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([86d8e6c](https://github.com/d3p1/three.js-journey/commit/86d8e6ca95d7484c4fdcab1693bcb191c279b557))
+
+
+### Features
+
+* add animation logic to lesson base class [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([9780bc0](https://github.com/d3p1/three.js-journey/commit/9780bc04cfb446320187b409a44e58c3500df2c8))
+* add full size renderer [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([aafe56d](https://github.com/d3p1/three.js-journey/commit/aafe56d27a8e85592dcc6857c6a0b7b39807fc1a))
+* add GSAP library [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([4a6ea51](https://github.com/d3p1/three.js-journey/commit/4a6ea516b8cea405836fbe6980e5af2e924b0625))
+* add lesson number 04 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([dad1d56](https://github.com/d3p1/three.js-journey/commit/dad1d56fabb0da0afeded0bee42f444125bca97d))
+* add lesson number 05 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([ae30927](https://github.com/d3p1/three.js-journey/commit/ae30927bfb5fc3ea44c0bff943126ef528dd483d))
+
 # [1.4.0](https://github.com/d3p1/three.js-journey/compare/v1.3.1...v1.4.0) (2024-09-29)
 
 
