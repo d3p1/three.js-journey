@@ -1,3 +1,17 @@
+# [1.7.0](https://github.com/d3p1/three.js-journey/compare/v1.6.0...v1.7.0) (2024-10-02)
+
+
+### Bug Fixes
+
+* improve renderer pixel ratio [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([a940c57](https://github.com/d3p1/three.js-journey/commit/a940c57fd0c7434aea407dce287b5f07fd7e6b3f))
+* remove keydown event listener when lesson 06 is closed [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([254077b](https://github.com/d3p1/three.js-journey/commit/254077bfeb3113c797b13590c32bc4e78d919924))
+
+
+### Features
+
+* add lesson number 07 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([0381e85](https://github.com/d3p1/three.js-journey/commit/0381e85125756dca214171bbaf302df549a971c3))
+* improve canvas styles [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([cab7297](https://github.com/d3p1/three.js-journey/commit/cab7297c38b10a073e4e9d0f316e4d649b7676b3))
+
 # [1.6.0](https://github.com/d3p1/three.js-journey/compare/v1.5.0...v1.6.0) (2024-10-01)
 
 
