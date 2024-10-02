@@ -36,7 +36,6 @@ export default class Lesson extends GeneralLesson {
    * Open lesson
    *
    * @returns {void}
-   * @note    Init perspective camera or orthographic camera by keyword
    */
   open() {
     this.#addEventListenerToSetCamera()
@@ -44,6 +43,18 @@ export default class Lesson extends GeneralLesson {
     this.#initControl()
 
     super.open()
+  }
+
+  /**
+   * Close lesson
+   *
+   * @returns {void}
+   */
+  close() {
+    super.close()
+
+    this.#removeEventListenerToSetCamera()
+    this.#removeEventListenerToSetControl()
   }
 
   /**
@@ -74,18 +85,7 @@ export default class Lesson extends GeneralLesson {
    */
   #initControl() {
     this.#initCustomControl()
-
-    document.addEventListener('keydown', (e) => {
-      switch (e.code) {
-        case 'KeyR':
-          this.#initOrbitControl()
-          break
-
-        case 'KeyC':
-          this.#initCustomControl()
-          break
-      }
-    })
+    this.#addEventListenerToSetControl()
   }
 
   /**
@@ -142,16 +142,69 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #addEventListenerToSetCamera() {
-    document.addEventListener('keydown', (e) => {
-      switch (e.code) {
-        case 'KeyP':
-          this.initCamera()
-          break
+    document.addEventListener('keydown', this.#toggleCamera.bind(this))
+  }
 
-        case 'KeyO':
-          this.initOrthographicCamera()
-          break
-      }
-    })
+  /**
+   * Remove event listener to set camera
+   *
+   * @returns {void}
+   */
+  #removeEventListenerToSetCamera() {
+    document.removeEventListener('keydown', this.#toggleCamera)
+  }
+
+  /**
+   * Add event listener to set control
+   *
+   * @returns {void}
+   */
+  #addEventListenerToSetControl() {
+    document.addEventListener('keydown', this.#toggleControl.bind(this))
+  }
+
+  /**
+   * Remove event listener to set control
+   *
+   * @returns {void}
+   */
+  #removeEventListenerToSetControl() {
+    document.removeEventListener('keydown', this.#toggleControl)
+  }
+
+  /**
+   * Toggle control
+   *
+   * @param   {KeyboardEvent} e
+   * @returns {void}
+   */
+  #toggleControl(e) {
+    switch (e.code) {
+      case 'KeyR':
+        this.#initOrbitControl()
+        break
+
+      case 'KeyC':
+        this.#initCustomControl()
+        break
+    }
+  }
+
+  /**
+   * Toggle camera
+   *
+   * @param   {KeyboardEvent} e
+   * @returns {void}
+   */
+  #toggleCamera(e) {
+    switch (e.code) {
+      case 'KeyP':
+        this.initCamera()
+        break
+
+      case 'KeyO':
+        this.initOrthographicCamera()
+        break
+    }
   }
 }
