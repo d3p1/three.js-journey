@@ -8,17 +8,17 @@ import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
   /**
-   * Open lesson
+   * Init lesson
    *
    * @returns {void}
    */
-  open() {
-    super.open()
+  init() {
+    super.init()
 
     const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
     const boxMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
-    const box = new THREE.Mesh(boxGeometry, boxMaterial)
-    this.scene.add(box)
+    this.object3d = new THREE.Mesh(boxGeometry, boxMaterial)
+    this.scene.add(this.object3d)
 
     this.renderer.render(this.scene, this.camera)
   }

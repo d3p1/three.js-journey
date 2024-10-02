@@ -7,6 +7,11 @@ import Lesson from '../lesson.js'
 
 export default class GeneralLesson extends Lesson {
   /**
+   * @type {THREE.Object3D|null}
+   */
+  object3d = null
+
+  /**
    * @type {THREE.Scene}
    */
   scene
@@ -37,16 +42,9 @@ export default class GeneralLesson extends Lesson {
   #requestAnimationId
 
   /**
-   * Constructor
+   * @type {Function}
    */
-  constructor() {
-    super()
-
-    this.#initCanvas()
-    this.initScene()
-    this.initCamera()
-    this.initRenderer()
-  }
+  #boundResizeRenderer
 
   /**
    * Update
@@ -79,6 +77,8 @@ export default class GeneralLesson extends Lesson {
    * @returns {void}
    */
   open() {
+    this.init()
+
     document.body.appendChild(this.canvas)
 
     if (this.hasAnimation) {
@@ -94,9 +94,23 @@ export default class GeneralLesson extends Lesson {
   close() {
     document.body.removeChild(this.canvas)
 
+    this.dispose()
+
     if (this.#requestAnimationId) {
       cancelAnimationFrame(this.#requestAnimationId)
     }
+  }
+
+  /**
+   * Init lesson
+   *
+   * @returns {void}
+   */
+  init() {
+    this.#initCanvas()
+    this.initScene()
+    this.initCamera()
+    this.initRenderer()
   }
 
   /**
@@ -130,7 +144,106 @@ export default class GeneralLesson extends Lesson {
   initRenderer() {
     this.renderer = new THREE.WebGLRenderer({canvas: this.canvas})
     this.#resizeRenderer()
-    window.addEventListener('resize', this.#resizeRenderer.bind(this))
+    this.#boundResizeRenderer = this.#resizeRenderer.bind(this)
+    window.addEventListener('resize', this.#boundResizeRenderer)
+  }
+
+  /**
+   * Dispose lesson
+   *
+   * @returns {void}
+   */
+  dispose() {
+    this.#disposeResources()
+
+    this.scene = null
+    this.camera = null
+    this.object3d = null
+    this.renderer = null
+    this.canvas = null
+  }
+
+  /**
+   * Dispose resources
+   *
+   * @returns {void}
+   */
+  #disposeResources() {
+    this.#disposeGeometriesAndMaterials()
+    this.#disposeScene()
+    this.#disposeRenderer()
+  }
+
+  /**
+   * Dispose geometries and materials
+   *
+   * @returns {void}
+   */
+  #disposeGeometriesAndMaterials() {
+    this.scene.traverse((object) => {
+      if (!object.isMesh) {
+        return
+      }
+      this.#disposeObjectGeometry(object)
+      this.#disposeObjectMaterial(object)
+    })
+  }
+
+  /**
+   * Dispose object geometry
+   *
+   * @param   {THREE.Object3D} object
+   * @returns {void}
+   */
+  #disposeObjectGeometry(object) {
+    if (object.geometry) {
+      object.geometry.dispose()
+    }
+  }
+
+  /**
+   * Dispose object material
+   *
+   * @param   {THREE.Object3D} object
+   * @returns {void}
+   */
+  #disposeObjectMaterial(object) {
+    if (object.material) {
+      if (Array.isArray(object.material)) {
+        object.material.forEach((material) => {
+          if (material.map) {
+            material.map.dispose()
+          }
+          material.dispose()
+        })
+      } else {
+        if (object.material.map) {
+          object.material.map.dispose()
+        }
+        object.material.dispose()
+      }
+    }
+  }
+
+  /**
+   * Dispose scene
+   *
+   * @returns {void}
+   */
+  #disposeScene() {
+    while (this.scene.children.length > 0) {
+      this.scene.remove(this.scene.children[0])
+    }
+  }
+
+  /**
+   * Dispose renderer
+   *
+   * @returns {void}
+   */
+  #disposeRenderer() {
+    this.renderer.dispose()
+    window.removeEventListener('resize', this.#boundResizeRenderer)
   }
 
   /**

@@ -9,11 +9,6 @@ import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
   /**
-   * @type {THREE.Mesh}
-   */
-  mesh
-
-  /**
    * @type {OrbitControls}
    */
   control
@@ -22,6 +17,11 @@ export default class Lesson extends GeneralLesson {
    * @type {boolean}
    */
   hasAnimation = true
+
+  /**
+   * @type {Function}
+   */
+  #boundToggleFullScreen
 
   /**
    * Update
@@ -33,25 +33,25 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
-   * Open lesson
+   * Init lesson
    *
    * @returns {void}
    */
-  open() {
+  init() {
+    super.init()
+
     this.#initMesh()
     this.#initControl()
     this.#addFullScreenListener()
-
-    super.open()
   }
 
   /**
-   * Close lesson
+   * Dispose lesson
    *
    * @returns {void}
    */
-  close() {
-    super.close()
+  dispose() {
+    super.dispose()
 
     this.#removeFullScreenListener()
   }
@@ -62,7 +62,8 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #addFullScreenListener() {
-    document.addEventListener('keydown', this.#toggleFullScreen.bind(this))
+    this.#boundToggleFullScreen = this.#toggleFullScreen.bind(this)
+    document.addEventListener('keydown', this.#boundToggleFullScreen)
   }
 
   /**
@@ -71,7 +72,7 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #removeFullScreenListener() {
-    document.removeEventListener('keydown', this.#toggleFullScreen)
+    document.removeEventListener('keydown', this.#boundToggleFullScreen)
   }
 
   /**
@@ -96,8 +97,8 @@ export default class Lesson extends GeneralLesson {
   #initMesh() {
     const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
     const boxMaterial = new THREE.MeshBasicMaterial({color: 0xffffff})
-    this.mesh = new THREE.Mesh(boxGeometry, boxMaterial)
-    this.scene.add(this.mesh)
+    this.object3d = new THREE.Mesh(boxGeometry, boxMaterial)
+    this.scene.add(this.object3d)
   }
 
   /**

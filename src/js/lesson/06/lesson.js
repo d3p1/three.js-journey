@@ -14,14 +14,19 @@ export default class Lesson extends GeneralLesson {
   control
 
   /**
-   * @type {THREE.Mesh}
-   */
-  mesh
-
-  /**
    * @type {boolean}
    */
   hasAnimation = true
+
+  /**
+   * @type {Function}
+   */
+  #boundToggleCamera
+
+  /**
+   * @type {Function}
+   */
+  #boundToggleControl
 
   /**
    * Update
@@ -33,25 +38,25 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
-   * Open lesson
+   * Init lesson
    *
    * @returns {void}
    */
-  open() {
+  init() {
+    super.init()
+
     this.#addEventListenerToSetCamera()
     this.#initMesh()
     this.#initControl()
-
-    super.open()
   }
 
   /**
-   * Close lesson
+   * Dispose lesson
    *
    * @returns {void}
    */
-  close() {
-    super.close()
+  dispose() {
+    super.dispose()
 
     this.#removeEventListenerToSetCamera()
     this.#removeEventListenerToSetControl()
@@ -75,7 +80,7 @@ export default class Lesson extends GeneralLesson {
    */
   #updateCameraFromControl() {
     this.control.update()
-    this.camera.lookAt(this.mesh.position)
+    this.camera.lookAt(this.object3d.position)
   }
 
   /**
@@ -132,8 +137,8 @@ export default class Lesson extends GeneralLesson {
   #initMesh() {
     const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
     const boxMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00})
-    this.mesh = new THREE.Mesh(boxGeometry, boxMaterial)
-    this.scene.add(this.mesh)
+    this.object3d = new THREE.Mesh(boxGeometry, boxMaterial)
+    this.scene.add(this.object3d)
   }
 
   /**
@@ -142,7 +147,8 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #addEventListenerToSetCamera() {
-    document.addEventListener('keydown', this.#toggleCamera.bind(this))
+    this.#boundToggleCamera = this.#toggleCamera.bind(this)
+    document.addEventListener('keydown', this.#boundToggleCamera)
   }
 
   /**
@@ -151,7 +157,7 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #removeEventListenerToSetCamera() {
-    document.removeEventListener('keydown', this.#toggleCamera)
+    document.removeEventListener('keydown', this.#boundToggleCamera)
   }
 
   /**
@@ -160,7 +166,8 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #addEventListenerToSetControl() {
-    document.addEventListener('keydown', this.#toggleControl.bind(this))
+    this.#boundToggleControl = this.#toggleControl.bind(this)
+    document.addEventListener('keydown', this.#boundToggleControl)
   }
 
   /**
@@ -169,7 +176,7 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #removeEventListenerToSetControl() {
-    document.removeEventListener('keydown', this.#toggleControl)
+    document.removeEventListener('keydown', this.#boundToggleControl)
   }
 
   /**
