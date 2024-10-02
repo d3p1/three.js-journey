@@ -77,7 +77,7 @@ export default class Lesson extends GeneralLesson {
   /**
    * Toggle full screen
    *
-   * @param   {Event} e
+   * @param   {KeyboardEvent} e
    * @returns {void}
    */
   #toggleFullScreen(e) {
