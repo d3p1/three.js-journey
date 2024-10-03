@@ -34,15 +34,47 @@ export default class Lesson extends GeneralLesson {
    */
   init() {
     super.init()
-
     this.control = new OrbitControls(this.camera, this.canvas)
+    this.#initMesh()
+  }
 
-    const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+  /**
+   * Init mesh
+   *
+   * @returns {void}
+   */
+  #initMesh() {
     const boxMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
       wireframe: true,
     })
-    this.mesh = new THREE.Mesh(boxGeometry, boxMaterial)
+    this.mesh = new THREE.Mesh(this.#initBufferGeometry(), boxMaterial)
     this.scene.add(this.mesh)
+  }
+
+  /**
+   * Init buffer geometry
+   *
+   * @returns {THREE.BufferGeometry}
+   */
+  #initBufferGeometry() {
+    const bufferGeometry = new THREE.BufferGeometry()
+    bufferGeometry.setAttribute('position', this.#initBufferPositionAttribute())
+    return bufferGeometry
+  }
+
+  /**
+   * Init buffer position attribute
+   *
+   * @returns {THREE.BufferAttribute}
+   */
+  #initBufferPositionAttribute() {
+    const triangles = 50
+    const vertexCount = triangles * 3 * 3
+    const vertexCollection = new Float32Array(vertexCount)
+    for (let i = 0; i < vertexCount; i++) {
+      vertexCollection[i] = (Math.random() - 0.5) * 2
+    }
+    return new THREE.BufferAttribute(vertexCollection, 3)
   }
 }
