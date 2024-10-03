@@ -1,7 +1,7 @@
 /**
  * @description 08 lesson class
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
- * @link        https://threejs-journey.com/lessons/geometries
+ * {@link       https://threejs-journey.com/lessons/geometries}
  */
 import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'

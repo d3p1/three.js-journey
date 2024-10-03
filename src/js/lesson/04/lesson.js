@@ -1,7 +1,7 @@
 /**
  * @description 04 lesson class
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
- * @link        https://threejs-journey.com/lessons/transform-objects
+ * {@link       https://threejs-journey.com/lessons/transform-objects}
  */
 import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'

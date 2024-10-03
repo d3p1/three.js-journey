@@ -1,7 +1,7 @@
 /**
  * @description 05 lesson class
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
- * @link        https://threejs-journey.com/lessons/animations
+ * {@link       https://threejs-journey.com/lessons/animations}
  */
 import * as THREE from 'three'
 import gsap from 'gsap'
