@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "gsap": "3.12",
+    "lil-gui": "^0.19.2",
     "three": "^0.157.0"
   }
 }
