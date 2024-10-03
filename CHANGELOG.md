@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/d3p1/three.js-journey/compare/v1.7.0...v1.8.0) (2024-10-03)
+
+
+### Features
+
+* add lesson number 08 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([3dac7e3](https://github.com/d3p1/three.js-journey/commit/3dac7e342888c7390d5db2c5c54239d38acfc978))
+* init lesson number 08 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([c27bcb8](https://github.com/d3p1/three.js-journey/commit/c27bcb8a67b975f94c8065a419febc8dd706d0f0))
+
 # [1.7.0](https://github.com/d3p1/three.js-journey/compare/v1.6.0...v1.7.0) (2024-10-02)
 
 
