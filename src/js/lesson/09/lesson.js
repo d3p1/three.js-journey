@@ -4,22 +4,10 @@
  * {@link       https://threejs-journey.com/lessons/debug-ui}
  */
 import * as THREE from 'three'
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap'
-import GUI from 'lil-gui'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {GUI}
-   */
-  guiControl
-
-  /**
-   * @type {OrbitControls}
-   */
-  control
-
   /**
    * @type {boolean}
    */
@@ -42,36 +30,16 @@ export default class Lesson extends GeneralLesson {
   init() {
     super.init()
 
-    this.#initControl()
     this.#initMesh()
-    this.#initGuiControl()
+    this.#addGuiTweaks()
   }
 
   /**
-   * Dispose lesson
+   * Add GUI tweaks
    *
    * @returns {void}
    */
-  dispose() {
-    super.dispose()
-
-    this.control.dispose()
-    this.guiControl.destroy()
-    this.control = null
-    this.guiControl = null
-  }
-
-  /**
-   * Init GUI control
-   *
-   * @returns {void}
-   */
-  #initGuiControl() {
-    this.guiControl = new GUI({
-      width: 300,
-      title: 'GUI',
-    })
-
+  #addGuiTweaks() {
     this.guiControl
       .add(this.mesh.position, 'y')
       .min(-2)
@@ -120,15 +88,5 @@ export default class Lesson extends GeneralLesson {
     })
     this.mesh = new THREE.Mesh(boxGeometry, boxMaterial)
     this.scene.add(this.mesh)
-  }
-
-  /**
-   * Init control
-   *
-   * @returns {void}
-   */
-  #initControl() {
-    this.control = new OrbitControls(this.camera, this.canvas)
-    this.control.enableDamping = true
   }
 }

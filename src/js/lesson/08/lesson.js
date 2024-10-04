@@ -4,15 +4,9 @@
  * {@link       https://threejs-journey.com/lessons/geometries}
  */
 import * as THREE from 'three'
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {OrbitControls}
-   */
-  control
-
   /**
    * @type {boolean}
    */
@@ -34,7 +28,6 @@ export default class Lesson extends GeneralLesson {
    */
   init() {
     super.init()
-    this.control = new OrbitControls(this.camera, this.canvas)
     this.#initMesh()
   }
 

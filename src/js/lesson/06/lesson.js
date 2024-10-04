@@ -9,11 +9,6 @@ import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
   /**
-   * @type {object}
-   */
-  control
-
-  /**
    * @type {boolean}
    */
   hasAnimation = true
@@ -47,7 +42,6 @@ export default class Lesson extends GeneralLesson {
 
     this.#addEventListenerToSetCamera()
     this.#initMesh()
-    this.#initControl()
   }
 
   /**
@@ -60,6 +54,16 @@ export default class Lesson extends GeneralLesson {
 
     this.#removeEventListenerToSetCamera()
     this.#removeEventListenerToSetControl()
+  }
+
+  /**
+   * Init control
+   *
+   * @returns {void}
+   */
+  initControl() {
+    this.#initCustomControl()
+    this.#addEventListenerToSetControl()
   }
 
   /**
@@ -84,16 +88,6 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
-   * Init control
-   *
-   * @returns {void}
-   */
-  #initControl() {
-    this.#initCustomControl()
-    this.#addEventListenerToSetControl()
-  }
-
-  /**
    * Init orbit control
    *
    * @returns {void}
@@ -112,17 +106,27 @@ export default class Lesson extends GeneralLesson {
     function CustomControl(camera, canvas) {
       this.x = 0
       this.y = 0
+      this.boundUpdateCoordinates = null
+
       this.init = function () {
-        canvas.addEventListener('mousemove', (e) => {
-          this.x = e.offsetX / canvas.width - 0.5
-          this.y = (e.offsetY / canvas.height - 0.5) * -1
-        })
+        this.boundUpdateCoordinates = this.updateCoordindates.bind(this)
+        canvas.addEventListener('mousemove', this.boundUpdateCoordinates)
       }
+
       this.update = function (rad = 5) {
         const angle = 2 * Math.PI * this.x
         camera.position.x = Math.cos(angle) * rad
         camera.position.z = Math.sin(angle) * rad
         camera.position.y = this.y * rad
+      }
+
+      this.updateCoordindates = function (e) {
+        this.x = e.offsetX / canvas.width - 0.5
+        this.y = (e.offsetY / canvas.height - 0.5) * -1
+      }
+
+      this.dispose = function () {
+        canvas.removeEventListener('mousemove', this.boundUpdateCoordinates)
       }
     }
     this.control = new CustomControl(this.camera, this.canvas)

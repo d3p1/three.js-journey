@@ -3,6 +3,8 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
 import * as THREE from 'three'
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
+import GUI from 'lil-gui'
 import Lesson from '../lesson.js'
 
 export default class GeneralLesson extends Lesson {
@@ -27,6 +29,16 @@ export default class GeneralLesson extends Lesson {
   renderer
 
   /**
+   * @type {GUI}
+   */
+  guiControl
+
+  /**
+   * @type {OrbitControls}
+   */
+  control
+
+  /**
    * @type {HTMLCanvasElement}
    */
   canvas
@@ -40,6 +52,11 @@ export default class GeneralLesson extends Lesson {
    * @type {number}
    */
   #requestAnimationId
+
+  /**
+   * @type {Function}
+   */
+  #boundToggleGuiControl
 
   /**
    * @type {Function}
@@ -111,6 +128,8 @@ export default class GeneralLesson extends Lesson {
     this.initScene()
     this.initCamera()
     this.initRenderer()
+    this.initControl()
+    this.initGuiControl()
   }
 
   /**
@@ -149,6 +168,31 @@ export default class GeneralLesson extends Lesson {
   }
 
   /**
+   * Init control
+   *
+   * @returns {void}
+   */
+  initControl() {
+    this.control = new OrbitControls(this.camera, this.canvas)
+    this.control.enableDamping = true
+  }
+
+  /**
+   * Init GUI control
+   *
+   * @returns {void}
+   */
+  initGuiControl() {
+    this.guiControl = new GUI({
+      width: 300,
+      title: 'GUI',
+    })
+    this.guiControl.hide()
+    this.#boundToggleGuiControl = this.#toggleGuiControl.bind(this)
+    document.addEventListener('keydown', this.#boundToggleGuiControl)
+  }
+
+  /**
    * Dispose lesson
    *
    * @returns {void}
@@ -160,6 +204,8 @@ export default class GeneralLesson extends Lesson {
     this.camera = null
     this.object3d = null
     this.renderer = null
+    this.control = null
+    this.guiControl = null
     this.canvas = null
   }
 
@@ -172,6 +218,8 @@ export default class GeneralLesson extends Lesson {
     this.#disposeGeometriesAndMaterials()
     this.#disposeScene()
     this.#disposeRenderer()
+    this.#disposeControl()
+    this.#disposeGuiControl()
   }
 
   /**
@@ -244,6 +292,38 @@ export default class GeneralLesson extends Lesson {
   #disposeRenderer() {
     this.renderer.dispose()
     window.removeEventListener('resize', this.#boundResizeRenderer)
+  }
+
+  /**
+   * Dispose control
+   *
+   * @returns {void}
+   */
+  #disposeControl() {
+    this.control.dispose()
+  }
+
+  /**
+   * Dispose GUI control
+   *
+   * @returns {void}
+   */
+  #disposeGuiControl() {
+    this.guiControl.destroy()
+    document.removeEventListener('keydown', this.#boundToggleGuiControl)
+  }
+
+  /**
+   * Toggle GUI control
+   *
+   * @param   {KeyboardEvent} e
+   * @returns {void}
+   * @todo    Improve toggle logic
+   */
+  #toggleGuiControl(e) {
+    if (e.code === 'KeyH') {
+      this.guiControl.show(this.guiControl._hidden)
+    }
   }
 
   /**

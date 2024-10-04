@@ -4,15 +4,9 @@
  * {@link       https://threejs-journey.com/lessons/fullscreen-and-resizing}
  */
 import * as THREE from 'three'
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {OrbitControls}
-   */
-  control
-
   /**
    * @type {boolean}
    */
@@ -41,7 +35,6 @@ export default class Lesson extends GeneralLesson {
     super.init()
 
     this.#initMesh()
-    this.#initControl()
     this.#addFullScreenListener()
   }
 
@@ -99,15 +92,5 @@ export default class Lesson extends GeneralLesson {
     const boxMaterial = new THREE.MeshBasicMaterial({color: 0xffffff})
     this.object3d = new THREE.Mesh(boxGeometry, boxMaterial)
     this.scene.add(this.object3d)
-  }
-
-  /**
-   * Init control
-   *
-   * @returns {void}
-   */
-  #initControl() {
-    this.control = new OrbitControls(this.camera, this.canvas)
-    this.control.enableDamping = true
   }
 }
