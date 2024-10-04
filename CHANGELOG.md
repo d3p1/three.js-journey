@@ -1,3 +1,12 @@
+# [1.9.0](https://github.com/d3p1/three.js-journey/compare/v1.8.0...v1.9.0) (2024-10-04)
+
+
+### Features
+
+* add lesson number 09 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([283570d](https://github.com/d3p1/three.js-journey/commit/283570dc2130f984579a29aa12c57bbbee5b63a7))
+* add lil-gui dependency [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([c1f6b71](https://github.com/d3p1/three.js-journey/commit/c1f6b71d10bbb1192517e354c82b96022eb59571))
+* init lesson number 09 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([21412fe](https://github.com/d3p1/three.js-journey/commit/21412fe69024d0201c28d3b5f5b39655199ad7fa))
+
 # [1.8.0](https://github.com/d3p1/three.js-journey/compare/v1.7.0...v1.8.0) (2024-10-03)
 
 
