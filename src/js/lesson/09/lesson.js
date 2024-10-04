@@ -11,6 +11,11 @@ import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
   /**
+   * @type {GUI}
+   */
+  guiControl
+
+  /**
    * @type {OrbitControls}
    */
   control
@@ -39,6 +44,67 @@ export default class Lesson extends GeneralLesson {
 
     this.#initControl()
     this.#initMesh()
+    this.#initGuiControl()
+  }
+
+  /**
+   * Dispose lesson
+   *
+   * @returns {void}
+   */
+  dispose() {
+    super.dispose()
+
+    this.control.dispose()
+    this.guiControl.destroy()
+    this.control = null
+    this.guiControl = null
+  }
+
+  /**
+   * Init GUI control
+   *
+   * @returns {void}
+   */
+  #initGuiControl() {
+    this.guiControl = new GUI({
+      width: 300,
+      title: 'GUI',
+    })
+
+    this.guiControl
+      .add(this.mesh.position, 'y')
+      .min(-2)
+      .max(2)
+      .step(0.01)
+      .name('elevation')
+    this.guiControl.add(this.mesh, 'visible')
+    this.guiControl.add(this.mesh.material, 'wireframe')
+
+    this.guiControl
+      .addColor({color: this.mesh.material.color.getHex()}, 'color')
+      .onChange((value) => {
+        this.mesh.material.color.setHex(value)
+      })
+
+    this.guiControl.add(
+      {
+        spin: () => {
+          gsap.to(this.mesh.rotation, {y: this.mesh.rotation.y + Math.PI * 2})
+        },
+      },
+      'spin',
+    )
+
+    this.guiControl
+      .add({subdivisions: 1}, 'subdivisions')
+      .min(1)
+      .max(20)
+      .step(1)
+      .onFinishChange((value) => {
+        this.mesh.geometry.dispose()
+        this.mesh.geometry = new THREE.BoxGeometry(1, 1, 1, value, value, value)
+      })
   }
 
   /**
@@ -49,7 +115,7 @@ export default class Lesson extends GeneralLesson {
   #initMesh() {
     const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
     const boxMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
+      color: 0xd97df2,
       wireframe: true,
     })
     this.mesh = new THREE.Mesh(boxGeometry, boxMaterial)
