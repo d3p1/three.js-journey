@@ -13,5 +13,6 @@ export default {
     emptyOutDir: true,
     sourcemap: true,
   },
+  assetsInclude: ['**/*.hdr'],
   plugins: [restart({restart: ['../static/**']})],
 }

@@ -6,8 +6,6 @@
 import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 import doorColorTexture from './media/images/textures/door/color.jpg'
-import smallCheckerboardTexture from './media/images/textures/checkerboard-8x8.png'
-import fullCheckerboardTexture from './media/images/textures/checkerboard-1024x1024.png'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -23,7 +21,7 @@ export default class Lesson extends GeneralLesson {
   /**
    * @type {THREE.Texture}
    */
-  texture
+  doorMapTexture
 
   /**
    * @type {boolean}
