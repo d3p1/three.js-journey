@@ -5,7 +5,6 @@
  */
 import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import doorColorTexture from './media/images/textures/door/color.jpg'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -58,7 +57,9 @@ export default class Lesson extends GeneralLesson {
   #initTexture() {
     this.loaderManager = new THREE.LoadingManager()
     this.textureLoader = new THREE.TextureLoader(this.loaderManager)
-    this.texture = this.textureLoader.load(doorColorTexture)
+    this.texture = this.textureLoader.load(
+      '/media/images/textures/door/color.jpg',
+    )
     this.texture.colorSpace = THREE.SRGBColorSpace
   }
 

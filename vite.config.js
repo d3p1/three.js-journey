@@ -3,7 +3,7 @@ import restart from 'vite-plugin-restart'
 export default {
   root: 'src/',
   base: './',
-  publicDir: '../public/static/',
+  publicDir: '../public/',
   server: {
     host: true,
     open: !('SANDBOX_URL' in process.env || 'CODESANDBOX_HOST' in process.env),

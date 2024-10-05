@@ -6,16 +6,6 @@
 import * as THREE from 'three'
 import {RGBELoader} from 'three/addons/loaders/RGBELoader.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import doorColorTexture from './media/images/textures/door/color.jpg'
-import doorAlphaTexture from './media/images/textures/door/alpha.jpg'
-import doorAmbientOcclusionTexture from './media/images/textures/door/ambientOcclusion.jpg'
-import doorHeightTexture from './media/images/textures/door/height.jpg'
-import doorMetalnessTexture from './media/images/textures/door/metalness.jpg'
-import doorRoughnessTexture from './media/images/textures/door/roughness.jpg'
-import doorNormalTexture from './media/images/textures/door/normal.jpg'
-import matcapTexture from './media/images/textures/matcaps/7.png'
-import gradientTexture from './media/images/textures/gradients/3.jpg'
-import environmentMap from './media/images/textures/environmentMap/2k.hdr'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -209,20 +199,36 @@ export default class Lesson extends GeneralLesson {
   #initTextures() {
     const textureLoader = new THREE.TextureLoader()
 
-    this.doorColorTexture = textureLoader.load(doorColorTexture)
-    this.doorAlphaTexture = textureLoader.load(doorAlphaTexture)
-    this.doorAmbientOcclusionTexture = textureLoader.load(
-      doorAmbientOcclusionTexture,
+    this.doorColorTexture = textureLoader.load(
+      '/media/images/textures/door/color.jpg',
     )
-    this.doorHeightTexture = textureLoader.load(doorHeightTexture)
-    this.doorMetalnessTexture = textureLoader.load(doorMetalnessTexture)
-    this.doorRoughnessTexture = textureLoader.load(doorRoughnessTexture)
-    this.doorNormalTexture = textureLoader.load(doorNormalTexture)
+    this.doorAlphaTexture = textureLoader.load(
+      '/media/images/textures/door/alpha.jpg',
+    )
+    this.doorAmbientOcclusionTexture = textureLoader.load(
+      '/media/images/textures/door/ambientOcclusion.jpg',
+    )
+    this.doorHeightTexture = textureLoader.load(
+      '/media/images/textures/door/height.jpg',
+    )
+    this.doorMetalnessTexture = textureLoader.load(
+      '/media/images/textures/door/metalness.jpg',
+    )
+    this.doorRoughnessTexture = textureLoader.load(
+      '/media/images/textures/door/roughness.jpg',
+    )
+    this.doorNormalTexture = textureLoader.load(
+      '/media/images/textures/door/normal.jpg',
+    )
     this.doorColorTexture.colorSpace = THREE.SRGBColorSpace
 
-    this.matcapTexture = textureLoader.load(matcapTexture)
+    this.matcapTexture = textureLoader.load(
+      '/media/images/textures/matcaps/7.png',
+    )
 
-    this.gradientTexture = textureLoader.load(gradientTexture)
+    this.gradientTexture = textureLoader.load(
+      '/media/images/textures/gradients/3.jpg',
+    )
     this.gradientTexture.generateMipmaps = false
     this.gradientTexture.minFilter = THREE.NearestFilter
     this.gradientTexture.magFilter = THREE.NearestFilter
@@ -247,7 +253,7 @@ export default class Lesson extends GeneralLesson {
    */
   #initEnvMap() {
     const rgbeLoader = new RGBELoader()
-    rgbeLoader.load(environmentMap, (env) => {
+    rgbeLoader.load('/media/images/environmentMap/2k.hdr', (env) => {
       env.mapping = THREE.EquirectangularReflectionMapping
 
       this.scene.background = env
