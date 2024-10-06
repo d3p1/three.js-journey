@@ -41,14 +41,11 @@ export default class Bootstrap {
    */
   #initListener() {
     document.addEventListener('keydown', (e) => {
-      if (
-        e.key === 'ArrowRight' &&
-        this.#currentLessonIndex < this.#lessons.length - 1
-      ) {
+      if (e.key === 'ArrowRight') {
         this.#openNextLesson()
       }
 
-      if (e.key === 'ArrowLeft' && this.#currentLessonIndex > 0) {
+      if (e.key === 'ArrowLeft') {
         this.#openPreviousLesson()
       }
     })
@@ -61,7 +58,13 @@ export default class Bootstrap {
    */
   #openNextLesson() {
     this.#closeLesson()
-    this.#currentLessonIndex++
+
+    if (this.#currentLessonIndex >= this.#lessons.length - 1) {
+      this.#currentLessonIndex = 0
+    } else {
+      this.#currentLessonIndex++
+    }
+
     this.#openLesson()
   }
 
@@ -72,7 +75,13 @@ export default class Bootstrap {
    */
   #openPreviousLesson() {
     this.#closeLesson()
-    this.#currentLessonIndex--
+
+    if (this.#currentLessonIndex <= 0) {
+      this.#currentLessonIndex = this.#lessons.length - 1
+    } else {
+      this.#currentLessonIndex--
+    }
+
     this.#openLesson()
   }
 
