@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/d3p1/three.js-journey/compare/v1.12.0...v1.12.1) (2024-10-06)
+
+
+### Bug Fixes
+
+* adjust assest base URL [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([e54aa23](https://github.com/d3p1/three.js-journey/commit/e54aa23a71a323b3f0011c8e6e5ab88d8eca609e))
+
 # [1.12.0](https://github.com/d3p1/three.js-journey/compare/v1.11.0...v1.12.0) (2024-10-06)
 
 
