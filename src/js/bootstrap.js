@@ -17,9 +17,12 @@ export default class Bootstrap {
    * Constructor
    *
    * @param {Lesson[]} lessons
+   * @param {string}   navLeftSelector
+   * @param {string}   navRightSelector
    */
-  constructor(lessons) {
+  constructor(lessons, navLeftSelector, navRightSelector) {
     this.#lessons = lessons
+    this.#initNav(navLeftSelector, navRightSelector)
     this.#initListener()
   }
 
@@ -32,6 +35,20 @@ export default class Bootstrap {
     if (this.#lessons.length) {
       this.#openLesson()
     }
+  }
+
+  /**
+   * Init navigation
+   *
+   * @param   {string}   navLeftSelector
+   * @param   {string}   navRightSelector
+   * @returns {void}
+   */
+  #initNav(navLeftSelector, navRightSelector) {
+    const navLeft = document.querySelector(navLeftSelector)
+    const navRight = document.querySelector(navRightSelector)
+    navLeft.addEventListener('click', this.#openPreviousLesson.bind(this))
+    navRight.addEventListener('click', this.#openNextLesson.bind(this))
   }
 
   /**
