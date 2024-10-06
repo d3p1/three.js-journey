@@ -70,7 +70,9 @@ export default class Lesson extends GeneralLesson {
    */
   #initMaterial() {
     const textureLoader = new THREE.TextureLoader()
-    const texture = textureLoader.load('/media/images/textures/matcaps/1.png')
+    const texture = textureLoader.load(
+      '/three.js-journey/media/images/textures/matcaps/1.png',
+    )
     texture.colorSpace = THREE.SRGBColorSpace
     this.material = new THREE.MeshMatcapMaterial({matcap: texture})
   }
@@ -82,24 +84,27 @@ export default class Lesson extends GeneralLesson {
    */
   #initText() {
     const fontLoader = new FontLoader()
-    fontLoader.load('/media/fonts/helvetiker_regular.typeface.json', (font) => {
-      const geometry = new TextGeometry('Three.js rocks!', {
-        font: font,
-        size: 0.3,
-        height: 0.2,
-        curveSegments: 12,
-        bevelEnabled: true,
-        bevelThickness: 0.03,
-        bevelSize: 0.02,
-        bevelOffset: 0,
-        bevelSegments: 5,
-      })
-      geometry.center()
-      this.mesh = new THREE.Mesh(geometry, this.material)
-      this.scene.add(this.mesh)
+    fontLoader.load(
+      '/three.js-journey/media/fonts/helvetiker_regular.typeface.json',
+      (font) => {
+        const geometry = new TextGeometry('Three.js rocks!', {
+          font: font,
+          size: 0.3,
+          height: 0.2,
+          curveSegments: 12,
+          bevelEnabled: true,
+          bevelThickness: 0.03,
+          bevelSize: 0.02,
+          bevelOffset: 0,
+          bevelSegments: 5,
+        })
+        geometry.center()
+        this.mesh = new THREE.Mesh(geometry, this.material)
+        this.scene.add(this.mesh)
 
-      this.#initDonutsFromBoundingBox(geometry.boundingBox)
-    })
+        this.#initDonutsFromBoundingBox(geometry.boundingBox)
+      },
+    )
   }
 
   /**

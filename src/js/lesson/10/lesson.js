@@ -58,7 +58,7 @@ export default class Lesson extends GeneralLesson {
     this.loaderManager = new THREE.LoadingManager()
     this.textureLoader = new THREE.TextureLoader(this.loaderManager)
     this.texture = this.textureLoader.load(
-      '/media/images/textures/door/color.jpg',
+      '/three.js-journey/media/images/textures/door/color.jpg',
     )
     this.texture.colorSpace = THREE.SRGBColorSpace
   }

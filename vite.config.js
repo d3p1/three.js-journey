@@ -2,7 +2,7 @@ import restart from 'vite-plugin-restart'
 
 export default {
   root: 'src/',
-  base: './',
+  base: '/three.js-journey/',
   publicDir: '../public/',
   server: {
     host: true,

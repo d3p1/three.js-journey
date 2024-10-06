@@ -200,34 +200,34 @@ export default class Lesson extends GeneralLesson {
     const textureLoader = new THREE.TextureLoader()
 
     this.doorColorTexture = textureLoader.load(
-      '/media/images/textures/door/color.jpg',
+      '/three.js-journey/media/images/textures/door/color.jpg',
     )
     this.doorAlphaTexture = textureLoader.load(
-      '/media/images/textures/door/alpha.jpg',
+      '/three.js-journey/media/images/textures/door/alpha.jpg',
     )
     this.doorAmbientOcclusionTexture = textureLoader.load(
-      '/media/images/textures/door/ambientOcclusion.jpg',
+      '/three.js-journey/media/images/textures/door/ambientOcclusion.jpg',
     )
     this.doorHeightTexture = textureLoader.load(
-      '/media/images/textures/door/height.jpg',
+      '/three.js-journey/media/images/textures/door/height.jpg',
     )
     this.doorMetalnessTexture = textureLoader.load(
-      '/media/images/textures/door/metalness.jpg',
+      '/three.js-journey/media/images/textures/door/metalness.jpg',
     )
     this.doorRoughnessTexture = textureLoader.load(
-      '/media/images/textures/door/roughness.jpg',
+      '/three.js-journey/media/images/textures/door/roughness.jpg',
     )
     this.doorNormalTexture = textureLoader.load(
-      '/media/images/textures/door/normal.jpg',
+      '/three.js-journey/media/images/textures/door/normal.jpg',
     )
     this.doorColorTexture.colorSpace = THREE.SRGBColorSpace
 
     this.matcapTexture = textureLoader.load(
-      '/media/images/textures/matcaps/7.png',
+      '/three.js-journey/media/images/textures/matcaps/7.png',
     )
 
     this.gradientTexture = textureLoader.load(
-      '/media/images/textures/gradients/3.jpg',
+      '/three.js-journey/media/images/textures/gradients/3.jpg',
     )
     this.gradientTexture.generateMipmaps = false
     this.gradientTexture.minFilter = THREE.NearestFilter
@@ -253,12 +253,15 @@ export default class Lesson extends GeneralLesson {
    */
   #initEnvMap() {
     const rgbeLoader = new RGBELoader()
-    rgbeLoader.load('/media/images/environmentMap/2k.hdr', (env) => {
-      env.mapping = THREE.EquirectangularReflectionMapping
+    rgbeLoader.load(
+      '/three.js-journey/media/images/environmentMap/2k.hdr',
+      (env) => {
+        env.mapping = THREE.EquirectangularReflectionMapping
 
-      this.scene.background = env
-      this.scene.environment = env
-    })
+        this.scene.background = env
+        this.scene.environment = env
+      },
+    )
   }
 
   /**
