@@ -8,6 +8,24 @@ import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
   /**
+   * Get lesson title
+   *
+   * @returns {string}
+   */
+  get title() {
+    return '[LESSON 03] First Three.js Project'
+  }
+
+  /**
+   * Get lesson link
+   *
+   * @returns {string}
+   */
+  get link() {
+    return 'https://threejs-journey.com/lessons/first-threejs-project'
+  }
+
+  /**
    * Init lesson
    *
    * @returns {void}

@@ -4,6 +4,11 @@
  */
 export default class Bootstrap {
   /**
+   * @type {HTMLDivElement}
+   */
+  #lessonTitleContainer
+
+  /**
    * @type {[]}
    */
   #lessons = []
@@ -17,11 +22,20 @@ export default class Bootstrap {
    * Constructor
    *
    * @param {Lesson[]} lessons
+   * @param {string}   lessonTitleContainerSelector
    * @param {string}   navLeftSelector
    * @param {string}   navRightSelector
    */
-  constructor(lessons, navLeftSelector, navRightSelector) {
+  constructor(
+    lessons,
+    lessonTitleContainerSelector,
+    navLeftSelector,
+    navRightSelector,
+  ) {
     this.#lessons = lessons
+    this.#lessonTitleContainer = document.querySelector(
+      lessonTitleContainerSelector,
+    )
     this.#initNav(navLeftSelector, navRightSelector)
     this.#initListener()
   }
@@ -118,5 +132,24 @@ export default class Bootstrap {
    */
   #openLesson() {
     this.#lessons[this.#currentLessonIndex].open()
+    this.#addLessonTitle()
+  }
+
+  /**
+   * Add lesson title
+   *
+   * @returns {void}
+   */
+  #addLessonTitle() {
+    const lesson = this.#lessons[this.#currentLessonIndex]
+
+    const link = document.createElement('a')
+    link.href = lesson.link
+    link.target = '_blank'
+    link.rel = 'noopener noreferrer'
+    link.textContent = lesson.title
+
+    this.#lessonTitleContainer.querySelector('a')?.remove()
+    this.#lessonTitleContainer.append(link)
   }
 }

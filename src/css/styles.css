@@ -3,7 +3,8 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
 body {
-  --primary-color: hsl(0, 0%, 70%);
+  --primary-color: hsl(0, 0%, 85%);
+  --secondary-color: hsl(0, 0%, 70%);
 }
 
 body {
@@ -17,6 +18,19 @@ canvas {
   outline: none;
 }
 
+.lesson-title {
+  position: absolute;
+  top: 1rem;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  width: 100%;
+  text-align: center;
+}
+
+.lesson-title a {
+  color: var(--primary-color);
+}
+
 .controls {
   position: absolute;
   bottom: 3rem;
@@ -24,6 +38,7 @@ canvas {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  color: var(--secondary-color);
   cursor: pointer;
 }
 

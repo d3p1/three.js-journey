@@ -28,6 +28,24 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
+   * Get lesson title
+   *
+   * @returns {string}
+   */
+  get title() {
+    return '[LESSON 10] Textures'
+  }
+
+  /**
+   * Get lesson link
+   *
+   * @returns {string}
+   */
+  get link() {
+    return 'https://threejs-journey.com/lessons/textures'
+  }
+
+  /**
    * Update
    *
    * @returns {void}

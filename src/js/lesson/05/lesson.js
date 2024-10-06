@@ -19,6 +19,24 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
+   * Get lesson title
+   *
+   * @returns {string}
+   */
+  get title() {
+    return '[LESSON 05] Animations'
+  }
+
+  /**
+   * Get lesson link
+   *
+   * @returns {string}
+   */
+  get link() {
+    return 'https://threejs-journey.com/lessons/animations'
+  }
+
+  /**
    * Update
    *
    * @params  {number} t

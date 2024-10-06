@@ -20,6 +20,24 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
+   * Get lesson title
+   *
+   * @returns {string}
+   */
+  get title() {
+    return '[LESSON 12] 3D Text'
+  }
+
+  /**
+   * Get lesson link
+   *
+   * @returns {string}
+   */
+  get link() {
+    return 'https://threejs-journey.com/lessons/3d-text'
+  }
+
+  /**
    * Update
    *
    * @returns {void}

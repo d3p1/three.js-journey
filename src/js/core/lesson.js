@@ -6,6 +6,26 @@
  */
 export default class Lesson {
   /**
+   * Get lesson title
+   *
+   * @returns {string}
+   * @throws  {Error}
+   */
+  get title() {
+    throw new Error('Lesson class must implement a getter for `title` property')
+  }
+
+  /**
+   * Get lesson link
+   *
+   * @returns {string}
+   * @throws  {Error}
+   */
+  get link() {
+    throw new Error('Lesson class must implement a getter for `link` property')
+  }
+
+  /**
    * Open lesson
    *
    * @return {void}

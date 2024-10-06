@@ -14,6 +14,24 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
+   * Get lesson title
+   *
+   * @returns {string}
+   */
+  get title() {
+    return '[LESSON 09] Debug UI'
+  }
+
+  /**
+   * Get lesson link
+   *
+   * @returns {string}
+   */
+  get link() {
+    return 'https://threejs-journey.com/lessons/debug-ui'
+  }
+
+  /**
    * Update
    *
    * @returns {void}

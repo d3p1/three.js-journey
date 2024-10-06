@@ -24,6 +24,24 @@ export default class Lesson extends GeneralLesson {
   #boundToggleControl
 
   /**
+   * Get lesson title
+   *
+   * @returns {string}
+   */
+  get title() {
+    return '[LESSON 06] Cameras'
+  }
+
+  /**
+   * Get lesson link
+   *
+   * @returns {string}
+   */
+  get link() {
+    return 'https://threejs-journey.com/lessons/cameras'
+  }
+
+  /**
    * Update
    *
    * @returns {void}

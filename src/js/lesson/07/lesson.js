@@ -18,6 +18,24 @@ export default class Lesson extends GeneralLesson {
   #boundToggleFullScreen
 
   /**
+   * Get lesson title
+   *
+   * @returns {string}
+   */
+  get title() {
+    return '[LESSON 07] Fullscreen and resizing'
+  }
+
+  /**
+   * Get lesson link
+   *
+   * @returns {string}
+   */
+  get link() {
+    return 'https://threejs-journey.com/lessons/fullscreen-and-resizing'
+  }
+
+  /**
    * Update
    *
    * @returns {void}
