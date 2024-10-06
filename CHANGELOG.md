@@ -1,3 +1,12 @@
+# [1.13.0](https://github.com/d3p1/three.js-journey/compare/v1.12.1...v1.13.0) (2024-10-06)
+
+
+### Features
+
+* add lesson information [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([675e3e5](https://github.com/d3p1/three.js-journey/commit/675e3e5495e4bb3f0a4fe9261bef45e82682936c))
+* improve lesson navigation [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([2510b85](https://github.com/d3p1/three.js-journey/commit/2510b853d591dfadcc0f66de55eeb2a6fc19cf53))
+* link first lesson with last one in lesson carousel [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([31adb43](https://github.com/d3p1/three.js-journey/commit/31adb43fb6b89ef74ba370c90374c0c87e5de0e2))
+
 ## [1.12.1](https://github.com/d3p1/three.js-journey/compare/v1.12.0...v1.12.1) (2024-10-06)
 
 
