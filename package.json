@@ -1,6 +1,6 @@
 {
   "name": "@d3p1/three.js-journey",
-  "version": "1.12.1",
+  "version": "1.13.0",
   "description": "My journey to Three.js",
   "private": true,
   "type": "module",
