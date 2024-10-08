@@ -13,47 +13,49 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h2 class="lesson-title"></h2>
+<h2 class="lesson-title"></h2>
 
-  <div class="controls">
-    <div class="controls__arrow controls__arrow--left">&#9664;</div>
+<div class="controls">
+  <div class="controls__arrow controls__arrow--left">&#9664;</div>
 
-    <div class="controls__commands">
-      <h2 class="controls__commands-title">[COMMANDS]</h2>
-      <p class="controls__commands-description">
-        Press the <code>h</code> keyword to view the debug panel
-      </p>
-    </div>
-
-    <div class="controls__arrow controls__arrow--right">&#9654;</div>
+  <div class="controls__commands">
+    <h2 class="controls__commands-title">[COMMANDS]</h2>
+    <p class="controls__commands-description">
+      Press the <code>h</code> keyword to view the debug panel
+    </p>
   </div>
 
-  <script type="module">
-    import Bootstrap from './js/bootstrap.js'
-    import Lesson03 from './js/lesson/03/lesson.js'
-    import Lesson04 from './js/lesson/04/lesson.js'
-    import Lesson05 from './js/lesson/05/lesson.js'
-    import Lesson06 from './js/lesson/06/lesson.js'
-    import Lesson07 from './js/lesson/07/lesson.js'
-    import Lesson08 from './js/lesson/08/lesson.js'
-    import Lesson09 from './js/lesson/09/lesson.js'
-    import Lesson10 from './js/lesson/10/lesson.js'
-    import Lesson11 from './js/lesson/11/lesson.js'
-    import Lesson12 from './js/lesson/12/lesson.js'
+  <div class="controls__arrow controls__arrow--right">&#9654;</div>
+</div>
 
-    const boot = new Bootstrap([
-      new Lesson03(),
-      new Lesson04(),
-      new Lesson05(),
-      new Lesson06(),
-      new Lesson07(),
-      new Lesson08(),
-      new Lesson09(),
-      new Lesson10(),
-      new Lesson11(),
-      new Lesson12()
-    ], '.lesson-title', '.controls__arrow--left', '.controls__arrow--right')
-    boot.run()
-  </script>
+<script type="module">
+  import Bootstrap from './js/bootstrap.js'
+  import Lesson03 from './js/lesson/03/lesson.js'
+  import Lesson04 from './js/lesson/04/lesson.js'
+  import Lesson05 from './js/lesson/05/lesson.js'
+  import Lesson06 from './js/lesson/06/lesson.js'
+  import Lesson07 from './js/lesson/07/lesson.js'
+  import Lesson08 from './js/lesson/08/lesson.js'
+  import Lesson09 from './js/lesson/09/lesson.js'
+  import Lesson10 from './js/lesson/10/lesson.js'
+  import Lesson11 from './js/lesson/11/lesson.js'
+  import Lesson12 from './js/lesson/12/lesson.js'
+  import Lesson13 from './js/lesson/13/lesson.js'
+
+  const boot = new Bootstrap([
+    new Lesson03(),
+    new Lesson04(),
+    new Lesson05(),
+    new Lesson06(),
+    new Lesson07(),
+    new Lesson08(),
+    new Lesson09(),
+    new Lesson10(),
+    new Lesson11(),
+    new Lesson12(),
+    new Lesson13()
+  ], '.lesson-title', '.controls__arrow--left', '.controls__arrow--right')
+  boot.run()
+</script>
 </body>
 </html>
