@@ -120,13 +120,19 @@ export default class Lesson extends GeneralLesson {
       const spin = this.galaxyTweaks.spin * radius
       const offsetX =
         Math.pow(Math.random(), this.galaxyTweaks.gravityStrength) *
-        this.galaxyTweaks.offset
+        Math.pow(-1, Math.round(Math.random())) *
+        this.galaxyTweaks.offset *
+        radius
       const offsetY =
         Math.pow(Math.random(), this.galaxyTweaks.gravityStrength) *
-        this.galaxyTweaks.offset
+        Math.pow(-1, Math.round(Math.random())) *
+        this.galaxyTweaks.offset *
+        radius
       const offsetZ =
         Math.pow(Math.random(), this.galaxyTweaks.gravityStrength) *
-        this.galaxyTweaks.offset
+        Math.pow(-1, Math.round(Math.random())) *
+        this.galaxyTweaks.offset *
+        radius
 
       positions[i] = Math.cos(angle + spin) * radius + offsetX
       positions[i + 1] = offsetY
