@@ -1,3 +1,10 @@
+## [1.18.1](https://github.com/d3p1/three.js-journey/compare/v1.18.0...v1.18.1) (2024-10-11)
+
+
+### Bug Fixes
+
+* improve galaxy shape for lesson number 17 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([73badde](https://github.com/d3p1/three.js-journey/commit/73badde289c12c39d9e975cb5928fbe053d3c25c))
+
 # [1.18.0](https://github.com/d3p1/three.js-journey/compare/v1.17.0...v1.18.0) (2024-10-11)
 
 
