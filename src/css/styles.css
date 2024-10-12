@@ -15,11 +15,15 @@ body {
 }
 
 canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
   outline: none;
 }
 
 .lesson-title {
-  position: absolute;
+  position: fixed;
   top: 1rem;
   font-size: 0.7rem;
   text-transform: uppercase;
@@ -32,7 +36,7 @@ canvas {
 }
 
 .controls {
-  position: absolute;
+  position: fixed;
   bottom: 3rem;
   width: 100vw;
   display: flex;
