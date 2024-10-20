@@ -1,3 +1,10 @@
+## [1.21.1](https://github.com/d3p1/three.js-journey/compare/v1.21.0...v1.21.1) (2024-10-20)
+
+
+### Bug Fixes
+
+* adjust assests of lesson number 20 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([2f3ad82](https://github.com/d3p1/three.js-journey/commit/2f3ad824dae647897556eac62eefa733c9af1f32))
+
 # [1.21.0](https://github.com/d3p1/three.js-journey/compare/v1.20.1...v1.21.0) (2024-10-20)
 
 
