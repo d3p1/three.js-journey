@@ -8,9 +8,6 @@ import {Timer} from 'three/addons/misc/Timer.js'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import DuckModel from './media/models/Duck/glTF-Draco/Duck.gltf'
-import HelmetModel from './media/models/FlightHelmet/glTF/FlightHelmet.gltf'
-import FoxModel from './media/models/Fox/glTF/Fox.gltf'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -110,25 +107,34 @@ export default class Lesson extends GeneralLesson {
     dracoLoader.setDecoderPath('/three.js-journey/loader/draco/')
     gltfLoader.setDRACOLoader(dracoLoader)
 
-    gltfLoader.load(DuckModel, (model) => {
-      model.scene.position.set(3, 0, 3)
-      this.scene.add(model.scene)
-    })
+    gltfLoader.load(
+      '/three.js-journey/media/models/Duck/glTF-Draco/Duck.gltf',
+      (model) => {
+        model.scene.position.set(3, 0, 3)
+        this.scene.add(model.scene)
+      },
+    )
 
-    gltfLoader.load(HelmetModel, (model) => {
-      model.scene.position.set(-3, 0, -3)
-      model.scene.scale.set(4, 4, 4)
-      this.scene.add(model.scene)
-    })
+    gltfLoader.load(
+      '/three.js-journey/media/models/FlightHelmet/glTF/FlightHelmet.gltf',
+      (model) => {
+        model.scene.position.set(-3, 0, -3)
+        model.scene.scale.set(4, 4, 4)
+        this.scene.add(model.scene)
+      },
+    )
 
-    gltfLoader.load(FoxModel, (model) => {
-      model.scene.scale.set(0.025, 0.025, 0.025)
-      this.scene.add(model.scene)
+    gltfLoader.load(
+      '/three.js-journey/media/models/Fox/glTF/Fox.gltf',
+      (model) => {
+        model.scene.scale.set(0.025, 0.025, 0.025)
+        this.scene.add(model.scene)
 
-      this.foxMixer = new THREE.AnimationMixer(model.scene)
-      const action = this.foxMixer.clipAction(model.animations[2])
-      action.play()
-    })
+        this.foxMixer = new THREE.AnimationMixer(model.scene)
+        const action = this.foxMixer.clipAction(model.animations[2])
+        action.play()
+      },
+    )
   }
 
   /**
