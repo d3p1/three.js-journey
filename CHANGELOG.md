@@ -1,3 +1,10 @@
+## [1.20.1](https://github.com/d3p1/three.js-journey/compare/v1.20.0...v1.20.1) (2024-10-20)
+
+
+### Bug Fixes
+
+* add build related to lesson number 19 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([5030252](https://github.com/d3p1/three.js-journey/commit/5030252eebf65e736d70e76c0323d7aef1b231e9))
+
 # [1.20.0](https://github.com/d3p1/three.js-journey/compare/v1.19.0...v1.20.0) (2024-10-20)
 
 
