@@ -104,7 +104,7 @@ export default class Lesson extends GeneralLesson {
   #initModels() {
     const gltfLoader = new GLTFLoader()
     const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/three.js-journey/loader/draco/')
+    dracoLoader.setDecoderPath('/three.js-journey/js/utils/loader/draco/')
     gltfLoader.setDRACOLoader(dracoLoader)
 
     gltfLoader.load(
