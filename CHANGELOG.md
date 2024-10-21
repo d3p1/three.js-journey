@@ -1,3 +1,10 @@
+## [1.22.1](https://github.com/d3p1/three.js-journey/compare/v1.22.0...v1.22.1) (2024-10-21)
+
+
+### Bug Fixes
+
+* adjust lesson numbers and names [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([7131b6d](https://github.com/d3p1/three.js-journey/commit/7131b6d674e98e69b69f3682ae268a648cbafd7d))
+
 # [1.22.0](https://github.com/d3p1/three.js-journey/compare/v1.21.1...v1.22.0) (2024-10-21)
 
 
