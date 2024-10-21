@@ -1,55 +1,36 @@
 /**
  * @description 19 lesson class
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
- * {@link       https://threejs-journey.com/lessons/physics}
+ * {@link       https://threejs-journey.com/lessons/scroll-based-animation}
+ * @todo        Analyze if there is a better way to manage parallax effect
+ * @todo        Improve animate meshes logic
  */
 import * as THREE from 'three'
+import gsap from 'gsap'
 import {Timer} from 'three/addons/misc/Timer.js'
-import * as CANNON from 'cannon-es'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import CubeImageNX from './media/images/textures/environmentMaps/0/nx.png'
-import CubeImageNY from './media/images/textures/environmentMaps/0/ny.png'
-import CubeImageNZ from './media/images/textures/environmentMaps/0/nz.png'
-import CubeImagePX from './media/images/textures/environmentMaps/0/px.png'
-import CubeImagePY from './media/images/textures/environmentMaps/0/py.png'
-import CubeImagePZ from './media/images/textures/environmentMaps/0/pz.png'
-import HitAudio from './media/sounds/hit.mp3'
+import gradientMap from './media/images/textures/gradients/3.jpg'
 
 export default class Lesson extends GeneralLesson {
   /**
-   * @type {{mesh: THREE.Mesh, body: CANNON.Body}[]}
+   * @type {THREE.Points}
    */
-  worldObjects = []
+  particles
 
   /**
-   * @type {CANNON.World}
+   * @type {THREE.Mesh[]}
    */
-  world
+  meshes = []
 
   /**
-   * @type {THREE.BoxGeometry}
+   * @type {THREE.MeshToonMaterial}
    */
-  boxGeometry
+  material
 
   /**
-   * @type {THREE.SphereGeometry}
+   * @type {THREE.Group}
    */
-  sphereGeometry
-
-  /**
-   * @type {THREE.PlaneGeometry}
-   */
-  planeGeometry
-
-  /**
-   * @type {THREE.MeshStandardMaterial}
-   */
-  worldObjectMaterial
-
-  /**
-   * @type {THREE.MeshStandardMaterial}
-   */
-  planeMaterial
+  cameraGroup
 
   /**
    * @type {Timer}
@@ -57,59 +38,105 @@ export default class Lesson extends GeneralLesson {
   timer
 
   /**
-   * @type {THREE.CubeTexture}
-   */
-  cubeTexture
-
-  /**
-   * @type {HTMLAudioElement}
-   */
-  hitAudio
-
-  /**
    * @type {boolean}
    */
   hasAnimation = true
 
   /**
-   * @type {Function}
+   * @type {number}
    */
-  #boundBodyCollision
+  #meshDistance = 5
 
   /**
-   * Get lesson title
+   * @type {number|null}
+   */
+  #parallaxX = null
+
+  /**
+   * @type {number|null}
+   */
+  #parallaxY = null
+
+  /**
+   * @type {number}
+   */
+  #currentSection = 0
+
+  /**
+   * @type {Function}
+   */
+  #boundCameraScroll
+
+  /**
+   * @type {Function}
+   */
+  #boundParallax
+
+  /**
+   * Get title
    *
    * @returns {string}
    */
   get title() {
-    return 'Physics'
+    return '[LESSON 19] Scroll based animation'
   }
 
   /**
-   * Get lesson link
+   * Get link
    *
    * @returns {string}
    */
   get link() {
-    return 'https://threejs-journey.com/lessons/physics'
+    return 'https://threejs-journey.com/lessons/scroll-based-animation'
   }
 
   /**
-   * Update
+   * Update lesson
    *
    * @param   {number} t
    * @returns {void}
    */
   update(t) {
     this.timer.update(t)
+    const delta = this.timer.getDelta()
 
-    this.world.step(1 / 60, this.timer.getDelta(), 3)
-    for (const worldObject of this.worldObjects) {
-      worldObject.mesh.position.copy(worldObject.body.position)
-      worldObject.mesh.quaternion.copy(worldObject.body.quaternion)
+    for (const mesh of this.meshes) {
+      mesh.rotation.x += delta * 0.1
+      mesh.rotation.y += delta * 0.3
     }
 
-    this.control.update()
+    if (this.#parallaxX && this.#parallaxY) {
+      const displacementX = this.#parallaxX - this.cameraGroup.position.x
+      const displacementY = this.#parallaxY - this.cameraGroup.position.y
+      this.cameraGroup.position.x += displacementX * 2 * delta
+      this.cameraGroup.position.y += displacementY * 2 * delta
+    }
+  }
+
+  /**
+   * Open lesson
+   *
+   * @returns {void}
+   */
+  open() {
+    this.#setupBody()
+    this.#addSectionToBody('My portfolio', 'start')
+    this.#addSectionToBody('My projects', 'end')
+    this.#addSectionToBody('Contact me', 'start')
+
+    super.open()
+  }
+
+  /**
+   * Close lesson
+   *
+   * @returns {void}
+   */
+  close() {
+    this.#removeSectionsFromBody()
+    this.#restoreBodyStyles()
+
+    super.close()
   }
 
   /**
@@ -120,20 +147,33 @@ export default class Lesson extends GeneralLesson {
   init() {
     super.init()
 
-    this.#boundBodyCollision = this.#handleBodyCollision.bind(this)
-    this.#initTimer()
-    this.#initAudio()
-    this.#initCubeTexture()
-    this.#initGeometries()
-    this.#initMaterials()
-    this.#initLights()
-    this.#initWorld()
-    this.#initPlane()
-    this.#initSphere(0.5, {x: 0, y: 3, z: 0})
-    this.#initBox(1, 1, 1, {x: 3, y: 3, z: 1})
-    this.#initTweaks()
-    this.#setupCamera()
+    this.#disposeControl()
     this.#setupRenderer()
+    this.#initTimer()
+    this.#initLights()
+    this.#initMaterial()
+    this.#initMeshes()
+    this.#initParticles()
+    this.#initGuiTweaks()
+    this.#initMeshPositions()
+    this.#addCameraScrollEvent()
+    this.#addParallaxEvent()
+  }
+
+  /**
+   * Init camera
+   *
+   * @returns {void}
+   */
+  initCamera() {
+    this.cameraGroup = new THREE.Group()
+    this.camera = new THREE.PerspectiveCamera(
+      75,
+      this.canvas.width / this.canvas.height,
+    )
+    this.camera.position.z = 3
+    this.cameraGroup.add(this.camera)
+    this.scene.add(this.cameraGroup)
   }
 
   /**
@@ -144,49 +184,13 @@ export default class Lesson extends GeneralLesson {
   dispose() {
     super.dispose()
 
-    this.#disposeWorld()
-    this.world = null
-    this.hitAudio = null
-  }
-
-  /**
-   * Handle body collision
-   *
-   * @param   {object} collision
-   * @returns {void}
-   */
-  #handleBodyCollision(collision) {
-    const impactStrength = collision.contact.getImpactVelocityAlongNormal()
-    if (impactStrength > 1.5) {
-      this.hitAudio.currentTime = 0
-      this.hitAudio.volume = Math.random()
-      this.hitAudio.play()
-    }
-  }
-
-  /**
-   * Dispose world
-   *
-   * @returns {void}
-   */
-  #disposeWorld() {
-    for (const worldObject of this.worldObjects) {
-      worldObject.body.removeEventListener('collide', this.#boundBodyCollision)
-      this.world.removeBody(worldObject.body)
-    }
-    this.worldObjects.splice(0, this.worldObjects.length)
-  }
-
-  /**
-   * Setup camera
-   *
-   * @returns {void}
-   */
-  #setupCamera() {
-    this.camera.fov = 75
-    this.camera.near = 0.1
-    this.camera.far = 100
-    this.camera.position.set(-3, 3, 3)
+    this.#removeCameraScrollEvent()
+    this.#removeParallaxEvent()
+    this.#disposeTimer()
+    this.particles = null
+    this.meshes = null
+    this.cameraGroup = null
+    this.timer = null
   }
 
   /**
@@ -195,72 +199,250 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #setupRenderer() {
-    this.renderer.shadowMap.enabled = true
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    this.renderer.setClearAlpha(0)
   }
 
   /**
-   * Init tweaks
+   * Setup body
    *
    * @returns {void}
    */
-  #initTweaks() {
-    const generateSphere = this.#initSphere.bind(this)
-    const generateBox = this.#initBox.bind(this)
-    const reset = () => {
-      for (const worldObject of this.worldObjects) {
-        this.scene.remove(worldObject.mesh)
-      }
-      this.#disposeWorld()
+  #setupBody() {
+    document.body.style.overflow = 'visible'
+    document.body.style.backgroundColor = '#1e1a20'
+  }
+
+  /**
+   * Restore body styles
+   *
+   * @returns {void}
+   */
+  #restoreBodyStyles() {
+    document.body.style.overflow = 'hidden'
+    document.body.style.backgroundColor = null
+  }
+
+  /**
+   * Add section to body
+   *
+   * @param   {string} sectionTitle
+   * @param   {string} justifyContent
+   * @returns {void}
+   */
+  #addSectionToBody(sectionTitle, justifyContent) {
+    const section = document.createElement('section')
+    const h2 = document.createElement('h2')
+    h2.textContent = sectionTitle
+    section.className = 'section'
+    section.style.display = 'flex'
+    section.style.alignItems = 'center'
+    section.style.justifyContent = justifyContent
+    section.style.paddingLeft = '8em'
+    section.style.paddingRight = '8em'
+    section.style.fontSize = '2rem'
+    section.style.height = '100vh'
+    section.style.textTransform = 'uppercase'
+    section.appendChild(h2)
+    document.body.appendChild(section)
+  }
+
+  /**
+   * Remove sections from body
+   *
+   * @returs {void}
+   */
+  #removeSectionsFromBody() {
+    const sections = document.querySelectorAll('.section')
+    sections.forEach((section) => section.remove())
+  }
+
+  /**
+   * Dispose unneeded control
+   *
+   * @returns {void}
+   */
+  #disposeControl() {
+    this.control.dispose()
+  }
+
+  /**
+   * Dispose timer
+   *
+   * @returns {void}
+   */
+  #disposeTimer() {
+    this.timer.dispose()
+  }
+
+  /**
+   * Add parallax event
+   *
+   * @returns {void}
+   */
+  #addParallaxEvent() {
+    this.#boundParallax = this.#initParallax.bind(this)
+    window.addEventListener('mousemove', this.#boundParallax)
+  }
+
+  /**
+   * Remove parallax event
+   *
+   * @returns {void}
+   */
+  #removeParallaxEvent() {
+    window.removeEventListener('mousemove', this.#boundParallax)
+  }
+
+  /**
+   * Init parallax
+   *
+   * @param {MouseEvent} event
+   */
+  #initParallax(event) {
+    this.#parallaxX = event.clientX / window.innerWidth - 0.5
+    this.#parallaxY = -(event.clientY / window.innerHeight) - 0.5
+  }
+
+  /**
+   * Add camera scroll event
+   *
+   * @returns {void}
+   */
+  #addCameraScrollEvent() {
+    this.#boundCameraScroll = this.#scrollCameraAndAnimateMeshes.bind(this)
+    window.addEventListener('scroll', this.#boundCameraScroll)
+  }
+
+  /**
+   * Remove camera scroll event
+   *
+   * @returns {void}
+   */
+  #removeCameraScrollEvent() {
+    window.removeEventListener('scroll', this.#boundCameraScroll)
+  }
+
+  /**
+   * Scroll camera and animate meshes
+   *
+   * @returns {void}
+   */
+  #scrollCameraAndAnimateMeshes() {
+    const sectionRatio = window.scrollY / window.innerHeight
+    const section = Math.round(sectionRatio)
+
+    this.camera.position.y = -sectionRatio * this.#meshDistance
+
+    if (this.#currentSection !== section) {
+      this.#currentSection = section
+
+      gsap.to(this.meshes[section].rotation, {
+        duration: 1.5,
+        ease: 'power2.inOut',
+        x: '+=6',
+        y: '+=3',
+        z: '+=1.5',
+      })
     }
-
-    this.guiControl
-      .add(
-        {
-          createSphere: function () {
-            generateSphere(Math.random(), {
-              x: (Math.random() - 0.5) * 3,
-              y: 3,
-              z: (Math.random() - 0.5) * 3,
-            })
-          },
-        },
-        'createSphere',
-      )
-      .name('Create Sphere')
-
-    this.guiControl
-      .add(
-        {
-          createBox: function () {
-            generateBox(Math.random(), Math.random(), Math.random(), {
-              x: (Math.random() - 0.5) * 3,
-              y: 3,
-              z: (Math.random() - 0.5) * 3,
-            })
-          },
-        },
-        'createBox',
-      )
-      .name('Create Box')
-
-    this.guiControl
-      .add(
-        {
-          reset,
-        },
-        'reset',
-      )
-      .name('Reset')
   }
 
   /**
-   * Init audio
+   * Init mesh positions
    *
    * @returns {void}
    */
-  #initAudio() {
-    this.hitAudio = new Audio(HitAudio)
+  #initMeshPositions() {
+    for (let i = 0; i < this.meshes.length; i++) {
+      this.meshes[i].position.y = -this.#meshDistance * i
+      this.meshes[i].position.x = 1.5 * Math.pow(-1, i % 2)
+    }
+  }
+
+  /**
+   * Init meshes
+   *
+   * @returns {void}
+   */
+  #initMeshes() {
+    const torus = new THREE.Mesh(
+      new THREE.TorusGeometry(0.75, 0.3, 16, 60),
+      this.material,
+    )
+    torus.geometry.name = 'Torus'
+
+    const cone = new THREE.Mesh(
+      new THREE.ConeGeometry(0.75, 1.5, 32),
+      this.material,
+    )
+    cone.geometry.name = 'Cone'
+
+    const torusKnot = new THREE.Mesh(
+      new THREE.TorusKnotGeometry(0.8, 0.25, 100, 16),
+      this.material,
+    )
+    torusKnot.geometry.name = 'Torus Knot'
+
+    this.meshes.push(torus)
+    this.meshes.push(cone)
+    this.meshes.push(torusKnot)
+    this.scene.add(...this.meshes)
+  }
+
+  /**
+   * Init particles
+   *
+   * @returns {void}
+   */
+  #initParticles() {
+    const items = 200
+
+    const positions = new Float32Array(items * 3)
+    for (let i = 0; i < positions.length; i += 3) {
+      positions[i] = (Math.random() - 0.5) * 10
+      positions[i + 1] =
+        this.#meshDistance / 2 -
+        Math.random() * this.#meshDistance * this.meshes.length
+      positions[i + 2] = (Math.random() - 0.5) * 10
+    }
+    const geometry = new THREE.BufferGeometry()
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+
+    this.particles = new THREE.Points(
+      geometry,
+      new THREE.PointsMaterial({
+        size: 0.02,
+        sizeAttenuation: true,
+        color: this.material.color.getHex(),
+      }),
+    )
+
+    this.scene.add(this.particles)
+  }
+
+  /**
+   * Init material
+   *
+   * @returns {void}
+   */
+  #initMaterial() {
+    const textureLoader = new THREE.TextureLoader()
+    const gradientTexture = textureLoader.load(gradientMap)
+    gradientTexture.magFilter = THREE.NearestFilter
+    this.material = new THREE.MeshToonMaterial({
+      color: '#ffeded',
+      gradientMap: gradientTexture,
+    })
+  }
+
+  /**
+   * Init lights
+   *
+   * @returns {void}
+   */
+  #initLights() {
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 3)
+    directionalLight.position.set(4, 2)
+    this.scene.add(directionalLight)
   }
 
   /**
@@ -273,178 +455,22 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
-   * Init world
+   * Init GUI tweaks
    *
    * @returns {void}
    */
-  #initWorld() {
-    const defaultMaterial = new CANNON.Material('default')
-    const contactMaterial = new CANNON.ContactMaterial(
-      defaultMaterial,
-      defaultMaterial,
-      {
-        friction: 0.1,
-        restitution: 0.7,
-      },
-    )
-    this.world = new CANNON.World()
-    this.world.gravity.set(0, -9.8, 0)
-    this.world.defaultContactMaterial = contactMaterial
+  #initGuiTweaks() {
+    this.guiControl
+      .addColor({color: this.material.color.getHex()}, 'color')
+      .onChange((value) => {
+        this.material.color.setHex(value)
+        this.particles.material.color.setHex(value)
+      })
 
-    this.world.broadphase = new CANNON.SAPBroadphase(this.world)
-    this.world.allowSleep = true
-  }
-
-  /**
-   * Init lights
-   *
-   * @returns {void}
-   */
-  #initLights() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2.1)
-    this.scene.add(ambientLight)
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6)
-    directionalLight.castShadow = true
-    directionalLight.shadow.mapSize.set(1024, 1024)
-    directionalLight.shadow.camera.far = 15
-    directionalLight.shadow.camera.left = -7
-    directionalLight.shadow.camera.top = 7
-    directionalLight.shadow.camera.right = 7
-    directionalLight.shadow.camera.bottom = -7
-    directionalLight.position.set(5, 5, 5)
-    this.scene.add(directionalLight)
-  }
-
-  /**
-   * Init cube texture
-   *
-   * @returns {void}
-   */
-  #initCubeTexture() {
-    const cubeTextureLoader = new THREE.CubeTextureLoader()
-    this.cubeTexture = cubeTextureLoader.load([
-      CubeImagePX,
-      CubeImageNX,
-      CubeImagePY,
-      CubeImageNY,
-      CubeImagePZ,
-      CubeImageNZ,
-    ])
-  }
-
-  /**
-   * Init geometries
-   *
-   * @returns {void}
-   */
-  #initGeometries() {
-    this.sphereGeometry = new THREE.SphereGeometry(1)
-    this.planeGeometry = new THREE.PlaneGeometry(5, 5, 5)
-    this.boxGeometry = new THREE.BoxGeometry(1, 1, 1)
-  }
-
-  /**
-   * Init materials
-   *
-   * @returns {void}
-   */
-  #initMaterials() {
-    this.worldObjectMaterial = new THREE.MeshStandardMaterial({
-      metalness: 0.3,
-      roughness: 0.4,
-      envMap: this.cubeTexture,
-      envMapIntensity: 0.5,
-    })
-
-    this.planeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x777777,
-      metalness: 0.3,
-      roughness: 0.4,
-      envMap: this.cubeTexture,
-      envMapIntensity: 0.5,
-    })
-  }
-
-  /**
-   * Init box
-   *
-   * @param   {number} width
-   * @param   {number} height
-   * @param   {number} depth
-   * @param   {number} position
-   * @returns {void}
-   */
-  #initBox(width, height, depth, position) {
-    const mesh = new THREE.Mesh(this.boxGeometry, this.worldObjectMaterial)
-    mesh.castShadow = true
-    mesh.position.copy(position)
-    mesh.scale.set(width, height, depth)
-    this.scene.add(mesh)
-
-    const shape = new CANNON.Box(
-      new CANNON.Vec3(width / 2, height / 2, depth / 2),
-    )
-    const body = new CANNON.Body({
-      mass: 1,
-      shape,
-    })
-    body.position.set(...mesh.position)
-    body.addEventListener('collision', this.#boundBodyCollision)
-    this.world.addBody(body)
-
-    this.worldObjects.push({
-      mesh,
-      body,
-    })
-  }
-
-  /**
-   * Init sphere
-   *
-   * @returns {void}
-   */
-  #initSphere(radius, position) {
-    const mesh = new THREE.Mesh(this.sphereGeometry, this.worldObjectMaterial)
-    mesh.castShadow = true
-    mesh.position.copy(position)
-    mesh.scale.set(radius, radius, radius)
-    this.scene.add(mesh)
-
-    const shape = new CANNON.Sphere(radius)
-    const body = new CANNON.Body({
-      mass: 1,
-      shape,
-    })
-    body.position.set(...mesh.position)
-    body.addEventListener('collide', this.#boundBodyCollision)
-    this.world.addBody(body)
-
-    this.worldObjects.push({
-      mesh,
-      body,
-    })
-  }
-
-  /**
-   * Init plane
-   *
-   * @returns {void}
-   */
-  #initPlane() {
-    const plane = new THREE.Mesh(this.planeGeometry, this.planeMaterial)
-    plane.rotation.x = -Math.PI / 2
-    plane.receiveShadow = true
-    this.scene.add(plane)
-
-    const shape = new CANNON.Plane()
-    const body = new CANNON.Body({
-      mass: 0,
-      shape: shape,
-    })
-    body.position.set(...plane.position)
-    body.quaternion.set(...plane.quaternion)
-
-    this.world.addBody(body)
+    for (const mesh of this.meshes) {
+      const folder = this.guiControl.addFolder(mesh.geometry.name)
+      folder.add(mesh.position, 'y').min(-100).max(100).step(0.01)
+      folder.add(mesh.position, 'x').min(-100).max(100).step(0.01)
+    }
   }
 }

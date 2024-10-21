@@ -1,41 +1,31 @@
 /**
  * @description 18 lesson class
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
- * {@link       https://threejs-journey.com/lessons/scroll-based-animation}
- * @todo        Analyze if there is a better way to manage parallax effect
- * @todo        Improve animate meshes logic
+ * {@link       https://threejs-journey.com/lessons/galaxy-generator}
  */
 import * as THREE from 'three'
-import gsap from 'gsap'
-import {Timer} from 'three/addons/misc/Timer.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import gradientMap from './media/images/textures/gradients/3.jpg'
 
 export default class Lesson extends GeneralLesson {
   /**
    * @type {THREE.Points}
    */
-  particles
+  galaxy
 
   /**
-   * @type {THREE.Mesh[]}
+   * @type {THREE.PointsMaterial}
    */
-  meshes = []
+  galaxyMaterial
 
   /**
-   * @type {THREE.MeshToonMaterial}
+   * @type {THREE.BufferGeometry}
    */
-  material
+  galaxyGeometry
 
   /**
-   * @type {THREE.Group}
+   * @type {object}
    */
-  cameraGroup
-
-  /**
-   * @type {Timer}
-   */
-  timer
+  galaxyTweaks
 
   /**
    * @type {boolean}
@@ -43,42 +33,12 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
-   * @type {number}
-   */
-  #meshDistance = 5
-
-  /**
-   * @type {number|null}
-   */
-  #parallaxX = null
-
-  /**
-   * @type {number|null}
-   */
-  #parallaxY = null
-
-  /**
-   * @type {number}
-   */
-  #currentSection = 0
-
-  /**
-   * @type {Function}
-   */
-  #boundCameraScroll
-
-  /**
-   * @type {Function}
-   */
-  #boundParallax
-
-  /**
    * Get title
    *
    * @returns {string}
    */
   get title() {
-    return 'Scroll based animation'
+    return '[LESSON 18] Galaxy Generator'
   }
 
   /**
@@ -87,56 +47,20 @@ export default class Lesson extends GeneralLesson {
    * @returns {string}
    */
   get link() {
-    return 'https://threejs-journey.com/lessons/scroll-based-animation'
+    return 'https://threejs-journey.com/lessons/galaxy-generator'
   }
 
   /**
-   * Update lesson
+   * Update
    *
    * @param   {number} t
    * @returns {void}
    */
   update(t) {
-    this.timer.update(t)
-    const delta = this.timer.getDelta()
+    this.control.update()
 
-    for (const mesh of this.meshes) {
-      mesh.rotation.x += delta * 0.1
-      mesh.rotation.y += delta * 0.3
-    }
-
-    if (this.#parallaxX && this.#parallaxY) {
-      const displacementX = this.#parallaxX - this.cameraGroup.position.x
-      const displacementY = this.#parallaxY - this.cameraGroup.position.y
-      this.cameraGroup.position.x += displacementX * 2 * delta
-      this.cameraGroup.position.y += displacementY * 2 * delta
-    }
-  }
-
-  /**
-   * Open lesson
-   *
-   * @returns {void}
-   */
-  open() {
-    this.#setupBody()
-    this.#addSectionToBody('My portfolio', 'start')
-    this.#addSectionToBody('My projects', 'end')
-    this.#addSectionToBody('Contact me', 'start')
-
-    super.open()
-  }
-
-  /**
-   * Close lesson
-   *
-   * @returns {void}
-   */
-  close() {
-    this.#removeSectionsFromBody()
-    this.#restoreBodyStyles()
-
-    super.close()
+    const seconds = t * 0.001
+    this.galaxy.rotation.y = seconds * 0.2
   }
 
   /**
@@ -147,33 +71,9 @@ export default class Lesson extends GeneralLesson {
   init() {
     super.init()
 
-    this.#disposeControl()
-    this.#setupRenderer()
-    this.#initTimer()
-    this.#initLights()
-    this.#initMaterial()
-    this.#initMeshes()
-    this.#initParticles()
-    this.#initGuiTweaks()
-    this.#initMeshPositions()
-    this.#addCameraScrollEvent()
-    this.#addParallaxEvent()
-  }
-
-  /**
-   * Init camera
-   *
-   * @returns {void}
-   */
-  initCamera() {
-    this.cameraGroup = new THREE.Group()
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      this.canvas.width / this.canvas.height,
-    )
-    this.camera.position.z = 3
-    this.cameraGroup.add(this.camera)
-    this.scene.add(this.cameraGroup)
+    this.#setupCamera()
+    this.#initGalaxyTweaks()
+    this.#initGalaxy()
   }
 
   /**
@@ -182,295 +82,170 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   dispose() {
+    this.#disposeGalaxy()
     super.dispose()
-
-    this.#removeCameraScrollEvent()
-    this.#removeParallaxEvent()
-    this.#disposeTimer()
-    this.particles = null
-    this.meshes = null
-    this.cameraGroup = null
-    this.timer = null
   }
 
   /**
-   * Setup renderer
+   * Generate galaxy
    *
    * @returns {void}
    */
-  #setupRenderer() {
-    this.renderer.setClearAlpha(0)
+  #generateGalaxy() {
+    this.#disposeGalaxy()
+    this.#initGalaxy()
   }
 
   /**
-   * Setup body
+   * Init galaxy
    *
    * @returns {void}
    */
-  #setupBody() {
-    document.body.style.overflow = 'visible'
-    document.body.style.backgroundColor = '#1e1a20'
+  #initGalaxy() {
+    this.galaxyGeometry = new THREE.BufferGeometry()
+
+    const vertices = this.galaxyTweaks.particles * 3
+    const positions = new Float32Array(vertices)
+    const colors = new Float32Array(vertices)
+    const insideColor = new THREE.Color(this.galaxyTweaks.insideColor)
+    const outsideColor = new THREE.Color(this.galaxyTweaks.outsideColor)
+    for (let i = 0; i < vertices; i += 3) {
+      const particle = i / 3
+
+      const radius = Math.random() * this.galaxyTweaks.radius
+      const angle =
+        2 *
+        Math.PI *
+        ((particle % this.galaxyTweaks.branches) / this.galaxyTweaks.branches)
+      const spin = this.galaxyTweaks.spin * radius
+      const offsetX =
+        Math.pow(Math.random(), this.galaxyTweaks.gravityStrength) *
+        Math.pow(-1, Math.round(Math.random())) *
+        this.galaxyTweaks.offset *
+        radius
+      const offsetY =
+        Math.pow(Math.random(), this.galaxyTweaks.gravityStrength) *
+        Math.pow(-1, Math.round(Math.random())) *
+        this.galaxyTweaks.offset *
+        radius
+      const offsetZ =
+        Math.pow(Math.random(), this.galaxyTweaks.gravityStrength) *
+        Math.pow(-1, Math.round(Math.random())) *
+        this.galaxyTweaks.offset *
+        radius
+
+      positions[i] = Math.cos(angle + spin) * radius + offsetX
+      positions[i + 1] = offsetY
+      positions[i + 2] = Math.sin(angle + spin) * radius + offsetZ
+
+      const mixedColor = insideColor.clone()
+      const color = mixedColor.lerp(
+        outsideColor,
+        radius / this.galaxyTweaks.radius,
+      )
+      colors[i] = color.r
+      colors[i + 1] = color.g
+      colors[i + 2] = color.b
+    }
+    this.galaxyGeometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(positions, 3),
+    )
+    this.galaxyGeometry.setAttribute(
+      'color',
+      new THREE.BufferAttribute(colors, 3),
+    )
+
+    this.galaxyMaterial = new THREE.PointsMaterial({
+      size: this.galaxyTweaks.size,
+      sizeAttenuation: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      vertexColors: true,
+    })
+
+    this.galaxy = new THREE.Points(this.galaxyGeometry, this.galaxyMaterial)
+
+    this.scene.add(this.galaxy)
   }
 
   /**
-   * Restore body styles
+   * Dispose galaxy
    *
    * @returns {void}
    */
-  #restoreBodyStyles() {
-    document.body.style.overflow = 'hidden'
-    document.body.style.backgroundColor = null
+  #disposeGalaxy() {
+    this.galaxyGeometry.dispose()
+    this.galaxyMaterial.dispose()
+    this.scene.remove(this.galaxy)
+
+    this.galaxyGeometry = null
+    this.galaxyMaterial = null
+    this.galaxy = null
   }
 
   /**
-   * Add section to body
+   * Init galaxy tweaks
    *
-   * @param   {string} sectionTitle
-   * @param   {string} justifyContent
    * @returns {void}
    */
-  #addSectionToBody(sectionTitle, justifyContent) {
-    const section = document.createElement('section')
-    const h2 = document.createElement('h2')
-    h2.textContent = sectionTitle
-    section.className = 'section'
-    section.style.display = 'flex'
-    section.style.alignItems = 'center'
-    section.style.justifyContent = justifyContent
-    section.style.paddingLeft = '8em'
-    section.style.paddingRight = '8em'
-    section.style.fontSize = '2rem'
-    section.style.height = '100vh'
-    section.style.textTransform = 'uppercase'
-    section.appendChild(h2)
-    document.body.appendChild(section)
+  #initGalaxyTweaks() {
+    this.galaxyTweaks = {
+      particles: 20000,
+      size: 0.01,
+      radius: 4,
+      branches: 7,
+      spin: 0.7,
+      offset: 0.3,
+      gravityStrength: 5,
+      insideColor: '#ff6030',
+      outsideColor: '#1b3984',
+    }
+    this.#addGalaxyRangeTweak('particles', 100, 100000, 1)
+    this.#addGalaxyRangeTweak('size', 0.01, 1, 0.01)
+    this.#addGalaxyRangeTweak('radius', 1, 20, 0.1)
+    this.#addGalaxyRangeTweak('branches', 2, 20, 1)
+    this.#addGalaxyRangeTweak('spin', 0.2, 20, 0.1)
+    this.#addGalaxyRangeTweak('offset', 0.1, 20, 0.1)
+    this.#addGalaxyRangeTweak('gravityStrength', 1, 20, 1)
+    this.#addGalaxyColorTweak('insideColor')
+    this.#addGalaxyColorTweak('outsideColor')
   }
 
   /**
-   * Remove sections from body
+   * Add galaxy range tweak
+   *
+   * @returns {void}
+   */
+  #addGalaxyRangeTweak(property, min, max, step) {
+    this.guiControl
+      .add(this.galaxyTweaks, property)
+      .min(min)
+      .max(max)
+      .step(step)
+      .onFinishChange(this.#generateGalaxy.bind(this))
+  }
+
+  /**
+   * Add galaxy color tweak
+   *
+   * @param   {string} property
+   * @returns {void}
+   */
+  #addGalaxyColorTweak(property) {
+    this.guiControl
+      .addColor(this.galaxyTweaks, property)
+      .onFinishChange(this.#generateGalaxy.bind(this))
+  }
+
+  /**
+   * Setup camera
    *
    * @returs {void}
    */
-  #removeSectionsFromBody() {
-    const sections = document.querySelectorAll('.section')
-    sections.forEach((section) => section.remove())
-  }
-
-  /**
-   * Dispose unneeded control
-   *
-   * @returns {void}
-   */
-  #disposeControl() {
-    this.control.dispose()
-  }
-
-  /**
-   * Dispose timer
-   *
-   * @returns {void}
-   */
-  #disposeTimer() {
-    this.timer.dispose()
-  }
-
-  /**
-   * Add parallax event
-   *
-   * @returns {void}
-   */
-  #addParallaxEvent() {
-    this.#boundParallax = this.#initParallax.bind(this)
-    window.addEventListener('mousemove', this.#boundParallax)
-  }
-
-  /**
-   * Remove parallax event
-   *
-   * @returns {void}
-   */
-  #removeParallaxEvent() {
-    window.removeEventListener('mousemove', this.#boundParallax)
-  }
-
-  /**
-   * Init parallax
-   *
-   * @param {MouseEvent} event
-   */
-  #initParallax(event) {
-    this.#parallaxX = event.clientX / window.innerWidth - 0.5
-    this.#parallaxY = -(event.clientY / window.innerHeight) - 0.5
-  }
-
-  /**
-   * Add camera scroll event
-   *
-   * @returns {void}
-   */
-  #addCameraScrollEvent() {
-    this.#boundCameraScroll = this.#scrollCameraAndAnimateMeshes.bind(this)
-    window.addEventListener('scroll', this.#boundCameraScroll)
-  }
-
-  /**
-   * Remove camera scroll event
-   *
-   * @returns {void}
-   */
-  #removeCameraScrollEvent() {
-    window.removeEventListener('scroll', this.#boundCameraScroll)
-  }
-
-  /**
-   * Scroll camera and animate meshes
-   *
-   * @returns {void}
-   */
-  #scrollCameraAndAnimateMeshes() {
-    const sectionRatio = window.scrollY / window.innerHeight
-    const section = Math.round(sectionRatio)
-
-    this.camera.position.y = -sectionRatio * this.#meshDistance
-
-    if (this.#currentSection !== section) {
-      this.#currentSection = section
-
-      gsap.to(this.meshes[section].rotation, {
-        duration: 1.5,
-        ease: 'power2.inOut',
-        x: '+=6',
-        y: '+=3',
-        z: '+=1.5',
-      })
-    }
-  }
-
-  /**
-   * Init mesh positions
-   *
-   * @returns {void}
-   */
-  #initMeshPositions() {
-    for (let i = 0; i < this.meshes.length; i++) {
-      this.meshes[i].position.y = -this.#meshDistance * i
-      this.meshes[i].position.x = 1.5 * Math.pow(-1, i % 2)
-    }
-  }
-
-  /**
-   * Init meshes
-   *
-   * @returns {void}
-   */
-  #initMeshes() {
-    const torus = new THREE.Mesh(
-      new THREE.TorusGeometry(0.75, 0.3, 16, 60),
-      this.material,
-    )
-    torus.geometry.name = 'Torus'
-
-    const cone = new THREE.Mesh(
-      new THREE.ConeGeometry(0.75, 1.5, 32),
-      this.material,
-    )
-    cone.geometry.name = 'Cone'
-
-    const torusKnot = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(0.8, 0.25, 100, 16),
-      this.material,
-    )
-    torusKnot.geometry.name = 'Torus Knot'
-
-    this.meshes.push(torus)
-    this.meshes.push(cone)
-    this.meshes.push(torusKnot)
-    this.scene.add(...this.meshes)
-  }
-
-  /**
-   * Init particles
-   *
-   * @returns {void}
-   */
-  #initParticles() {
-    const items = 200
-
-    const positions = new Float32Array(items * 3)
-    for (let i = 0; i < positions.length; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 10
-      positions[i + 1] =
-        this.#meshDistance / 2 -
-        Math.random() * this.#meshDistance * this.meshes.length
-      positions[i + 2] = (Math.random() - 0.5) * 10
-    }
-    const geometry = new THREE.BufferGeometry()
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-
-    this.particles = new THREE.Points(
-      geometry,
-      new THREE.PointsMaterial({
-        size: 0.02,
-        sizeAttenuation: true,
-        color: this.material.color.getHex(),
-      }),
-    )
-
-    this.scene.add(this.particles)
-  }
-
-  /**
-   * Init material
-   *
-   * @returns {void}
-   */
-  #initMaterial() {
-    const textureLoader = new THREE.TextureLoader()
-    const gradientTexture = textureLoader.load(gradientMap)
-    gradientTexture.magFilter = THREE.NearestFilter
-    this.material = new THREE.MeshToonMaterial({
-      color: '#ffeded',
-      gradientMap: gradientTexture,
-    })
-  }
-
-  /**
-   * Init lights
-   *
-   * @returns {void}
-   */
-  #initLights() {
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 3)
-    directionalLight.position.set(4, 2)
-    this.scene.add(directionalLight)
-  }
-
-  /**
-   * Init timer
-   *
-   * @returns {void}
-   */
-  #initTimer() {
-    this.timer = new Timer()
-  }
-
-  /**
-   * Init GUI tweaks
-   *
-   * @returns {void}
-   */
-  #initGuiTweaks() {
-    this.guiControl
-      .addColor({color: this.material.color.getHex()}, 'color')
-      .onChange((value) => {
-        this.material.color.setHex(value)
-        this.particles.material.color.setHex(value)
-      })
-
-    for (const mesh of this.meshes) {
-      const folder = this.guiControl.addFolder(mesh.geometry.name)
-      folder.add(mesh.position, 'y').min(-100).max(100).step(0.01)
-      folder.add(mesh.position, 'x').min(-100).max(100).step(0.01)
-    }
+  #setupCamera() {
+    this.camera.position.x = 3
+    this.camera.position.y = 3
+    this.camera.position.z = 5
   }
 }

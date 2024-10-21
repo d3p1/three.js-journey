@@ -1,31 +1,38 @@
 /**
  * @description 14 lesson class
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
- * {@link       https://threejs-journey.com/lessons/shadows}
+ * {@link       https://threejs-journey.com/lessons/lights}
  */
 import * as THREE from 'three'
+import {RectAreaLightHelper} from 'three/addons/helpers/RectAreaLightHelper.js'
+import GUI from 'lil-gui'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
+  /**
+   * @type {THREE.MeshStandardMaterial}
+   */
+  material
+
   /**
    * @type {THREE.Mesh}
    */
   plane
 
   /**
-   * @type {THREE.Sphere}
+   * @type {THREE.Mesh}
+   */
+  box
+
+  /**
+   * @type {THREE.Mesh}
    */
   sphere
 
   /**
    * @type {THREE.Mesh}
    */
-  sphereShadow
-
-  /**
-   * @type {THREE.Material}
-   */
-  material
+  torus
 
   /**
    * @type {boolean}
@@ -38,7 +45,7 @@ export default class Lesson extends GeneralLesson {
    * @returns {string}
    */
   get title() {
-    return 'Shadows'
+    return '[LESSON 14] Lights'
   }
 
   /**
@@ -47,7 +54,7 @@ export default class Lesson extends GeneralLesson {
    * @returns {string}
    */
   get link() {
-    return 'https://threejs-journey.com/lessons/shadows'
+    return 'https://threejs-journey.com/lessons/lights'
   }
 
   /**
@@ -59,17 +66,12 @@ export default class Lesson extends GeneralLesson {
   update(t) {
     this.control.update()
 
-    const rad = 1.5
-    this.sphere.position.x = Math.cos(t / 1000) * rad
-    this.sphere.position.z = Math.sin(t / 1000) * rad
-    this.sphere.position.y = Math.abs(Math.sin(t / 1000))
-
-    this.sphereShadow.position.x = this.sphere.position.x
-    this.sphereShadow.position.z = this.sphere.position.z
-    this.sphereShadow.material.opacity = (1 - this.sphere.position.y) * 0.3
-
-    const scale = this.sphere.position.y * 1.5
-    this.sphereShadow.scale.set(scale, scale, scale)
+    this.box.rotation.x = 0.0001 * t
+    this.box.rotation.y = 0.0001 * t
+    this.sphere.rotation.x = 0.0001 * t
+    this.sphere.rotation.y = 0.0001 * t
+    this.torus.rotation.x = 0.0001 * t
+    this.torus.rotation.y = 0.0001 * t
   }
 
   /**
@@ -81,12 +83,18 @@ export default class Lesson extends GeneralLesson {
     super.init()
 
     this.#initMaterial()
-    this.#initSphere()
     this.#initPlane()
-    this.#initSphereShadow()
-    this.#initLights()
+    this.#initBox()
+    this.#initSphere()
+    this.#initTorus()
+    this.#updateCameraPosition()
 
-    this.#switchShadowsOnRenderer()
+    this.#addAmbientLight()
+    this.#addDirectionalLight()
+    this.#addHemisphereLight()
+    this.#addPointLight()
+    this.#addRectAreaLight()
+    this.#addSpotLight()
   }
 
   /**
@@ -98,19 +106,122 @@ export default class Lesson extends GeneralLesson {
     super.dispose()
 
     this.plane = null
+    this.box = null
     this.sphere = null
-    this.sphereShadow = null
-    this.material = null
+    this.torus = null
   }
 
   /**
-   * Switch shadows on renderer
+   * Add spot light
    *
    * @returns {void}
    */
-  #switchShadowsOnRenderer() {
-    this.renderer.shadowMap.enabled = false
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  #addSpotLight() {
+    const spotLight = new THREE.SpotLight(
+      0xff1100,
+      1,
+      0,
+      Math.PI * 0.1,
+      0.25,
+      1,
+    )
+    spotLight.position.z = -3
+    spotLight.position.x = -2
+    spotLight.target.position.x = -3
+    this.scene.add(spotLight)
+    this.scene.add(spotLight.target)
+
+    const gui = this.#addGuiTweaksToLight(spotLight, 'Spot Light')
+    this.#addGuiRangeTweakToLight(gui, spotLight, 'distance')
+    this.#addGuiRangeTweakToLight(gui, spotLight, 'angle')
+    this.#addGuiRangeTweakToLight(gui, spotLight, 'penumbra')
+    this.#addGuiRangeTweakToLight(gui, spotLight, 'decay')
+
+    const helper = new THREE.SpotLightHelper(spotLight)
+    this.scene.add(helper)
+  }
+
+  /**
+   * Add rect area light
+   *
+   * @returns {void}
+   */
+  #addRectAreaLight() {
+    const rectAreaLight = new THREE.RectAreaLight(0x00ff00, 1, 2.5, 2.5)
+    rectAreaLight.position.x = -2
+    rectAreaLight.position.z = 2
+    rectAreaLight.lookAt(this.box.position)
+    this.scene.add(rectAreaLight)
+
+    const gui = this.#addGuiTweaksToLight(rectAreaLight, 'Rect Area Light')
+    this.#addGuiRangeTweakToLight(gui, rectAreaLight, 'width')
+    this.#addGuiRangeTweakToLight(gui, rectAreaLight, 'height')
+
+    const helper = new RectAreaLightHelper(rectAreaLight)
+    this.scene.add(helper)
+  }
+
+  /**
+   * Add point light
+   *
+   * @returns {void}
+   */
+  #addPointLight() {
+    const pointLight = new THREE.PointLight(0xee11aa, 1, 0, 2)
+    pointLight.position.x = 2
+    pointLight.position.z = 2
+    this.scene.add(pointLight)
+
+    const gui = this.#addGuiTweaksToLight(pointLight, 'Point Light')
+    this.#addGuiRangeTweakToLight(gui, pointLight, 'distance')
+    this.#addGuiRangeTweakToLight(gui, pointLight, 'decay')
+
+    const helper = new THREE.PointLightHelper(pointLight, 0.2)
+    this.scene.add(helper)
+  }
+
+  /**
+   * Add hemisphere light
+   *
+   * @returns {void}
+   */
+  #addHemisphereLight() {
+    const hemisphereLight = new THREE.HemisphereLight(0xff0000, 0x0000ff, 0.5)
+    this.scene.add(hemisphereLight)
+
+    const gui = this.#addGuiTweaksToLight(hemisphereLight, 'Hemisphere Light')
+    this.#addGuiColorTweakToLight(gui, hemisphereLight, 'groundColor')
+
+    const helper = new THREE.HemisphereLightHelper(hemisphereLight, 0.2)
+    this.scene.add(helper)
+  }
+
+  /**
+   * Add directional light
+   *
+   * @returns {void}
+   */
+  #addDirectionalLight() {
+    const directionalLight = new THREE.DirectionalLight(0x00fffc, 0.9)
+    directionalLight.position.set(5, 1, 0)
+    this.scene.add(directionalLight)
+
+    this.#addGuiTweaksToLight(directionalLight, 'Directional Light')
+
+    const helper = new THREE.DirectionalLightHelper(directionalLight, 0.2)
+    this.scene.add(helper)
+  }
+
+  /**
+   * Add ambient light
+   *
+   * @returns {void}
+   */
+  #addAmbientLight() {
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+    this.scene.add(ambientLight)
+
+    this.#addGuiTweaksToLight(ambientLight, 'Ambient Light')
   }
 
   /**
@@ -120,49 +231,7 @@ export default class Lesson extends GeneralLesson {
    */
   #initMaterial() {
     this.material = new THREE.MeshStandardMaterial()
-    this.#initMaterialTweaks()
-  }
-
-  /**
-   * Init sphere
-   *
-   * @returns {void}
-   */
-  #initSphere() {
-    const sphereGeometry = new THREE.SphereGeometry(0.5)
-    this.sphere = new THREE.Mesh(sphereGeometry, this.material)
-    this.sphere.castShadow = true
-    this.sphere.receiveShadow = false
-    this.scene.add(this.sphere)
-  }
-
-  /**
-   * Init sphere shadow
-   *
-   * @returns {void}
-   * @note It is also possible to group the sphere and the shadow together
-   *       in order to manipulate them easily
-   */
-  #initSphereShadow() {
-    const textureLoader = new THREE.TextureLoader()
-    const shadow = textureLoader.load(
-      '/three.js-journey/media/images/textures/shadows/simple.jpg',
-    )
-    shadow.colorSpace = THREE.SRGBColorSpace
-
-    const sphereShadowGeometry = new THREE.PlaneGeometry(1, 1)
-    const sphereShadowMaterial = new THREE.MeshBasicMaterial({
-      color: 0x000000,
-      transparent: true,
-      alphaMap: shadow,
-    })
-    this.sphereShadow = new THREE.Mesh(
-      sphereShadowGeometry,
-      sphereShadowMaterial,
-    )
-    this.sphereShadow.rotation.x = -Math.PI / 2
-    this.sphereShadow.position.y = this.plane.position.y + 0.001
-    this.scene.add(this.sphereShadow)
+    this.material.roughness = 0.5
   }
 
   /**
@@ -171,86 +240,96 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #initPlane() {
-    const planeGeometry = new THREE.PlaneGeometry(5, 5)
+    const planeGeometry = new THREE.PlaneGeometry(10, 10)
     this.plane = new THREE.Mesh(planeGeometry, this.material)
     this.plane.rotation.x = -Math.PI / 2
-    this.plane.position.y = -0.5
-    this.plane.castShadow = false
-    this.plane.receiveShadow = true
+    this.plane.position.y = -2
     this.scene.add(this.plane)
   }
 
   /**
-   * Init lights
+   * Init box
    *
    * @returns {void}
    */
-  #initLights() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2)
-    this.scene.add(ambientLight)
-    this.#initLightTweaks(ambientLight, 'Ambient Light')
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1)
-    directionalLight.position.x = 3
-    directionalLight.castShadow = true
-    directionalLight.shadow.mapSize.width = 1024
-    directionalLight.shadow.mapSize.height = 1024
-    directionalLight.shadow.camera.near = 1
-    directionalLight.shadow.camera.far = 6
-    directionalLight.shadow.camera.top = 1
-    directionalLight.shadow.camera.bottom = -1
-    directionalLight.shadow.camera.right = 1
-    directionalLight.shadow.camera.left = -1
-    this.scene.add(directionalLight)
-    this.#initLightTweaks(directionalLight, 'Directional Light')
-
-    const spotLight = new THREE.SpotLight(0xffffff, 1, 0, Math.PI * 0.1)
-    spotLight.position.x = 1
-    spotLight.position.z = 1
-    spotLight.castShadow = true
-    spotLight.shadow.mapSize.width = 1024
-    spotLight.shadow.mapSize.height = 1024
-    spotLight.shadow.camera.near = 1
-    spotLight.shadow.camera.far = 5
-    spotLight.visible = false
-    this.scene.add(spotLight)
-    this.scene.add(spotLight.target)
-    this.#initLightTweaks(spotLight, 'Spot Light')
-    this.guiControl.add(spotLight, 'visible').name('Enable Spotlight')
-
-    const pointLight = new THREE.PointLight(0xffffff, 1)
-    pointLight.position.x = 1
-    pointLight.position.z = -1
-    pointLight.castShadow = true
-    pointLight.shadow.mapSize.width = 1024
-    pointLight.shadow.mapSize.height = 1024
-    pointLight.shadow.camera.near = 0.1
-    pointLight.shadow.camera.far = 4
-    pointLight.visible = false
-    this.scene.add(pointLight)
-    this.#initLightTweaks(pointLight, 'Point Light')
-    this.guiControl.add(pointLight, 'visible').name('Enable Point Light')
+  #initBox() {
+    const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+    this.box = new THREE.Mesh(boxGeometry, this.material)
+    this.scene.add(this.box)
   }
 
   /**
-   * Init material tweaks
+   * Init sphere
    *
    * @returns {void}
    */
-  #initMaterialTweaks() {
-    this.guiControl.add(this.material, 'metalness').min(0).max(1).step(0.001)
-    this.guiControl.add(this.material, 'roughness').min(0).max(1).step(0.001)
+  #initSphere() {
+    const sphereGeometry = new THREE.SphereGeometry(1)
+    this.sphere = new THREE.Mesh(sphereGeometry, this.material)
+    this.sphere.position.x = 2
+    this.scene.add(this.sphere)
   }
 
   /**
-   * Init light tweaks
+   * Init torus
+   *
+   * @returns {void}
+   */
+  #initTorus() {
+    const torusGeometry = new THREE.TorusGeometry(0.7, 0.3)
+    this.torus = new THREE.Mesh(torusGeometry, this.material)
+    this.torus.position.x = -2
+    this.scene.add(this.torus)
+  }
+
+  /**
+   * Update camera position
+   *
+   * @returs {void}
+   */
+  #updateCameraPosition() {
+    this.camera.position.z = 5
+  }
+
+  /**
+   * Add GUI tweaks to light object
    *
    * @param   {THREE.Light} light
    * @param   {string}      name
+   * @returns {GUI}
+   */
+  #addGuiTweaksToLight(light, name) {
+    const folder = this.guiControl.addFolder(name)
+    this.#addGuiRangeTweakToLight(folder, light, 'intensity')
+    this.#addGuiColorTweakToLight(folder, light, 'color')
+    return folder
+  }
+
+  /**
+   * Add GUI color tweak to light object
+   *
+   * @param   {GUI}         gui
+   * @param   {THREE.Light} light
+   * @param   {string}      colorPropertyName
    * @returns {void}
    */
-  #initLightTweaks(light, name) {
-    const folder = this.guiControl.addFolder(name)
-    folder.add(light, 'intensity').min(0).max(5).step(0.001)
+  #addGuiColorTweakToLight(gui, light, colorPropertyName) {
+    gui
+      .addColor({color: light[colorPropertyName].getHex()}, 'color')
+      .onChange((value) => {
+        light[colorPropertyName].setHex(value)
+      })
+  }
+
+  /**
+   * Add GUI range tweak to light object
+   *
+   * @param   {GUI}         gui
+   * @param   {THREE.Light} light
+   * @param   {string}      rangePropertyName
+   * @returns {void}
+   */
+  #addGuiRangeTweakToLight(gui, light, rangePropertyName) {
+    gui.add(light, rangePropertyName).min(0).max(5).step(0.01)
   }
 }
