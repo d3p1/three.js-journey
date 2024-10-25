@@ -1,3 +1,16 @@
+# [1.23.0](https://github.com/d3p1/three.js-journey/compare/v1.22.1...v1.23.0) (2024-10-25)
+
+
+### Bug Fixes
+
+* adjust lesson numbers in index [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([19dac3c](https://github.com/d3p1/three.js-journey/commit/19dac3cf3420d30a0a9065df6a4111f5680bb1fe))
+
+
+### Features
+
+* add lesson number 23 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([3e6f770](https://github.com/d3p1/three.js-journey/commit/3e6f770158b611367ade23b49823194a6d3f2ba0))
+* show gui tweaks by default in lessons with tweaks [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([878ee54](https://github.com/d3p1/three.js-journey/commit/878ee549e0d49ad92a3a148410dbf494bc0d26bc))
+
 ## [1.22.1](https://github.com/d3p1/three.js-journey/compare/v1.22.0...v1.22.1) (2024-10-21)
 
 
