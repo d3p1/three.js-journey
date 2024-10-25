@@ -13,6 +13,6 @@ export default {
     emptyOutDir: true,
     sourcemap: true,
   },
-  assetsInclude: ['**/*.hdr', '**/*.gltf'],
+  assetsInclude: ['**/*.hdr', '**/*.gltf', '**/*.glb'],
   plugins: [restart({restart: ['../static/**']})],
 }
