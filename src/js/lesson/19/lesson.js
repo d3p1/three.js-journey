@@ -40,6 +40,11 @@ export default class Lesson extends GeneralLesson {
   /**
    * @type {boolean}
    */
+  hasGuiTweaks = true
+
+  /**
+   * @type {boolean}
+   */
   hasAnimation = true
 
   /**

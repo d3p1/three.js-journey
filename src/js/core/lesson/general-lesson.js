@@ -46,6 +46,11 @@ export default class GeneralLesson extends Lesson {
   /**
    * @type {boolean}
    */
+  hasGuiTweaks
+
+  /**
+   * @type {boolean}
+   */
   hasAnimation
 
   /**
@@ -130,6 +135,10 @@ export default class GeneralLesson extends Lesson {
     this.initRenderer()
     this.initControl()
     this.initGuiControl()
+
+    if (this.hasGuiTweaks) {
+      this.guiControl.show(true)
+    }
   }
 
   /**
