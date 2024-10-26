@@ -193,7 +193,7 @@ export default class Lesson extends GeneralLesson {
     this.#removeParallaxEvent()
     this.#disposeTimer()
     this.particles = null
-    this.meshes = null
+    this.meshes = []
     this.cameraGroup = null
     this.timer = null
   }
