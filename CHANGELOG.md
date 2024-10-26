@@ -1,3 +1,10 @@
+## [1.24.1](https://github.com/d3p1/three.js-journey/compare/v1.24.0...v1.24.1) (2024-10-26)
+
+
+### Bug Fixes
+
+* adjust dispose error in lesson number 19 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([90a9747](https://github.com/d3p1/three.js-journey/commit/90a9747bde4843e0f0fb2cfa5c605c2afe3ad29f))
+
 # [1.24.0](https://github.com/d3p1/three.js-journey/compare/v1.23.0...v1.24.0) (2024-10-26)
 
 
