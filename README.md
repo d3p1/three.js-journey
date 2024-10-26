@@ -15,7 +15,7 @@ My playground for practicing the art of [Three.js](https://threejs.org/)
 
 ## Usage
 
-Just watch me broh :moyai:
+[Watch](https://d3p1.github.io/three.js-journey/) :moyai:
 
 ## Changelog
 
