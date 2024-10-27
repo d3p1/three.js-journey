@@ -170,7 +170,12 @@ export default class GeneralLesson extends Lesson {
    * @returns {void}
    */
   initRenderer() {
-    this.renderer = new THREE.WebGLRenderer({canvas: this.canvas})
+    let antialias = false
+    if (window.devicePixelRatio <= 1) {
+      antialias = true
+    }
+
+    this.renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias})
     this.#resizeRenderer()
     this.#boundResizeRenderer = this.#resizeRenderer.bind(this)
     window.addEventListener('resize', this.#boundResizeRenderer)
@@ -266,19 +271,13 @@ export default class GeneralLesson extends Lesson {
    */
   #disposeObjectMaterial(object) {
     if (object.material) {
-      if (Array.isArray(object.material)) {
-        object.material.forEach((material) => {
-          if (material.map) {
-            material.map.dispose()
-          }
-          material.dispose()
-        })
-      } else {
-        if (object.material.map) {
-          object.material.map.dispose()
+      for (const key in object.material) {
+        const mat = object.material[key]
+        if (mat && typeof mat.dispose === 'function') {
+          mat.dispose()
         }
-        object.material.dispose()
       }
+      object.material.dispose()
     }
   }
 

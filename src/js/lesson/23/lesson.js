@@ -7,7 +7,6 @@ import * as THREE from 'three'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import HamburgerModel from './media/models/hamburger.glb'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -87,10 +86,13 @@ export default class Lesson extends GeneralLesson {
     dracoLoader.setDecoderPath('/three.js-journey/js/utils/loader/draco/')
     gltfLoader.setDRACOLoader(dracoLoader)
 
-    gltfLoader.load(HamburgerModel, (model) => {
-      model.scene.scale.set(0.15, 0.15, 0.15)
-      this.scene.add(model.scene)
-    })
+    gltfLoader.load(
+      '/three.js-journey/media/models/Hamburger/hamburger.glb',
+      (model) => {
+        model.scene.scale.set(0.15, 0.15, 0.15)
+        this.scene.add(model.scene)
+      },
+    )
   }
 
   /**
