@@ -62,7 +62,7 @@ export default class Lesson extends GeneralLesson {
     this.control.update()
 
     const sec = t * 0.001
-    this.holyDonut.rotation.x = Math.abs(Math.cos(sec)) * Math.PI
+    this.holyDonut.rotation.x = Math.abs(Math.cos(sec * 0.5)) * Math.PI
 
     this.cubeCamera.update(this.renderer, this.scene)
   }
@@ -164,7 +164,9 @@ export default class Lesson extends GeneralLesson {
   #initHolyDonut() {
     this.holyDonut = new THREE.Mesh(
       new THREE.TorusGeometry(4, 0.2),
-      new THREE.MeshBasicMaterial(),
+      new THREE.MeshBasicMaterial({
+        color: new THREE.Color(10, 4, 2),
+      }),
     )
     this.holyDonut.layers.enable(1)
     this.scene.add(this.holyDonut)
