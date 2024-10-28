@@ -3,68 +3,27 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  * {@link       https://threejs-journey.com/lessons/physics}
  */
-import * as THREE from 'three'
 import {Timer} from 'three/addons/misc/Timer.js'
-import * as CANNON from 'cannon-es'
+import ThreeWorld from './app/lib/3d/world.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import CubeImageNX from './media/images/textures/environmentMaps/0/nx.png'
-import CubeImageNY from './media/images/textures/environmentMaps/0/ny.png'
-import CubeImageNZ from './media/images/textures/environmentMaps/0/nz.png'
-import CubeImagePX from './media/images/textures/environmentMaps/0/px.png'
-import CubeImagePY from './media/images/textures/environmentMaps/0/py.png'
-import CubeImagePZ from './media/images/textures/environmentMaps/0/pz.png'
-import HitAudio from './media/sounds/hit.mp3'
+import Environment from './app/utils/environment.js'
+import Gui from './app/utils/gui.js'
 
 export default class Lesson extends GeneralLesson {
   /**
-   * @type {{mesh: THREE.Mesh, body: CANNON.Body}[]}
+   * @type {ThreeWorld}
    */
-  worldObjects = []
+  threeWorld
 
   /**
-   * @type {CANNON.World}
+   * @type {Worker}
    */
-  world
-
-  /**
-   * @type {THREE.BoxGeometry}
-   */
-  boxGeometry
-
-  /**
-   * @type {THREE.SphereGeometry}
-   */
-  sphereGeometry
-
-  /**
-   * @type {THREE.PlaneGeometry}
-   */
-  planeGeometry
-
-  /**
-   * @type {THREE.MeshStandardMaterial}
-   */
-  worldObjectMaterial
-
-  /**
-   * @type {THREE.MeshStandardMaterial}
-   */
-  planeMaterial
+  physicsWorld
 
   /**
    * @type {Timer}
    */
   timer
-
-  /**
-   * @type {THREE.CubeTexture}
-   */
-  cubeTexture
-
-  /**
-   * @type {HTMLAudioElement}
-   */
-  hitAudio
 
   /**
    * @type {boolean}
@@ -75,11 +34,6 @@ export default class Lesson extends GeneralLesson {
    * @type {boolean}
    */
   hasAnimation = true
-
-  /**
-   * @type {Function}
-   */
-  #boundBodyCollision
 
   /**
    * Get lesson title
@@ -108,11 +62,12 @@ export default class Lesson extends GeneralLesson {
   update(t) {
     this.timer.update(t)
 
-    this.world.step(1 / 60, this.timer.getDelta(), 3)
-    for (const worldObject of this.worldObjects) {
-      worldObject.mesh.position.copy(worldObject.body.position)
-      worldObject.mesh.quaternion.copy(worldObject.body.quaternion)
-    }
+    this.physicsWorld.postMessage({
+      type: 'update',
+      payload: {
+        delta: this.timer.getDelta(),
+      },
+    })
 
     this.control.update()
   }
@@ -125,20 +80,16 @@ export default class Lesson extends GeneralLesson {
   init() {
     super.init()
 
-    this.#boundBodyCollision = this.#handleBodyCollision.bind(this)
+    Environment.setup(this.scene, this.camera, this.renderer)
+
     this.#initTimer()
-    this.#initAudio()
-    this.#initCubeTexture()
-    this.#initGeometries()
-    this.#initMaterials()
-    this.#initLights()
-    this.#initWorld()
-    this.#initPlane()
-    this.#initSphere(0.5, {x: 0, y: 3, z: 0})
-    this.#initBox(1, 1, 1, {x: 3, y: 3, z: 1})
+    this.#initThreeWorld()
+    this.#initPhysicsWorld()
     this.#initTweaks()
-    this.#setupCamera()
-    this.#setupRenderer()
+
+    this.#addPlane({x: 0, y: 0, z: 0})
+    this.#addSphere(0.5, {x: 0, y: 3, z: 0})
+    this.#addBox(1, 1, 1, {x: 3, y: 3, z: 0})
   }
 
   /**
@@ -149,59 +100,161 @@ export default class Lesson extends GeneralLesson {
   dispose() {
     super.dispose()
 
-    this.#disposeWorld()
-    this.world = null
-    this.hitAudio = null
+    this.#disposePhysicsWorld()
+    this.#disposeThreeWorld()
+    this.physicsWorld.terminate()
   }
 
   /**
-   * Handle body collision
+   * Dispose the three world
    *
-   * @param   {object} collision
    * @returns {void}
    */
-  #handleBodyCollision(collision) {
-    const impactStrength = collision.contact.getImpactVelocityAlongNormal()
-    if (impactStrength > 1.5) {
-      this.hitAudio.currentTime = 0
-      this.hitAudio.volume = Math.random()
-      this.hitAudio.play()
+  #disposeThreeWorld() {
+    this.threeWorld.dispose()
+  }
+
+  /**
+   * Dispose the physics world
+   *
+   * @returns {void}
+   */
+  #disposePhysicsWorld() {
+    this.physicsWorld.postMessage({
+      type: 'dispose',
+    })
+  }
+
+  /**
+   * Add plane
+   *
+   * @param   {object} position
+   * @returns {void}
+   */
+  #addPlane(position) {
+    const id = this.#generateWorldObjectId()
+
+    this.threeWorld.addPlane(id, position)
+    this.physicsWorld.postMessage({
+      type: 'add',
+      payload: {
+        bodyType: 'plane',
+        id: id,
+        position: position,
+      },
+    })
+  }
+
+  /**
+   * Add sphere
+   *
+   * @param   {number} radius
+   * @param   {object} position
+   * @returns {void}
+   */
+  #addSphere(radius, position) {
+    const id = this.#generateWorldObjectId()
+
+    this.threeWorld.addSphere(id, radius, position)
+    this.physicsWorld.postMessage({
+      type: 'add',
+      payload: {
+        bodyType: 'sphere',
+        id: id,
+        radius: radius,
+        position: position,
+      },
+    })
+  }
+
+  /**
+   * Add box
+   *
+   * @param   {number} width
+   * @param   {number} height
+   * @param   {number} depth
+   * @param   {object} position
+   * @returns {void}
+   */
+  #addBox(width, height, depth, position) {
+    const id = this.#generateWorldObjectId()
+
+    this.threeWorld.addBox(id, width, height, depth, position)
+    this.physicsWorld.postMessage({
+      type: 'add',
+      payload: {
+        bodyType: 'box',
+        id: id,
+        width: width / 2,
+        height: height / 2,
+        depth: depth / 2,
+        position: position,
+      },
+    })
+  }
+
+  /**
+   * Add physics world update handler
+   *
+   * @returns {void}
+   */
+  #addPhysicsWorldUpdateHandler() {
+    this.physicsWorld.onmessage = (e) => {
+      const {type, payload} = e.data
+
+      switch (type) {
+        case 'refresh':
+          for (const item of payload) {
+            const mesh = this.threeWorld.meshes[item.id]
+            mesh.position.copy(item.position)
+            mesh.quaternion.copy(item.quaternion)
+          }
+          break
+      }
     }
   }
 
   /**
-   * Dispose world
+   * Generate world object ID
    *
-   * @returns {void}
+   * @returns {string}
    */
-  #disposeWorld() {
-    for (const worldObject of this.worldObjects) {
-      worldObject.body.removeEventListener('collide', this.#boundBodyCollision)
-      this.world.removeBody(worldObject.body)
-    }
-    this.worldObjects.splice(0, this.worldObjects.length)
+  #generateWorldObjectId() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2, 9)
   }
 
   /**
-   * Setup camera
+   * Init a three world
    *
    * @returns {void}
    */
-  #setupCamera() {
-    this.camera.fov = 75
-    this.camera.near = 0.1
-    this.camera.far = 100
-    this.camera.position.set(-3, 3, 3)
+  #initThreeWorld() {
+    this.threeWorld = new ThreeWorld(this.scene)
   }
 
   /**
-   * Setup renderer
+   * Init a physics world
    *
    * @returns {void}
    */
-  #setupRenderer() {
-    this.renderer.shadowMap.enabled = true
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  #initPhysicsWorld() {
+    this.physicsWorld = new Worker(
+      new URL('./app/lib/physics/world/worker.js', import.meta.url),
+      {
+        type: 'module',
+      },
+    )
+
+    this.physicsWorld.postMessage({
+      type: 'init',
+      payload: {
+        gravity: -9.8,
+        friction: 0.1,
+        restitution: 0.7,
+      },
+    })
+
+    this.#addPhysicsWorldUpdateHandler()
   }
 
   /**
@@ -210,62 +263,29 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #initTweaks() {
-    const generateSphere = this.#initSphere.bind(this)
-    const generateBox = this.#initBox.bind(this)
-    const reset = () => {
-      for (const worldObject of this.worldObjects) {
-        this.scene.remove(worldObject.mesh)
-      }
-      this.#disposeWorld()
-    }
+    Gui.addAction(
+      this.guiControl,
+      () => {
+        this.#addSphere(Math.random(), {
+          x: (Math.random() - 0.5) * 3,
+          y: 3,
+          z: (Math.random() - 0.5) * 3,
+        })
+      },
+      'Create Sphere',
+    )
 
-    this.guiControl
-      .add(
-        {
-          createSphere: function () {
-            generateSphere(Math.random(), {
-              x: (Math.random() - 0.5) * 3,
-              y: 3,
-              z: (Math.random() - 0.5) * 3,
-            })
-          },
-        },
-        'createSphere',
-      )
-      .name('Create Sphere')
-
-    this.guiControl
-      .add(
-        {
-          createBox: function () {
-            generateBox(Math.random(), Math.random(), Math.random(), {
-              x: (Math.random() - 0.5) * 3,
-              y: 3,
-              z: (Math.random() - 0.5) * 3,
-            })
-          },
-        },
-        'createBox',
-      )
-      .name('Create Box')
-
-    this.guiControl
-      .add(
-        {
-          reset,
-        },
-        'reset',
-      )
-      .name('Reset')
-  }
-
-  /**
-   * Init audio
-   *
-   * @returns {void}
-   */
-  #initAudio() {
-    this.hitAudio = new Audio(HitAudio)
+    Gui.addAction(
+      this.guiControl,
+      () => {
+        this.#addBox(Math.random(), Math.random(), Math.random(), {
+          x: (Math.random() - 0.5) * 3,
+          y: 3,
+          z: (Math.random() - 0.5) * 3,
+        })
+      },
+      'Create Box',
+    )
   }
 
   /**
@@ -275,181 +295,5 @@ export default class Lesson extends GeneralLesson {
    */
   #initTimer() {
     this.timer = new Timer()
-  }
-
-  /**
-   * Init world
-   *
-   * @returns {void}
-   */
-  #initWorld() {
-    const defaultMaterial = new CANNON.Material('default')
-    const contactMaterial = new CANNON.ContactMaterial(
-      defaultMaterial,
-      defaultMaterial,
-      {
-        friction: 0.1,
-        restitution: 0.7,
-      },
-    )
-    this.world = new CANNON.World()
-    this.world.gravity.set(0, -9.8, 0)
-    this.world.defaultContactMaterial = contactMaterial
-
-    this.world.broadphase = new CANNON.SAPBroadphase(this.world)
-    this.world.allowSleep = true
-  }
-
-  /**
-   * Init lights
-   *
-   * @returns {void}
-   */
-  #initLights() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2.1)
-    this.scene.add(ambientLight)
-
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6)
-    directionalLight.castShadow = true
-    directionalLight.shadow.mapSize.set(1024, 1024)
-    directionalLight.shadow.camera.far = 15
-    directionalLight.shadow.camera.left = -7
-    directionalLight.shadow.camera.top = 7
-    directionalLight.shadow.camera.right = 7
-    directionalLight.shadow.camera.bottom = -7
-    directionalLight.position.set(5, 5, 5)
-    this.scene.add(directionalLight)
-  }
-
-  /**
-   * Init cube texture
-   *
-   * @returns {void}
-   */
-  #initCubeTexture() {
-    const cubeTextureLoader = new THREE.CubeTextureLoader()
-    this.cubeTexture = cubeTextureLoader.load([
-      CubeImagePX,
-      CubeImageNX,
-      CubeImagePY,
-      CubeImageNY,
-      CubeImagePZ,
-      CubeImageNZ,
-    ])
-  }
-
-  /**
-   * Init geometries
-   *
-   * @returns {void}
-   */
-  #initGeometries() {
-    this.sphereGeometry = new THREE.SphereGeometry(1)
-    this.planeGeometry = new THREE.PlaneGeometry(5, 5, 5)
-    this.boxGeometry = new THREE.BoxGeometry(1, 1, 1)
-  }
-
-  /**
-   * Init materials
-   *
-   * @returns {void}
-   */
-  #initMaterials() {
-    this.worldObjectMaterial = new THREE.MeshStandardMaterial({
-      metalness: 0.3,
-      roughness: 0.4,
-      envMap: this.cubeTexture,
-      envMapIntensity: 0.5,
-    })
-
-    this.planeMaterial = new THREE.MeshStandardMaterial({
-      color: 0x777777,
-      metalness: 0.3,
-      roughness: 0.4,
-      envMap: this.cubeTexture,
-      envMapIntensity: 0.5,
-    })
-  }
-
-  /**
-   * Init box
-   *
-   * @param   {number} width
-   * @param   {number} height
-   * @param   {number} depth
-   * @param   {number} position
-   * @returns {void}
-   */
-  #initBox(width, height, depth, position) {
-    const mesh = new THREE.Mesh(this.boxGeometry, this.worldObjectMaterial)
-    mesh.castShadow = true
-    mesh.position.copy(position)
-    mesh.scale.set(width, height, depth)
-    this.scene.add(mesh)
-
-    const shape = new CANNON.Box(
-      new CANNON.Vec3(width / 2, height / 2, depth / 2),
-    )
-    const body = new CANNON.Body({
-      mass: 1,
-      shape,
-    })
-    body.position.set(...mesh.position)
-    body.addEventListener('collision', this.#boundBodyCollision)
-    this.world.addBody(body)
-
-    this.worldObjects.push({
-      mesh,
-      body,
-    })
-  }
-
-  /**
-   * Init sphere
-   *
-   * @returns {void}
-   */
-  #initSphere(radius, position) {
-    const mesh = new THREE.Mesh(this.sphereGeometry, this.worldObjectMaterial)
-    mesh.castShadow = true
-    mesh.position.copy(position)
-    mesh.scale.set(radius, radius, radius)
-    this.scene.add(mesh)
-
-    const shape = new CANNON.Sphere(radius)
-    const body = new CANNON.Body({
-      mass: 1,
-      shape,
-    })
-    body.position.set(...mesh.position)
-    body.addEventListener('collide', this.#boundBodyCollision)
-    this.world.addBody(body)
-
-    this.worldObjects.push({
-      mesh,
-      body,
-    })
-  }
-
-  /**
-   * Init plane
-   *
-   * @returns {void}
-   */
-  #initPlane() {
-    const plane = new THREE.Mesh(this.planeGeometry, this.planeMaterial)
-    plane.rotation.x = -Math.PI / 2
-    plane.receiveShadow = true
-    this.scene.add(plane)
-
-    const shape = new CANNON.Plane()
-    const body = new CANNON.Body({
-      mass: 0,
-      shape: shape,
-    })
-    body.position.set(...plane.position)
-    body.quaternion.set(...plane.quaternion)
-
-    this.world.addBody(body)
   }
 }
