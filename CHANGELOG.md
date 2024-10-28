@@ -1,3 +1,11 @@
+# [1.27.0](https://github.com/d3p1/three.js-journey/compare/v1.26.0...v1.27.0) (2024-10-28)
+
+
+### Features
+
+* add new version of lesson number 20 using web workers [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([d0d0770](https://github.com/d3p1/three.js-journey/commit/d0d07702e08e76eb62a3c2928ff2f87792bade5a))
+* improve holy donut effect in lesson number 24 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([3fa8b5e](https://github.com/d3p1/three.js-journey/commit/3fa8b5ea4d67f304d90aa5514ab7ecc16e9ed176))
+
 # [1.26.0](https://github.com/d3p1/three.js-journey/compare/v1.25.0...v1.26.0) (2024-10-27)
 
 
