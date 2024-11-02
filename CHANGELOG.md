@@ -1,3 +1,11 @@
+# [1.28.0](https://github.com/d3p1/three.js-journey/compare/v1.27.0...v1.28.0) (2024-11-02)
+
+
+### Features
+
+* add lesson number 27 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([b980e08](https://github.com/d3p1/three.js-journey/commit/b980e089ac87924340736d899d2145bae3a62fed))
+* reverse lesson order to show important ones first [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([7163e90](https://github.com/d3p1/three.js-journey/commit/7163e901df3df0fa28502fe65531a4e29c81fefa))
+
 # [1.27.0](https://github.com/d3p1/three.js-journey/compare/v1.26.0...v1.27.0) (2024-10-28)
 
 
