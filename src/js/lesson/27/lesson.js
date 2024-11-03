@@ -7,7 +7,7 @@ import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 import flagVertexShader from './shader/flag/vertex.glsl'
 import flagFragmentShader from './shader/flag/fragment.glsl'
-import FlagImage from './media/images/argentinian-flag.png'
+import flagImage from './media/images/argentinian-flag.png'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -69,7 +69,7 @@ export default class Lesson extends GeneralLesson {
    */
   #initFlag() {
     const textureLoader = new THREE.TextureLoader()
-    const flagTexture = textureLoader.load(FlagImage)
+    const flagTexture = textureLoader.load(flagImage)
 
     const geometry = new THREE.PlaneGeometry(2, 2, 64, 64)
 

@@ -3,12 +3,12 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
 import * as THREE from 'three'
-import CubeImageNX from '../../media/images/textures/environmentMaps/0/nx.png'
-import CubeImageNY from '../../media/images/textures/environmentMaps/0/ny.png'
-import CubeImageNZ from '../../media/images/textures/environmentMaps/0/nz.png'
-import CubeImagePX from '../../media/images/textures/environmentMaps/0/px.png'
-import CubeImagePY from '../../media/images/textures/environmentMaps/0/py.png'
-import CubeImagePZ from '../../media/images/textures/environmentMaps/0/pz.png'
+import cubeImageNX from '../../media/images/textures/environmentMaps/0/nx.png'
+import cubeImageNY from '../../media/images/textures/environmentMaps/0/ny.png'
+import cubeImageNZ from '../../media/images/textures/environmentMaps/0/nz.png'
+import cubeImagePX from '../../media/images/textures/environmentMaps/0/px.png'
+import cubeImagePY from '../../media/images/textures/environmentMaps/0/py.png'
+import cubeImagePZ from '../../media/images/textures/environmentMaps/0/pz.png'
 
 export default class Environment {
   /**
@@ -81,12 +81,12 @@ export default class Environment {
   static initEnvMap(scene) {
     const cubeTextureLoader = new THREE.CubeTextureLoader()
     scene.environment = cubeTextureLoader.load([
-      CubeImagePX,
-      CubeImageNX,
-      CubeImagePY,
-      CubeImageNY,
-      CubeImagePZ,
-      CubeImageNZ,
+      cubeImagePX,
+      cubeImageNX,
+      cubeImagePY,
+      cubeImageNY,
+      cubeImagePZ,
+      cubeImageNZ,
     ])
     scene.environmentIntensity = 0.5
   }

@@ -10,8 +10,8 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js'
 import {GroundedSkybox} from 'three/addons/objects/GroundedSkybox.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import BlenderEnvMap1 from './media/images/environmentMap/blender/1.hdr'
-import BlenderEnvMap2 from './media/images/environmentMap/blender/2.hdr'
+import blenderEnvMap1 from './media/images/environmentMap/blender/1.hdr'
+import blenderEnvMap2 from './media/images/environmentMap/blender/2.hdr'
 
 export default class Lesson extends GeneralLesson {
   /**
