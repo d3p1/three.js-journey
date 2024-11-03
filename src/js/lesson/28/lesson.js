@@ -5,6 +5,8 @@
  */
 import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
+import patternVertexShader from './shader/pattern/vertex.glsl'
+import patternFragmentShader from './shader/pattern/fragment.glsl'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -58,59 +60,11 @@ export default class Lesson extends GeneralLesson {
   #initPlane() {
     const geometry = new THREE.PlaneGeometry(2, 2, 64, 64)
     const material = new THREE.ShaderMaterial({
-      vertexShader: this.#initPlaneVertexShader(),
-      fragmentShader: this.#initPlaneFragmentShader(),
+      vertexShader: patternVertexShader,
+      fragmentShader: patternFragmentShader,
       side: THREE.DoubleSide,
     })
     const plane = new THREE.Mesh(geometry, material)
     this.scene.add(plane)
-  }
-
-  /**
-   * Init plane vertex shader
-   *
-   * @returns {string}
-   */
-  #initPlaneVertexShader() {
-    return `
-      varying vec2 vUv;
-    
-      void main() {
-        gl_Position = 
-          projectionMatrix * 
-          viewMatrix       *
-          modelMatrix      * 
-          vec4(position, 1.0);
-          
-        vUv = uv;
-      }
-    `
-  }
-
-  /**
-   * Init plane fragment shader
-   *
-   * @returns {string}
-   */
-  #initPlaneFragmentShader() {
-    return `
-      #define PI 3.1415926538
-    
-      varying vec2 vUv;
-      
-      void main() {
-        float clipX     = mod(vUv.x * 10.0, 1.0);
-        float strengthX = step(0.8, clipX);        
-        float clipY     = mod(vUv.y * 10.0, 1.0);
-        float strengthY = step(0.8, clipY);
-        
-        float barX = step(0.4, clipY);
-        float barY = step(0.4, clipX);
-      
-        float strength = (strengthX * barX) + (strengthY * barY);
-      
-        gl_FragColor = vec4(vec3(strength), 1.0);
-      }
-    `
   }
 }
