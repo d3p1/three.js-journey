@@ -1,4 +1,5 @@
 import restart from 'vite-plugin-restart'
+import glsl from 'vite-plugin-glsl'
 
 export default {
   root: 'src/',
@@ -14,5 +15,5 @@ export default {
     sourcemap: true,
   },
   assetsInclude: ['**/*.hdr', '**/*.gltf', '**/*.glb'],
-  plugins: [restart({restart: ['../static/**']})],
+  plugins: [restart({restart: ['../static/**']}), glsl()],
 }

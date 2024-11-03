@@ -5,6 +5,8 @@
  */
 import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
+import flagVertexShader from './shader/flag/vertex.glsl'
+import flagFragmentShader from './shader/flag/fragment.glsl'
 import FlagImage from './media/images/argentinian-flag.png'
 
 export default class Lesson extends GeneralLesson {
@@ -72,8 +74,8 @@ export default class Lesson extends GeneralLesson {
     const geometry = new THREE.PlaneGeometry(2, 2, 64, 64)
 
     this.material = new THREE.ShaderMaterial({
-      vertexShader: this.#getFlagVertexShader(),
-      fragmentShader: this.#getFlagFragmentShader(),
+      vertexShader: flagVertexShader,
+      fragmentShader: flagFragmentShader,
       uniforms: {
         uFrequency: {value: new THREE.Vector2(10, 5)},
         uTime: {value: 0},
@@ -83,55 +85,6 @@ export default class Lesson extends GeneralLesson {
     const flag = new THREE.Mesh(geometry, this.material)
     flag.scale.y = 2 / 3
     this.scene.add(flag)
-  }
-
-  /**
-   * Get flag vertex shader
-   *
-   * @returns {string}
-   */
-  #getFlagVertexShader() {
-    return `
-      uniform vec2 uFrequency;
-      uniform float uTime;
-            
-      varying vec2 vUv;
-      varying float vElevation;
-      
-      void main() {
-        vec4 modelPosition  = modelMatrix * vec4(position, 1.0);
-        
-        vElevation       = sin(modelPosition.x * uFrequency.x - uTime) * 0.1;
-        vElevation      += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
-        modelPosition.z += vElevation; 
-        
-        vec4 viewPosition      = viewMatrix * modelPosition;
-        vec4 projectedPosition = projectionMatrix * viewPosition;
-      
-        gl_Position = projectedPosition;
-        
-        vUv = uv;
-      }
-    `
-  }
-
-  /**
-   * Get flag fragment shader
-   *
-   * @returns {string}
-   */
-  #getFlagFragmentShader() {
-    return `
-      uniform sampler2D uTexture;
-      varying vec2 vUv;
-      varying float vElevation;
-      
-      void main() {
-        vec4 texture = texture2D(uTexture, vUv);
-        vec3 color   = texture.rgb * (vElevation + 0.3) * (1.0 / 0.6);
-        gl_FragColor = vec4(color, 1);
-      }
-    `
   }
 
   /**
