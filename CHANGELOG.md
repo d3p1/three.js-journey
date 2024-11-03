@@ -1,3 +1,17 @@
+# [1.29.0](https://github.com/d3p1/three.js-journey/compare/v1.28.0...v1.29.0) (2024-11-03)
+
+
+### Bug Fixes
+
+* adjust elevetion logic in lesson number 27 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([1a45e2c](https://github.com/d3p1/three.js-journey/commit/1a45e2cddf09184d89da0351f7af426acce03496))
+* create shader files for lesson number 27 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([f297f20](https://github.com/d3p1/three.js-journey/commit/f297f202dcfd31a90236e7eeea6b57df1f644aae))
+* create shader files for lesson number 28 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([4185b87](https://github.com/d3p1/three.js-journey/commit/4185b874ea53cd179ae2b01853722f6a1fbbb65c))
+
+
+### Features
+
+* init lesson number 28 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([fd86c5b](https://github.com/d3p1/three.js-journey/commit/fd86c5b3c993545cebfec6fbe8f201848e44d028))
+
 # [1.28.0](https://github.com/d3p1/three.js-journey/compare/v1.27.0...v1.28.0) (2024-11-02)
 
 
