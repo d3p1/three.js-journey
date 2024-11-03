@@ -103,7 +103,7 @@ export default class Lesson extends GeneralLesson {
         
         vElevation       = sin(modelPosition.x * uFrequency.x - uTime) * 0.1;
         vElevation      += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
-        modelPosition.z  = vElevation; 
+        modelPosition.z += vElevation; 
         
         vec4 viewPosition      = viewMatrix * modelPosition;
         vec4 projectedPosition = projectionMatrix * viewPosition;

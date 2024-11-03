@@ -4453,7 +4453,7 @@ void main() {
         
         vElevation       = sin(modelPosition.x * uFrequency.x - uTime) * 0.1;
         vElevation      += sin(modelPosition.y * uFrequency.y - uTime) * 0.1;
-        modelPosition.z  = vElevation; 
+        modelPosition.z += vElevation; 
         
         vec4 viewPosition      = viewMatrix * modelPosition;
         vec4 projectedPosition = projectionMatrix * viewPosition;
@@ -4503,4 +4503,4 @@ void main() {
         gl_FragColor = vec4(vec3(strength), 1.0);
       }
     `};const aR=[new tA,new eA,new g1,new _1,new x1,new v1,new y1,new M1,new S1,new C1,new P1,new L1,new nC,new iC,new sC,new aC,new gC,new JC,new QC,new tR,new eR,new nR,new iR,new rR,new oR],lR=new kx(aR.reverse(),".lesson-title",".controls__arrow--left",".controls__arrow--right");lR.run();
-//# sourceMappingURL=index-DIhEbv56.js.map
+//# sourceMappingURL=index-C1HkMbSY.js.map
