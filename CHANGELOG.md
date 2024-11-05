@@ -1,3 +1,10 @@
+# [1.30.0](https://github.com/d3p1/three.js-journey/compare/v1.29.0...v1.30.0) (2024-11-05)
+
+
+### Features
+
+* create plus pattern for lesson number 28 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([73bd650](https://github.com/d3p1/three.js-journey/commit/73bd650a4307ccf8e01cd13ceada3499290da69f))
+
 # [1.29.0](https://github.com/d3p1/three.js-journey/compare/v1.28.0...v1.29.0) (2024-11-03)
 
 
