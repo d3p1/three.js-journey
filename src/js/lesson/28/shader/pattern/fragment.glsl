@@ -6,6 +6,14 @@
 
 varying vec2 vUv;
 
+vec2 _fade(vec2 t) {
+    return t*t*t*(t*(t*6.0-15.0)+10.0);
+}
+
+vec4 _permute(vec4 x) {
+    return mod(((x*34.0)+1.0)*x, 289.0);
+}
+
 float random (vec2 st) {
     return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
 }
@@ -15,14 +23,6 @@ vec2 rotate(vec2 uv, float rotation, vec2 mid) {
         cos(rotation) * (uv.x - mid.x) + sin(rotation) * (uv.y - mid.y) + mid.x,
         cos(rotation) * (uv.y - mid.y) - sin(rotation) * (uv.x - mid.x) + mid.y
     );
-}
-
-vec2 _fade(vec2 t) {
-    return t*t*t*(t*(t*6.0-15.0)+10.0);
-}
-
-vec4 _permute(vec4 x) {
-    return mod(((x*34.0)+1.0)*x, 289.0);
 }
 
 float cnoise(vec2 P) {
