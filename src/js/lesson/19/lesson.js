@@ -473,7 +473,10 @@ export default class Lesson extends GeneralLesson {
       })
 
     for (const mesh of this.meshes) {
-      const folder = this.guiControl.addFolder(mesh.geometry.name)
+      const name = mesh.geometry.name
+      const folder = this.guiControl.addFolder(
+        name.charAt(0).toUpperCase() + name.slice(1),
+      )
       folder.add(mesh.position, 'y').min(-100).max(100).step(0.01)
       folder.add(mesh.position, 'x').min(-100).max(100).step(0.01)
     }

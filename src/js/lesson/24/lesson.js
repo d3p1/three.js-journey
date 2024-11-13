@@ -113,7 +113,7 @@ export default class Lesson extends GeneralLesson {
       .step(0.01)
       .name('rotation')
 
-    const background = this.guiControl.addFolder('background')
+    const background = this.guiControl.addFolder('Background')
     background
       .add(this.scene, 'backgroundIntensity')
       .min(0)

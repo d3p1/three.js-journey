@@ -109,21 +109,21 @@ export default class Lesson extends GeneralLesson {
       .min(1)
       .max(5)
       .step(0.01)
-      .name('Texture x')
+      .name('textureX')
 
     this.guiControl
       .add(this.texture.repeat, 'y')
       .min(1)
       .max(5)
       .step(0.01)
-      .name('Texture y')
+      .name('textureY')
 
     this.guiControl
       .add({offset: 0}, 'offset')
       .min(0)
       .max(1)
       .step(0.01)
-      .name('Texture offset')
+      .name('textureOffset')
       .onChange((value) => {
         this.texture.offset.x = value
         this.texture.offset.y = value

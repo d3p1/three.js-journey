@@ -133,7 +133,7 @@ export default class Lesson extends GeneralLesson {
       .max(10)
       .step(0.01)
 
-    const light = this.guiControl.addFolder('light')
+    const light = this.guiControl.addFolder('Light')
     light.add(this.directionalLight, 'intensity').min(0).max(20).step(0.01)
     light.add(this.directionalLight.position, 'x').min(-10).max(10).step(0.01)
     light.add(this.directionalLight.position, 'y').min(-10).max(10).step(0.01)
