@@ -5,6 +5,8 @@
  */
 import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
+import galaxyVertexShader from './shader/galaxy/vertex.glsl'
+import galaxyFragmentShader from './shader/galaxy/fragment.glsl'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -26,12 +28,11 @@ export default class Lesson extends GeneralLesson {
    * @type {object}
    */
   galaxyParams = {
-    particles: 20000,
-    particleSize: 0.02,
+    particles: 30000,
+    particleSize: 50,
     particleOffset: 0.3,
     branches: 7,
     radius: 6,
-    spin: 0.7,
     gravityStrength: 5,
     innerColor: '#ff6030',
     outerColor: '#1b3984',
@@ -72,8 +73,7 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   update(t) {
-    const sec = t * 0.001
-    this.galaxy.rotation.y = 0.2 * sec
+    this.galaxyMaterial.uniforms.uTime.value = t * 0.001
 
     this.control.update()
   }
@@ -128,11 +128,10 @@ export default class Lesson extends GeneralLesson {
    */
   #initGalaxyTweaks() {
     this.#addGalaxyTweak('particles', 100, 1000000, 1)
-    this.#addGalaxyTweak('particleSize', 0.01, 10, 0.01)
+    this.#addGalaxyTweak('particleSize', 0.01, 100, 0.01)
     this.#addGalaxyTweak('particleOffset', 0.01, 10, 0.01)
     this.#addGalaxyTweak('branches', 1, 20, 1)
     this.#addGalaxyTweak('radius', 1, 20, 0.1)
-    this.#addGalaxyTweak('spin', 0.1, 20, 0.1)
     this.#addGalaxyTweak('gravityStrength', 1, 20, 1)
     this.#addGalaxyColorTweak('innerColor')
     this.#addGalaxyColorTweak('outerColor')
@@ -150,7 +149,6 @@ export default class Lesson extends GeneralLesson {
     const particleOffset = this.galaxyParams['particleOffset']
     const branches = this.galaxyParams['branches']
     const radius = this.galaxyParams['radius']
-    const spin = this.galaxyParams['spin']
     const gravityStrength = this.galaxyParams['gravityStrength']
     const innerColor = new THREE.Color(this.galaxyParams['innerColor'])
     const outerColor = new THREE.Color(this.galaxyParams['outerColor'])
@@ -159,6 +157,8 @@ export default class Lesson extends GeneralLesson {
     const length = particles * 3
     const positionArray = new Float32Array(length)
     const colorArray = new Float32Array(length)
+    const offsetArray = new Float32Array(length)
+    const scaleArray = new Float32Array(particles)
     for (let particle = 0; particle < particles; particle += 1) {
       const coord = particle * 3
       const rad = radius * Math.random()
@@ -179,8 +179,6 @@ export default class Lesson extends GeneralLesson {
         particleOffset
       let angle = branchAngle * (particle % branches)
 
-      angle += spin * rad
-
       // noinspection PointlessArithmeticExpressionJS
       positionArray[coord + 0] = Math.cos(angle) * rad + offsetX
       positionArray[coord + 1] = offsetY
@@ -196,12 +194,23 @@ export default class Lesson extends GeneralLesson {
       colorArray[coord + 0] = mixedColor.r
       colorArray[coord + 1] = mixedColor.g
       colorArray[coord + 2] = mixedColor.b
+
+      // noinspection PointlessArithmeticExpressionJS
+      offsetArray[coord + 0] = offsetX
+      offsetArray[coord + 1] = offsetY
+      offsetArray[coord + 2] = offsetZ
+
+      scaleArray[particle] = Math.random()
     }
 
     const positionAttribute = new THREE.BufferAttribute(positionArray, 3)
     const colorAttribute = new THREE.BufferAttribute(colorArray, 3)
+    const offsetAttribute = new THREE.BufferAttribute(offsetArray, 3)
+    const scaleAttribute = new THREE.BufferAttribute(scaleArray, 1)
     this.galaxyGeometry.setAttribute('position', positionAttribute)
     this.galaxyGeometry.setAttribute('color', colorAttribute)
+    this.galaxyGeometry.setAttribute('aOffset', offsetAttribute)
+    this.galaxyGeometry.setAttribute('aScale', scaleAttribute)
   }
 
   /**
@@ -210,12 +219,20 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #initGalaxyMaterial() {
-    this.galaxyMaterial = new THREE.PointsMaterial({
-      size: this.galaxyParams.particleSize,
-      sizeAttenuation: true,
+    this.galaxyMaterial = new THREE.ShaderMaterial({
       depthWrite: false,
       vertexColors: true,
       blending: THREE.AdditiveBlending,
+      vertexShader: galaxyVertexShader,
+      fragmentShader: galaxyFragmentShader,
+      uniforms: {
+        uSize: {
+          value: this.galaxyParams.particleSize * this.renderer.getPixelRatio(),
+        },
+        uTime: {
+          value: 0,
+        },
+      },
     })
   }
 
