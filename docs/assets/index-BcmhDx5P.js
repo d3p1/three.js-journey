@@ -4482,23 +4482,21 @@ void main() {
 
 varying vec2 vUv;
 
+vec2 rotate(vec2 uv, float rotation, vec2 mid) {
+    return vec2(
+    cos(rotation) * (uv.x - mid.x) + sin(rotation) * (uv.y - mid.y) + mid.x,
+    cos(rotation) * (uv.y - mid.y) - sin(rotation) * (uv.x - mid.x) + mid.y
+    );
+}
+float random (vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+}
 vec2 _fade(vec2 t) {
     return t*t*t*(t*(t*6.0-15.0)+10.0);
 }
 
 vec4 _permute(vec4 x) {
     return mod(((x*34.0)+1.0)*x, 289.0);
-}
-
-float random (vec2 st) {
-    return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
-}
-
-vec2 rotate(vec2 uv, float rotation, vec2 mid) {
-    return vec2(
-        cos(rotation) * (uv.x - mid.x) + sin(rotation) * (uv.y - mid.y) + mid.x,
-        cos(rotation) * (uv.y - mid.y) - sin(rotation) * (uv.x - mid.x) + mid.y
-    );
 }
 
 float cnoise(vec2 P) {
@@ -4555,15 +4553,6 @@ uniform vec2  uBigWaveFrequency;
 
 varying float vElevation;
 varying float vBigWaveElevation;
-
-float _cwave(
-    float position,
-    float frequency,
-    float uBigWaveSpeed,
-    float uTime
-) {
-    return sin(position * 2.0 * PI * frequency + uTime * uBigWaveSpeed);
-}
 
 vec4 _permute(vec4 x) {
     return mod(((x*34.0)+1.0)*x, 289.0);
@@ -4644,16 +4633,24 @@ float cnoise(vec3 P) {
     float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
     return 2.2 * n_xyz;
 }
+float cwave(
+    float position,
+    float frequency,
+    float uBigWaveSpeed,
+    float uTime
+) {
+    return sin(position * 2.0 * PI * frequency + uTime * uBigWaveSpeed);
+}
 
 void main() {
     vec4 modelPosition  = modelMatrix * vec4(position, 1.0);
 
-    float elevation = _cwave(
+    float elevation = cwave(
         modelPosition.x,
         uBigWaveFrequency.x,
         uBigWaveSpeed,
         uTime
-    ) * _cwave(
+    ) * cwave(
         modelPosition.z,
         uBigWaveFrequency.y,
         uBigWaveSpeed,
@@ -4735,4 +4732,4 @@ float angle        = sin(position.y + uTime) * 0.4;
 mat2  rotateMatrix = get2dRotateMatrix(angle);`,KR=`#include <beginnormal_vertex>
 objectNormal.xz = rotateMatrix * objectNormal.xz;`,ZR=`#include <begin_vertex>
 transformed.xz = rotateMatrix * transformed.xz;`,ln,sv,Ru,rv,ov,av,lv,cv,im;let JR=(im=class extends pt{constructor(){super(...arguments);Fe(this,ln);q(this,"modelMaterial");q(this,"modelUniforms",{uTime:{value:0}});q(this,"customDepthMaterial");q(this,"hasAnimation",!0)}get title(){return"[LESSON 31] Modified materials"}get link(){return"https://threejs-journey.com/lessons/modified-materials"}update(t){this.modelUniforms.uTime.value=t*.001,this.control.update()}init(){super.init(),R(this,ln,rv).call(this),R(this,ln,ov).call(this),R(this,ln,lv).call(this),R(this,ln,cv).call(this),R(this,ln,av).call(this)}},ln=new WeakSet,sv=function(){this.modelMaterial.onBeforeCompile=R(this,ln,Ru).bind(this),this.customDepthMaterial.onBeforeCompile=R(this,ln,Ru).bind(this)},Ru=function(t){t.uniforms.uTime=this.modelUniforms.uTime,t.vertexShader=t.vertexShader.replace("#include <common>",qR),t.vertexShader=t.vertexShader.replace("#include <uv_vertex>",$R),t.vertexShader=t.vertexShader.replace("#include <beginnormal_vertex>",KR),t.vertexShader=t.vertexShader.replace("#include <begin_vertex>",ZR)},rv=function(){const n=new sd().load(["/three.js-journey/media/images/environmentMap/3/px.jpg","/three.js-journey/media/images/environmentMap/3/nx.jpg","/three.js-journey/media/images/environmentMap/3/py.jpg","/three.js-journey/media/images/environmentMap/3/ny.jpg","/three.js-journey/media/images/environmentMap/3/pz.jpg","/three.js-journey/media/images/environmentMap/3/nz.jpg"]);this.scene.background=n,this.scene.environment=n,this.scene.backgroundIntensity=1,this.scene.environmentIntensity=1},ov=function(){const t=new ws,n=new bs;n.setDecoderPath("/three.js-journey/js/utils/loader/draco/"),t.setDRACOLoader(n),t.load("/three.js-journey/media/models/LeePerrySmith/LeePerrySmith.glb",i=>{const s=new Wn,o=s.load("/three.js-journey/media/models/LeePerrySmith/normal.jpg"),a=s.load("/three.js-journey/media/models/LeePerrySmith/color.jpg");a.colorSpace=nt;const l=i.scene.children[0];l.receiveShadow=!0,l.castShadow=!0,this.modelMaterial=l.material,this.modelMaterial.map=a,this.modelMaterial.normalMap=o,this.customDepthMaterial=new Vm({depthPacking:wm}),l.customDepthMaterial=this.customDepthMaterial,this.scene.add(l),R(this,ln,sv).call(this)})},av=function(){this.renderer.shadowMap.enabled=!0,this.renderer.shadowMap.type=Lu,this.renderer.toneMapping=$o,this.renderer.toneMappingExposure=1},lv=function(){const t=new si(16777215,3);t.position.set(4,1,0),t.castShadow=!0,t.shadow.mapSize.set(1024,1024),t.shadow.camera.far=15,t.shadow.normalBias=.05,this.scene.add(t)},cv=function(){this.camera.position.set(-1,3,10)},im);const QR="/three.js-journey/assets/bakedModel-EZnnxNa-.glb";var go,hv,uv;class eP extends pt{constructor(){super(...arguments);Fe(this,go);q(this,"hasAnimation",!0)}get title(){return"[LESSON 32] Coffee Smoke"}get link(){return"https://threejs-journey.com/lessons/coffee-smoke-shader"}update(){this.control.update()}init(){super.init(),R(this,go,hv).call(this),R(this,go,uv).call(this)}}go=new WeakSet,hv=function(){const t=new ws,n=new bs;n.setDecoderPath("/three.js-journey/js/utils/loader/draco/"),t.setDRACOLoader(n),t.load(QR,i=>{this.scene.add(i.scene)})},uv=function(){this.camera.position.set(8,9,6)};const tP=[new LA,new IA,new Y1,new q1,new $1,new K1,new Z1,new J1,new Q1,new rC,new aC,new lC,new DC,new NC,new UC,new BC,new YC,new RR,new PR,new LR,new IR,new DR,new NR,new BR,new HR,new WR,new YR,new JR,new eP],nP=new xv(tP.reverse(),".lesson-title",".controls__arrow--left",".controls__arrow--right");nP.run();
-//# sourceMappingURL=index-WtWuBZZX.js.map
+//# sourceMappingURL=index-BcmhDx5P.js.map
