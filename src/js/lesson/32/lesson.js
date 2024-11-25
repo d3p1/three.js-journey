@@ -7,9 +7,17 @@ import * as THREE from 'three'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
+import perlinNoiseTexture from './media/images/coffee/perlin.png'
 import coffeeModel from './media/models/coffee/bakedModel.glb'
+import smokeVertexShader from './shader/smoke/vertex.glsl'
+import smokeFragmentShader from './shader/smoke/fragment.glsl'
 
 export default class Lesson extends GeneralLesson {
+  /**
+   * @type {THREE.ShaderMaterial|null}
+   */
+  smokeMaterial = null
+
   /**
    * @type {boolean}
    */
@@ -36,9 +44,14 @@ export default class Lesson extends GeneralLesson {
   /**
    * Update
    *
+   * @param   {number} t
    * @returns {void}
    */
-  update() {
+  update(t) {
+    if (this.smokeMaterial) {
+      this.smokeMaterial.uniforms.uTime.value = t * 0.001
+    }
+
     this.control.update()
   }
 
@@ -55,6 +68,35 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
+   * Add smoke
+   *
+   * @returns {void}
+   */
+  #addSmoke() {
+    const textureLoader = new THREE.TextureLoader()
+    const perlinTexture = textureLoader.load(perlinNoiseTexture)
+    perlinTexture.wrapS = THREE.RepeatWrapping
+    perlinTexture.wrapT = THREE.RepeatWrapping
+
+    const smokeGeometry = new THREE.PlaneGeometry(1, 1, 16, 64)
+    this.smokeMaterial = new THREE.ShaderMaterial({
+      transparent: true,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+      vertexShader: smokeVertexShader,
+      fragmentShader: smokeFragmentShader,
+      uniforms: {
+        uPerlinNoiseTexture: new THREE.Uniform(perlinTexture),
+        uTime: new THREE.Uniform(0),
+      },
+    })
+    const smoke = new THREE.Mesh(smokeGeometry, this.smokeMaterial)
+    smoke.scale.set(1.5, 6, 1.5)
+    smoke.position.y = 4.83
+    this.scene.add(smoke)
+  }
+
+  /**
    * Init the model
    *
    * @returns {void}
@@ -67,6 +109,8 @@ export default class Lesson extends GeneralLesson {
 
     gltfLoader.load(coffeeModel, (model) => {
       this.scene.add(model.scene)
+
+      this.#addSmoke()
     })
   }
 
@@ -76,6 +120,6 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #setupCamera() {
-    this.camera.position.set(8, 9, 6)
+    this.camera.position.set(3, 9, 6)
   }
 }
