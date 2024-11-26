@@ -6,9 +6,9 @@
 
 varying vec2 vUv;
 
-#include ../lib/rotate.glsl
-#include ../lib/random.glsl
-#include ../lib/cnoise.glsl
+#include ../utils/rotate.glsl
+#include ../utils/random.glsl
+#include ../utils/cnoise.glsl
 
 void main() {
     float strength  = step(0.9, sin(cnoise(vUv * 10.0) * 20.0));

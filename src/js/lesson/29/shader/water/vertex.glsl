@@ -16,8 +16,8 @@ uniform vec2  uBigWaveFrequency;
 varying float vElevation;
 varying float vBigWaveElevation;
 
-#include ../lib/cnoise.glsl
-#include ../lib/cwave.glsl
+#include ../utils/cnoise.glsl
+#include ../utils/cwave.glsl
 
 void main() {
     vec4 modelPosition  = modelMatrix * vec4(position, 1.0);

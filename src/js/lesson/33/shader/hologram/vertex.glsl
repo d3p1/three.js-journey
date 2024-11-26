@@ -7,7 +7,7 @@ uniform float uTime;
 varying vec3 vModelPosition;
 varying vec3 vNormalPosition;
 
-#include ../lib/random2D.glsl
+#include ../utils/random2D.glsl
 
 void main() {
     vec4 normalPosition   = modelMatrix * vec4(normal, 0.0);
