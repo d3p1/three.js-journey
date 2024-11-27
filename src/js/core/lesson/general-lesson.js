@@ -176,8 +176,8 @@ export default class GeneralLesson extends Lesson {
     }
 
     this.renderer = new THREE.WebGLRenderer({canvas: this.canvas, antialias})
-    this.#resizeRenderer()
-    this.#boundResizeRenderer = this.#resizeRenderer.bind(this)
+    this.resizeRenderer()
+    this.#boundResizeRenderer = this.resizeRenderer.bind(this)
     window.addEventListener('resize', this.#boundResizeRenderer)
   }
 
@@ -204,6 +204,19 @@ export default class GeneralLesson extends Lesson {
     this.guiControl.hide()
     this.#boundToggleGuiControl = this.#toggleGuiControl.bind(this)
     document.addEventListener('keydown', this.#boundToggleGuiControl)
+  }
+
+  /**
+   * Resize renderer
+   *
+   * @returns {void}
+   */
+  resizeRenderer() {
+    this.camera.aspect = window.innerWidth / window.innerHeight
+    this.camera.updateProjectionMatrix()
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    this.renderer.render(this.scene, this.camera)
   }
 
   /**
@@ -341,18 +354,5 @@ export default class GeneralLesson extends Lesson {
    */
   #initCanvas() {
     this.canvas = document.createElement('canvas')
-  }
-
-  /**
-   * Resize renderer
-   *
-   * @returns {void}
-   */
-  #resizeRenderer() {
-    this.camera.aspect = window.innerWidth / window.innerHeight
-    this.camera.updateProjectionMatrix()
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    this.renderer.render(this.scene, this.camera)
   }
 }
