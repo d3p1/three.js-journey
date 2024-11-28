@@ -82,6 +82,7 @@ export default class Firework {
     this.material.dispose()
     this.texture.dispose()
 
+    this.instance = null
     this.geometry = null
     this.material = null
     this.texture = null
