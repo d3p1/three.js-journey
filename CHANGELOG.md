@@ -1,3 +1,11 @@
+## [1.39.1](https://github.com/d3p1/three.js-journey/compare/v1.39.0...v1.39.1) (2024-11-28)
+
+
+### Bug Fixes
+
+* adjust firework dispose logic in lesson number 34 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([21fb217](https://github.com/d3p1/three.js-journey/commit/21fb217d118772e776dd9f59d24d0382f6bc9dcb))
+* adjust fireworks intensity in lesson number 34 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([e10b0fd](https://github.com/d3p1/three.js-journey/commit/e10b0fd913474b22520d3d31d5fbf1932c473229))
+
 # [1.39.0](https://github.com/d3p1/three.js-journey/compare/v1.38.0...v1.39.0) (2024-11-27)
 
 
