@@ -7,7 +7,6 @@ import * as THREE from 'three'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import suzanneModel from './media/models/suzanne/suzanne.glb'
 import hologramVertexShader from './shader/hologram/vertex.glsl'
 import hologramFragmentShader from './shader/hologram/fragment.glsl'
 
@@ -165,7 +164,7 @@ export default class Lesson extends GeneralLesson {
     this.torusKnot.position.x = 3
     this.scene.add(this.torusKnot)
 
-    gltfLoader.load(suzanneModel, (gltf) => {
+    gltfLoader.load('/three.js-journey/media/models/Suzanne/suzanne.glb', (gltf) => {
       const modelScene = gltf.scene
       modelScene.traverse((model) => {
         if (model.isMesh) {
