@@ -156,12 +156,12 @@ export default class Lesson extends GeneralLesson {
         (Math.random() - 0.5) * 3,
         (Math.random() - 0.5) * 3,
       ),
-      particles: 1000 + Math.floor(1000 * Math.random()),
-      particleSize: 0.03 + 0.02 * Math.random(),
+      particles: 1500 + Math.floor(1000 * Math.random()),
+      particleSize: 0.08 + 0.02 * Math.random(),
       particleColor: `rgb(${Math.floor(255 * Math.random())}, ${Math.floor(
         255 * Math.random(),
       )}, ${Math.floor(255 * Math.random())})`,
-      radius: 1 + Math.random() * 2,
+      radius: 1 + Math.random(),
       texture: Math.floor(12 * Math.random()),
     })
     this.#computeFireworkParticleSize(firework)
