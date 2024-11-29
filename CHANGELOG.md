@@ -1,3 +1,10 @@
+## [1.42.1](https://github.com/d3p1/three.js-journey/compare/v1.42.0...v1.42.1) (2024-11-29)
+
+
+### Bug Fixes
+
+* adjust GUI control for lesson number 36 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([6f272ad](https://github.com/d3p1/three.js-journey/commit/6f272adf6438cd0f2a5155addebeb0c7a4eeb1fc))
+
 # [1.42.0](https://github.com/d3p1/three.js-journey/compare/v1.41.0...v1.42.0) (2024-11-29)
 
 
