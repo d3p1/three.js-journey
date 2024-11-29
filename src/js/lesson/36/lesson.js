@@ -129,8 +129,8 @@ export default class Lesson extends GeneralLesson {
   #initGuiColorTweak(property) {
     this.guiControl
       .addColor(
-        {value: this.seaMaterial.uniforms[property].value.getHexString()},
-        'value',
+        {[property]: this.seaMaterial.uniforms[property].value.getHexString()},
+        property,
       )
       .name(property)
       .onChange((value) => {
@@ -156,6 +156,9 @@ export default class Lesson extends GeneralLesson {
       step,
       this.seaMaterial.uniforms[property].value.x,
       folder,
+      (value) => {
+        this.seaMaterial.uniforms[property].value.x = value
+      },
     )
     this.#initGuiNumericTweak(
       'y',
@@ -164,21 +167,33 @@ export default class Lesson extends GeneralLesson {
       step,
       this.seaMaterial.uniforms[property].value.y,
       folder,
+      (value) => {
+        this.seaMaterial.uniforms[property].value.y = value
+      },
     )
   }
 
   /**
    * Init GUI numeric tweak
    *
-   * @param   {string}      property
-   * @param   {number}      min
-   * @param   {number}      max
-   * @param   {number}      step
-   * @param   {number|null} value
-   * @param   {GUI|null}    gui
+   * @param   {string}        property
+   * @param   {number}        min
+   * @param   {number}        max
+   * @param   {number}        step
+   * @param   {number|null}   value
+   * @param   {Function|null} callback
+   * @param   {GUI|null}      gui
    * @returns {void}
    */
-  #initGuiNumericTweak(property, min, max, step, value = null, gui = null) {
+  #initGuiNumericTweak(
+    property,
+    min,
+    max,
+    step,
+    value = null,
+    gui = null,
+    callback = null,
+  ) {
     let control = this.guiControl
     if (gui) {
       control = gui
@@ -192,24 +207,30 @@ export default class Lesson extends GeneralLesson {
     }
 
     const tweak = control
-      .add({value: guiValue}, 'value')
+      .add({[property]: guiValue}, property)
       .min(min)
       .max(max)
       .step(step)
       .name(property)
-    this.#initGuiTweak(tweak)
+    this.#addOnChangeToTweak(tweak, callback)
   }
 
   /**
-   * Init GUI tweak
+   * Add on change event to GUI tweak
    *
-   * @param   {object} tweak
+   * @param   {object}        tweak
+   * @param   {Function|null} callback
    * @returns {void}
    */
-  #initGuiTweak(tweak) {
-    tweak.onChange((value) => {
+  #addOnChangeToTweak(tweak, callback = null) {
+    let onChange = (value) => {
       this.seaMaterial.uniforms[tweak.property].value = value
-    })
+    }
+    if (callback) {
+      onChange = callback
+    }
+
+    tweak.onChange(onChange)
   }
 
   /**
