@@ -14,7 +14,7 @@ vec3 _fade(vec3 t) {
     return t*t*t*(t*(t*6.0-15.0)+10.0);
 }
 
-float cnoise(vec3 P) {
+float calcPerlinNoise(vec3 P) {
     vec3 Pi0 = floor(P);
     vec3 Pi1 = Pi0 + vec3(1.0);
     Pi0 = mod(Pi0, 289.0);

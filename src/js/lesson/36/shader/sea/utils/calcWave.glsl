@@ -2,7 +2,7 @@
  * @description Wave calculation utility for sea shader
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
-vec3 cwave(
+vec3 calcWave(
     vec3  position,
     vec2  bigWavesFrequency,
     float bigWavesElevation,
@@ -20,7 +20,7 @@ vec3 cwave(
 
     for(float i = 1.0; i <= smallWavesIterations; i++) {
         position.y -= abs(
-            cnoise(
+            calcPerlinNoise(
                 vec3(
                     position.xz * smallWavesFrequency * i,
                     time * smallWavesSpeed

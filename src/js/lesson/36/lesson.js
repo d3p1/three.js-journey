@@ -66,6 +66,7 @@ export default class Lesson extends GeneralLesson {
     this.#initSea()
     this.#initGuiTweaks()
     this.#setupCamera()
+    this.#setupRenderer()
   }
 
   /**
@@ -81,6 +82,7 @@ export default class Lesson extends GeneralLesson {
     this.#initGuiNumericTweak('uSmallWavesFrequency', 0, 10, 0.001)
     this.#initGuiNumericTweak('uSmallWavesSpeed', 0, 4, 0.001)
     this.#initGuiNumericTweak('uSmallWavesIterations', 0, 5, 1)
+    this.#initGuiNumericTweak('uNormalShift', 0.001, 1, 0.001)
     this.#initGuiColorTweak('uDepthColor')
     this.#initGuiColorTweak('uSurfaceColor')
   }
@@ -91,6 +93,10 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #initSea() {
+    const seaGeometry = new THREE.PlaneGeometry(2, 2, 512, 512)
+    seaGeometry.deleteAttribute('normal')
+    seaGeometry.deleteAttribute('uv')
+
     this.seaMaterial = new THREE.ShaderMaterial({
       vertexShader: seaVertexShader,
       fragmentShader: seaFragmentShader,
@@ -103,15 +109,13 @@ export default class Lesson extends GeneralLesson {
         uSmallWavesFrequency: new THREE.Uniform(3),
         uSmallWavesSpeed: new THREE.Uniform(0.2),
         uSmallWavesIterations: new THREE.Uniform(4),
-        uDepthColor: new THREE.Uniform(new THREE.Color('#186691')),
-        uSurfaceColor: new THREE.Uniform(new THREE.Color('#9bd8ff')),
+        uDepthColor: new THREE.Uniform(new THREE.Color('#ff4000')),
+        uSurfaceColor: new THREE.Uniform(new THREE.Color('#151c37')),
+        uNormalShift: new THREE.Uniform(0.01),
       },
     })
 
-    const sea = new THREE.Mesh(
-      new THREE.PlaneGeometry(2, 2, 512, 512),
-      this.seaMaterial,
-    )
+    const sea = new THREE.Mesh(seaGeometry, this.seaMaterial)
     sea.rotation.x = -Math.PI / 2
     this.scene.add(sea)
   }
@@ -124,7 +128,10 @@ export default class Lesson extends GeneralLesson {
    */
   #initGuiColorTweak(property) {
     this.guiControl
-      .addColor({value: this.seaMaterial.uniforms[property].value}, 'value')
+      .addColor(
+        {value: this.seaMaterial.uniforms[property].value.getHexString()},
+        'value',
+      )
       .name(property)
       .onChange((value) => {
         this.seaMaterial.uniforms[property].value.set(value)
@@ -203,6 +210,15 @@ export default class Lesson extends GeneralLesson {
     tweak.onChange((value) => {
       this.seaMaterial.uniforms[tweak.property].value = value
     })
+  }
+
+  /**
+   * Setup renderer
+   *
+   * @returns {void}
+   */
+  #setupRenderer() {
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping
   }
 
   /**
