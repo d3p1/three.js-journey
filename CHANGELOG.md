@@ -1,3 +1,10 @@
+# [1.42.0](https://github.com/d3p1/three.js-journey/compare/v1.41.0...v1.42.0) (2024-11-29)
+
+
+### Features
+
+* add lesson number 36 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([6bfca79](https://github.com/d3p1/three.js-journey/commit/6bfca792052d2bb6e5e33b0859cd6d6de502b70c))
+
 # [1.41.0](https://github.com/d3p1/three.js-journey/compare/v1.40.0...v1.41.0) (2024-11-29)
 
 
