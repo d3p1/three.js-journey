@@ -20,12 +20,21 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '12'
+  }
+
+  /**
    * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 12] 3D Text'
+    return '3D Text'
   }
 
   /**

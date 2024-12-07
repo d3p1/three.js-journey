@@ -52,16 +52,25 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
-   * Get the lesson title
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '33'
+  }
+
+  /**
+   * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 33] Hologram'
+    return 'Hologram'
   }
 
   /**
-   * Get the lesson link
+   * Get lesson link
    *
    * @returns {string}
    */
@@ -164,16 +173,19 @@ export default class Lesson extends GeneralLesson {
     this.torusKnot.position.x = 3
     this.scene.add(this.torusKnot)
 
-    gltfLoader.load('/three.js-journey/media/models/Suzanne/suzanne.glb', (gltf) => {
-      const modelScene = gltf.scene
-      modelScene.traverse((model) => {
-        if (model.isMesh) {
-          this.suzanne = model
-          this.suzanne.material = this.material
-          this.scene.add(this.suzanne)
-        }
-      })
-    })
+    gltfLoader.load(
+      '/three.js-journey/media/models/Suzanne/suzanne.glb',
+      (gltf) => {
+        const modelScene = gltf.scene
+        modelScene.traverse((model) => {
+          if (model.isMesh) {
+            this.suzanne = model
+            this.suzanne.material = this.material
+            this.scene.add(this.suzanne)
+          }
+        })
+      },
+    )
   }
 
   /**

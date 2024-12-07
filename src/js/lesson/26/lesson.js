@@ -41,16 +41,25 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '26'
+  }
+
+  /**
    * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 26] Code structuring for bigger projects'
+    return 'Code structuring for bigger projects'
   }
 
   /**
-   * Get link title
+   * Get lesson link
    *
    * @returns {string}
    */

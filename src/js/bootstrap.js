@@ -147,7 +147,7 @@ export default class Bootstrap {
     link.href = lesson.link
     link.target = '_blank'
     link.rel = 'noopener noreferrer'
-    link.textContent = lesson.title
+    link.textContent = `[Lesson ${lesson.number}] ${lesson.title}`
 
     this.#lessonTitleContainer.querySelector('a')?.remove()
     this.#lessonTitleContainer.append(link)

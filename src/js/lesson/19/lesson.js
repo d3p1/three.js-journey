@@ -78,16 +78,25 @@ export default class Lesson extends GeneralLesson {
   #boundParallax
 
   /**
-   * Get title
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '19'
+  }
+
+  /**
+   * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 19] Scroll based animation'
+    return 'Scroll based animation'
   }
 
   /**
-   * Get link
+   * Get lesson link
    *
    * @returns {string}
    */

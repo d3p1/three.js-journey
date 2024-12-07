@@ -18,12 +18,21 @@ export default class Lesson extends GeneralLesson {
   #boundToggleFullScreen
 
   /**
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '07'
+  }
+
+  /**
    * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 07] Fullscreen and resizing'
+    return 'Fullscreen and resizing'
   }
 
   /**

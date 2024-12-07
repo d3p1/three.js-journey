@@ -35,12 +35,21 @@ export default class Lesson extends GeneralLesson {
   #boundMouseMove
 
   /**
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '22'
+  }
+
+  /**
    * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 22] Raycaster and Mouse Events'
+    return 'Raycaster and Mouse Events'
   }
 
   /**

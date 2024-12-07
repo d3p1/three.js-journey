@@ -18,16 +18,25 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
-   * Get title
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '17'
+  }
+
+  /**
+   * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 17] Particles'
+    return 'Particles'
   }
 
   /**
-   * Get link
+   * Get lesson link
    *
    * @returns {string}
    */

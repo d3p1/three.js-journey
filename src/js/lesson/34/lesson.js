@@ -43,16 +43,25 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
-   * Get the lesson title
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '34'
+  }
+
+  /**
+   * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 34] Fireworks'
+    return 'Fireworks'
   }
 
   /**
-   * Get the lesson link
+   * Get lesson link
    *
    * @returns {string}
    */

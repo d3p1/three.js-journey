@@ -24,12 +24,21 @@ export default class Lesson extends GeneralLesson {
   #boundToggleControl
 
   /**
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '06'
+  }
+
+  /**
    * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 06] Cameras'
+    return 'Cameras'
   }
 
   /**

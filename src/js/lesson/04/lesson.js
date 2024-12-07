@@ -8,12 +8,21 @@ import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
   /**
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '04'
+  }
+
+  /**
    * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 04] Transform objects'
+    return 'Transform objects'
   }
 
   /**

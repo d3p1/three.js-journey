@@ -47,16 +47,25 @@ export default class Lesson extends GeneralLesson {
   hasAnimation = true
 
   /**
-   * Get the lesson title
+   * Get lesson number
+   *
+   * @returns {string}
+   */
+  get number() {
+    return '35'
+  }
+
+  /**
+   * Get lesson title
    *
    * @returns {string}
    */
   get title() {
-    return '[LESSON 35] Lights Shading'
+    return 'Lights Shading'
   }
 
   /**
-   * Get the lesson link
+   * Get lesson link
    *
    * @returns {string}
    */
@@ -65,7 +74,7 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
-   * Update the lesson
+   * Update lesson
    *
    * @param   {number} t
    * @returns {void}
@@ -88,7 +97,7 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
-   * Init the lesson
+   * Init lesson
    *
    * @returns {void}
    */

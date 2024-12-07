@@ -6,6 +6,18 @@
  */
 export default class Lesson {
   /**
+   * Get lesson number
+   *
+   * @returns {string}
+   * @throws  {Error}
+   */
+  get number() {
+    throw new Error(
+      'Lesson class must implement a getter for `number` property',
+    )
+  }
+
+  /**
    * Get lesson title
    *
    * @returns {string}
