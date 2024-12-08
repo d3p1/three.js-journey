@@ -7,8 +7,8 @@ import * as THREE from 'three'
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import halfToneVertexShader from './shader/half-tone/vertex.glsl'
-import halfToneFragmentShader from './shader/half-tone/fragment.glsl'
+import halftoneVertexShader from './shader/halftone/vertex.glsl'
+import halftoneFragmentShader from './shader/halftone/fragment.glsl'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -29,12 +29,22 @@ export default class Lesson extends GeneralLesson {
   /**
    * @type {THREE.ShaderMaterial}
    */
-  halfToneMaterial
+  halftoneMaterial
+
+  /**
+   * @type {number}
+   */
+  halftoneRepetitions = 100
 
   /**
    * @type {string}
    */
-  halfToneBaseColor = '#ff794d'
+  halftoneColor = '#8e19b8'
+
+  /**
+   * @type {string}
+   */
+  halftoneBaseColor = '#ff794d'
 
   /**
    * @type {string}
@@ -50,6 +60,11 @@ export default class Lesson extends GeneralLesson {
    * @type {boolean}
    */
   hasAnimation = true
+
+  /**
+   * @type {Function}
+   */
+  #boundResizeRenderer
 
   /**
    * Get lesson number
@@ -116,15 +131,43 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
+   * Dispose lesson
+   *
+   * @returns {void}
+   */
+  dispose() {
+    this.canvas.removeEventListener('resize', this.#boundResizeRenderer)
+
+    super.dispose()
+  }
+
+  /**
    * GUI tweaks
    *
    * @returns {void}
    */
   #initGuiTweaks() {
-    this.guiControl
-      .addColor({baseColor: this.halfToneBaseColor}, 'baseColor')
+    const halftoneDownward = this.guiControl.addFolder('Halftone Downward')
+
+    halftoneDownward
+      .add({repetitions: this.halftoneRepetitions}, 'repetitions')
+      .min(10)
+      .max(300)
+      .step(1)
       .onChange((value) => {
-        this.halfToneMaterial.uniforms.uBaseColor.value.set(value)
+        this.halftoneMaterial.uniforms.uRepetitions.value = value
+      })
+
+    halftoneDownward
+      .addColor({color: this.halftoneColor}, 'color')
+      .onChange((value) => {
+        this.halftoneMaterial.uniforms.uColor.value.set(value)
+      })
+
+    halftoneDownward
+      .addColor({baseColor: this.halftoneBaseColor}, 'baseColor')
+      .onChange((value) => {
+        this.halftoneMaterial.uniforms.uBaseColor.value.set(value)
       })
 
     this.guiControl
@@ -145,24 +188,27 @@ export default class Lesson extends GeneralLesson {
     dracoLoader.setDecoderPath('/three.js-journey/js/utils/loader/draco/')
     gltfLoader.setDRACOLoader(dracoLoader)
 
-    this.halfToneMaterial = new THREE.ShaderMaterial({
-      vertexShader: halfToneVertexShader,
-      fragmentShader: halfToneFragmentShader,
+    this.halftoneMaterial = new THREE.ShaderMaterial({
+      vertexShader: halftoneVertexShader,
+      fragmentShader: halftoneFragmentShader,
       uniforms: {
-        uBaseColor: new THREE.Uniform(new THREE.Color(this.halfToneBaseColor)),
+        uBaseColor: new THREE.Uniform(new THREE.Color(this.halftoneBaseColor)),
+        uColor: new THREE.Uniform(new THREE.Color(this.halftoneColor)),
+        uRepetitions: new THREE.Uniform(this.halftoneRepetitions),
+        uResolution: new THREE.Uniform(this.#getResolution()),
       },
     })
 
     this.sphere = new THREE.Mesh(
       new THREE.SphereGeometry(),
-      this.halfToneMaterial,
+      this.halftoneMaterial,
     )
     this.sphere.position.x = -3
     this.scene.add(this.sphere)
 
     this.torusKnot = new THREE.Mesh(
       new THREE.TorusKnotGeometry(0.6, 0.25, 128, 32),
-      this.halfToneMaterial,
+      this.halftoneMaterial,
     )
     this.torusKnot.position.x = 3
     this.scene.add(this.torusKnot)
@@ -173,7 +219,7 @@ export default class Lesson extends GeneralLesson {
         const scene = gltf.scene
         scene.traverse((model) => {
           if (model.isMesh) {
-            model.material = this.halfToneMaterial
+            model.material = this.halftoneMaterial
             this.suzanne = model
             this.scene.add(this.suzanne)
           }
@@ -188,7 +234,7 @@ export default class Lesson extends GeneralLesson {
    * @returns {void}
    */
   #setupCamera() {
-    this.camera.position.set(7, 7, 7)
+    this.camera.position.set(3, 3, 3)
   }
 
   /**
@@ -198,5 +244,21 @@ export default class Lesson extends GeneralLesson {
    */
   #setupRenderer() {
     this.renderer.setClearColor(this.backgroundColor)
+
+    this.#boundResizeRenderer = () => {
+      this.halftoneMaterial.uniforms.uResolution.value = this.#getResolution()
+    }
+  }
+
+  /**
+   * Get resolution
+   *
+   * @return {THREE.Vector2}
+   */
+  #getResolution() {
+    return new THREE.Vector2(
+      this.canvas.width * this.renderer.getPixelRatio(),
+      this.canvas.height * this.renderer.getPixelRatio(),
+    )
   }
 }
