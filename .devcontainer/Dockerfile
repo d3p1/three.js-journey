@@ -10,6 +10,13 @@ FROM node:18
 RUN apt update && apt install -y less man-db sudo
 
 ##
+# @note Install required dependency to avoid
+#       `Error: spawn xdg-open ENOENT` error
+# @link https://stackoverflow.com/questions/73942710/vitest-ui-causing-error-spawn-xdg-open-enoent
+##
+RUN apt install -y xdg-utils
+
+##
 # @note Ensure default `node` user has access to `sudo`
 ##
 ARG USERNAME=node
