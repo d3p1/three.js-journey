@@ -1,3 +1,10 @@
+# [1.53.0](https://github.com/d3p1/three.js-journey/compare/v1.52.0...v1.53.0) (2025-01-03)
+
+
+### Features
+
+* add lesson number 45 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([ffc6922](https://github.com/d3p1/three.js-journey/commit/ffc69225196507fdb6988f3c4c85cde15fe0c39d))
+
 # [1.52.0](https://github.com/d3p1/three.js-journey/compare/v1.51.0...v1.52.0) (2025-01-01)
 
 
