@@ -278,7 +278,7 @@ export default class Lesson extends GeneralLesson {
   #initEnvMap() {
     const rgbeLoader = new RGBELoader()
     rgbeLoader.load(
-      '/three.js-journey/media/images/environmentMap/spruit_sunrise.hdr',
+      '/three.js-journey/media/images/environmentMaps/spruit_sunrise.hdr',
       (image) => {
         image.mapping = THREE.EquirectangularReflectionMapping
 

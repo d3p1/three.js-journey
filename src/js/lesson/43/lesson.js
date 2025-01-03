@@ -213,7 +213,7 @@ export default class Lesson extends GeneralLesson {
   #initEnvMap() {
     const rgbeLoader = new RGBELoader()
     rgbeLoader.load(
-      '/three.js-journey/media/images/environmentMap/aerodynamics_workshop.hdr',
+      '/three.js-journey/media/images/environmentMaps/aerodynamics_workshop.hdr',
       (image) => {
         image.mapping = THREE.EquirectangularReflectionMapping
         this.scene.environment = image

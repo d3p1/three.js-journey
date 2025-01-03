@@ -272,7 +272,7 @@ export default class Lesson extends GeneralLesson {
   #initEnvironmentMap() {
     const loader = new RGBELoader()
     loader.load(
-      '/three.js-journey/media/images/environmentMap/2k.hdr',
+      '/three.js-journey/media/images/environmentMaps/2k.hdr',
       (image) => {
         image.mapping = THREE.EquirectangularReflectionMapping
         this.scene.environment = image

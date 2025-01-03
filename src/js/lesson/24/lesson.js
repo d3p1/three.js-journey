@@ -10,8 +10,8 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js'
 import {DRACOLoader} from 'three/examples/jsm/loaders/DRACOLoader.js'
 import {GroundedSkybox} from 'three/addons/objects/GroundedSkybox.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
-import blenderEnvMap1 from './media/images/environmentMap/blender/1.hdr'
-import blenderEnvMap2 from './media/images/environmentMap/blender/2.hdr'
+import blenderEnvMap1 from './media/images/environmentMaps/blender/1.hdr'
+import blenderEnvMap2 from './media/images/environmentMaps/blender/2.hdr'
 
 export default class Lesson extends GeneralLesson {
   /**
@@ -151,7 +151,7 @@ export default class Lesson extends GeneralLesson {
   #initEnvironmentMap() {
     const loader = new THREE.TextureLoader()
     const background = loader.load(
-      '/three.js-journey/media/images/environmentMap/blockadesLabsSkybox/interior_views_cozy_wood_cabin_with_cauldron_and_p.jpg',
+      '/three.js-journey/media/images/environmentMaps/blockadesLabsSkybox/interior_views_cozy_wood_cabin_with_cauldron_and_p.jpg',
     )
     background.colorSpace = THREE.SRGBColorSpace
     background.mapping = THREE.EquirectangularReflectionMapping

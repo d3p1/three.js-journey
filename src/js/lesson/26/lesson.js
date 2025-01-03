@@ -171,12 +171,12 @@ export default class Lesson extends GeneralLesson {
   #initEnvMap() {
     const loader = new THREE.CubeTextureLoader()
     this.scene.environment = loader.load([
-      '/three.js-journey/media/images/environmentMap/3/px.jpg',
-      '/three.js-journey/media/images/environmentMap/3/nx.jpg',
-      '/three.js-journey/media/images/environmentMap/3/py.jpg',
-      '/three.js-journey/media/images/environmentMap/3/ny.jpg',
-      '/three.js-journey/media/images/environmentMap/3/pz.jpg',
-      '/three.js-journey/media/images/environmentMap/3/nz.jpg',
+      '/three.js-journey/media/images/environmentMaps/3/px.jpg',
+      '/three.js-journey/media/images/environmentMaps/3/nx.jpg',
+      '/three.js-journey/media/images/environmentMaps/3/py.jpg',
+      '/three.js-journey/media/images/environmentMaps/3/ny.jpg',
+      '/three.js-journey/media/images/environmentMaps/3/pz.jpg',
+      '/three.js-journey/media/images/environmentMaps/3/nz.jpg',
     ])
   }
 

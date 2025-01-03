@@ -286,7 +286,7 @@ export default class Lesson extends GeneralLesson {
   #initEnvMap() {
     const rgbeLoader = new RGBELoader()
     rgbeLoader.load(
-      '/three.js-journey/media/images/environmentMap/2k.hdr',
+      '/three.js-journey/media/images/environmentMaps/2k.hdr',
       (env) => {
         env.mapping = THREE.EquirectangularReflectionMapping
 
