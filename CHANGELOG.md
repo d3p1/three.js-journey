@@ -1,3 +1,15 @@
+# [1.55.0](https://github.com/d3p1/three.js-journey/compare/v1.54.0...v1.55.0) (2025-01-04)
+
+
+### Bug Fixes
+
+* remove stats element added in lesson number 46 when disposing lesson [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([e7f253e](https://github.com/d3p1/three.js-journey/commit/e7f253eb5da434d65b393f5c9bb5493296d5148a))
+
+
+### Features
+
+* add lesson number 47 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([6239159](https://github.com/d3p1/three.js-journey/commit/623915966e3bb6fea1227b9d66f3545cf4722eb4))
+
 # [1.54.0](https://github.com/d3p1/three.js-journey/compare/v1.53.0...v1.54.0) (2025-01-04)
 
 
