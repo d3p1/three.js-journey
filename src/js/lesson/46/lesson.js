@@ -102,6 +102,17 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
+   * Dispose lesson
+   *
+   * @returns {void}
+   */
+  dispose() {
+    document.body.removeChild(this.stats.dom)
+
+    super.dispose()
+  }
+
+  /**
    * Init stats
    *
    * @returns {void}
