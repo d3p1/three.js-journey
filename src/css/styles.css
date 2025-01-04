@@ -75,3 +75,19 @@ canvas {
 .controls__commands:hover {
   opacity: 1;
 }
+
+.loader {
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  background-color: var(--primary-color);
+  transform-origin: top left;
+  transform: scaleX(0);
+  will-change: transform;
+}
+
+.loader--on-finish {
+  transform-origin: top right;
+  transition: transform 1.5s ease-in-out;
+}
