@@ -47,6 +47,7 @@
     "cannon-es": "^0.20.0",
     "gsap": "3.12",
     "lil-gui": "^0.19.2",
+    "stats.js": "^0.17.0",
     "three": "^0.169",
     "three-bvh-csg": "^0.0.16",
     "three-custom-shader-material": "5.4"
