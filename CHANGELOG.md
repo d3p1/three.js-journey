@@ -1,3 +1,10 @@
+## [1.56.1](https://github.com/d3p1/three.js-journey/compare/v1.56.0...v1.56.1) (2025-01-05)
+
+
+### Bug Fixes
+
+* adjust points visibility in lesson number 48 when switching lessons [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([23be99a](https://github.com/d3p1/three.js-journey/commit/23be99a1f04a95135dbb07958a168be8efda6a9f))
+
 # [1.56.0](https://github.com/d3p1/three.js-journey/compare/v1.55.0...v1.56.0) (2025-01-05)
 
 
