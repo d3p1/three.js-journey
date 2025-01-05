@@ -112,8 +112,15 @@ export default class Lesson extends GeneralLesson {
    */
   #initLoader() {
     this.loader = document.createElement('div')
-    this.loader.classList.add('loader')
+    this.loader.style.height = '2px'
+    this.loader.style.width = '100%'
+    this.loader.style.position = 'absolute'
+    this.loader.style.top = '50%'
+    this.loader.style.backgroundColor = '#ffffff'
+    this.loader.style.transformOrigin = 'top left'
+    this.loader.style.transform = 'scaleX(0)'
     this.loader.style.transition = `transform ${this.onLoadEffectDelay}ms`
+    this.loader.style.willChange = 'transform'
     document.body.appendChild(this.loader)
   }
 
@@ -130,7 +137,9 @@ export default class Lesson extends GeneralLesson {
             value: 1,
             duration: 3,
           })
-          this.loader.classList.add('loader--on-finish')
+
+          this.loader.style.transformOrigin = 'top right'
+          this.loader.style.transition = 'transform 1.5s ease-in-out'
           this.loader.style.transform = `scaleX(0)`
         }, this.onLoadEffectDelay)
       },
