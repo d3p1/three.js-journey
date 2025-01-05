@@ -140,6 +140,16 @@ export default class Lesson extends GeneralLesson {
   }
 
   /**
+   * Close lesson
+   *
+   * @returns {void}
+   */
+  close() {
+    this.isSceneReady = false
+    super.close()
+  }
+
+  /**
    * Dispose lesson
    *
    * @returns {void}
