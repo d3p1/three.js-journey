@@ -7,7 +7,7 @@ FROM node:18
 ##
 # @note Install basic development tools
 ##
-RUN apt update && apt install -y less man-db sudo
+RUN apt update && apt install -y less man-db sudo nano
 
 ##
 # @note Install required dependency to avoid
