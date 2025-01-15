@@ -47,6 +47,7 @@
     "vite-plugin-restart": "^0.4.1"
   },
   "dependencies": {
+    "@react-three/fiber": "8.16",
     "cannon-es": "^0.20.0",
     "gsap": "3.12",
     "lil-gui": "^0.19.2",
