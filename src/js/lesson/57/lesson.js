@@ -64,6 +64,6 @@ export default class Lesson extends BaseLesson {
    * @returns {void}
    */
   close() {
-    document.removeChild(this.appElement)
+    document.body.removeChild(this.appElement)
   }
 }
