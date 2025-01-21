@@ -1,3 +1,10 @@
+## [1.64.1](https://github.com/d3p1/three.js-journey/compare/v1.64.0...v1.64.1) (2025-01-21)
+
+
+### Bug Fixes
+
+* adjust remove child in lesson number 57 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([5558dd2](https://github.com/d3p1/three.js-journey/commit/5558dd23ea0e8e84d69eb094a883575c882f8ae7))
+
 # [1.64.0](https://github.com/d3p1/three.js-journey/compare/v1.63.0...v1.64.0) (2025-01-21)
 
 
