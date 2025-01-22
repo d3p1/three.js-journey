@@ -1,3 +1,10 @@
+## [1.65.1](https://github.com/d3p1/three.js-journey/compare/v1.65.0...v1.65.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* unmount React application on lesson close [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([1d600e2](https://github.com/d3p1/three.js-journey/commit/1d600e22b2e7dc28d059153a0dea3b7ee348523f))
+
 # [1.65.0](https://github.com/d3p1/three.js-journey/compare/v1.64.1...v1.65.0) (2025-01-22)
 
 
