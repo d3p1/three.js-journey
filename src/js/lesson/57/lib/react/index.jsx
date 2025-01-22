@@ -4,19 +4,24 @@
  */
 import {Leva} from 'leva'
 import {StrictMode} from 'react'
-import {createRoot} from 'react-dom/client'
+import {createRoot, Root} from 'react-dom/client'
 import {Canvas} from '@react-three/fiber'
 import App from './src/App.jsx'
 
 export default class Index {
+  /**
+   * @type {Root}
+   */
+  root
+
   /**
    * Constructor
    *
    * @param {HTMLElement} rootElement
    */
   constructor(rootElement) {
-    const root = createRoot(rootElement)
-    root.render(
+    this.root = createRoot(rootElement)
+    this.root.render(
       <StrictMode>
         <Leva collapsed={true} />
         <Canvas
@@ -31,5 +36,14 @@ export default class Index {
         </Canvas>
       </StrictMode>,
     )
+  }
+
+  /**
+   * Dispose
+   *
+   * @returns {void}
+   */
+  dispose() {
+    this.root.unmount()
   }
 }
