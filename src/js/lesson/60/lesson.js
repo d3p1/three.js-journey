@@ -3,19 +3,17 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  * {@link       https://threejs-journey.com/lessons/3d-text-with-r3f}
  */
-import BaseLesson from '../../core/lesson.js'
+import ReactLesson from '../../core/lesson/react-lesson.js'
 import Index from './lib/react/index.jsx'
 
-export default class Lesson extends BaseLesson {
+export default class Lesson extends ReactLesson {
   /**
-   * @type {Index}
+   * Constructor
    */
-  app
-
-  /**
-   * @type {HTMLElement}
-   */
-  appElement
+  constructor() {
+    super()
+    this.app = new Index()
+  }
 
   /**
    * Get lesson number
@@ -42,29 +40,5 @@ export default class Lesson extends BaseLesson {
    */
   get link() {
     return 'https://threejs-journey.com/lessons/3d-text-with-r3f'
-  }
-
-  /**
-   * Open lesson
-   *
-   * @returns {void}
-   */
-  open() {
-    this.appElement = document.createElement('div')
-    this.app = new Index(this.appElement)
-
-    this.appElement.style.width = '100vw'
-    this.appElement.style.height = '100vh'
-    document.body.appendChild(this.appElement)
-  }
-
-  /**
-   * Close lesson
-   *
-   * @returns {void}
-   */
-  close() {
-    this.app.dispose()
-    document.body.removeChild(this.appElement)
   }
 }

@@ -3,19 +3,17 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  * {@link       https://threejs-journey.com/lessons/first-react-application}
  */
-import BaseLesson from '../../core/lesson.js'
-import App from './lib/react/index.jsx'
+import ReactLesson from '../../core/lesson/react-lesson.js'
+import Index from './lib/react/index.jsx'
 
-export default class Lesson extends BaseLesson {
+export default class Lesson extends ReactLesson {
   /**
-   * @type {App}
+   * Constructor
    */
-  app
-
-  /**
-   * @type {HTMLElement}
-   */
-  appElement
+  constructor() {
+    super()
+    this.app = new Index()
+  }
 
   /**
    * Get lesson number
@@ -42,30 +40,5 @@ export default class Lesson extends BaseLesson {
    */
   get link() {
     return 'https://threejs-journey.com/lessons/first-react-application'
-  }
-
-  /**
-   * Open lesson
-   *
-   * @return {void}
-   * @throws {Error}
-   */
-  open() {
-    this.appElement = document.createElement('div')
-    document.body.appendChild(this.appElement)
-
-    this.app = new App()
-    this.app.init(this.appElement)
-  }
-
-  /**
-   * Close lesson
-   *
-   * @return {void}
-   * @throws {Error}
-   */
-  close() {
-    this.app.dispose()
-    document.body.removeChild(this.appElement)
   }
 }
