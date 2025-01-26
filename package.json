@@ -50,6 +50,7 @@
     "@react-three/drei": "9.108",
     "@react-three/fiber": "8.16",
     "@react-three/postprocessing": "2.16",
+    "@react-three/rapier": "1.4",
     "cannon-es": "^0.20.0",
     "gsap": "3.12",
     "leva": "^0.9.34",
