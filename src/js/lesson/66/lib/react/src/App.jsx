@@ -6,6 +6,7 @@ import {OrbitControls} from '@react-three/drei'
 import {Physics} from '@react-three/rapier'
 import Light from './app/stage/Light.jsx'
 import {Level} from './app/Level.jsx'
+import Player from './app/Player.jsx'
 
 export default function App() {
   return (
@@ -16,8 +17,9 @@ export default function App() {
 
       <Light />
 
-      <Physics debug={true}>
+      <Physics debug={false}>
         <Level />
+        <Player />
       </Physics>
     </>
   )

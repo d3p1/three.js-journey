@@ -221,7 +221,9 @@ function FieldTrap({
   const obstacleRef = useRef(null)
 
   useFrame((state, delta) => {
-    update(state, delta, obstacleRef.current)
+    if (obstacleRef) {
+      update(state, delta, obstacleRef.current)
+    }
   })
 
   return (

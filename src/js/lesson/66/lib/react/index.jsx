@@ -5,6 +5,7 @@
 import {Canvas} from '@react-three/fiber'
 import BaseIndex from '../../../../core/lesson/react-lesson/index.jsx'
 import App from './src/App.jsx'
+import {KeyboardControls} from '@react-three/drei'
 
 export default class Index extends BaseIndex {
   /**
@@ -14,17 +15,28 @@ export default class Index extends BaseIndex {
    */
   render() {
     this.root.render(
-      <Canvas
-        shadows={true}
-        camera={{
-          fov: 45,
-          near: 0.1,
-          far: 200,
-          position: [2.5, 4, 6],
-        }}
+      <KeyboardControls
+        map={[
+          {name: 'forward', keys: ['KeyW']},
+          {name: 'rightward', keys: ['KeyD']},
+          {name: 'backward', keys: ['KeyS']},
+          {name: 'leftward', keys: ['KeyA']},
+          {name: 'jump', keys: ['Space']},
+        ]}
       >
-        <App />
-      </Canvas>,
+        <Canvas
+          shadows={true}
+          camera={{
+            fov: 45,
+            near: 0.1,
+            far: 200,
+            position: [10, 10, 10],
+          }}
+        >
+          <App />
+        </Canvas>
+        ,
+      </KeyboardControls>,
     )
   }
 }
