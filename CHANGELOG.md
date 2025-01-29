@@ -1,3 +1,10 @@
+# [1.73.0](https://github.com/d3p1/three.js-journey/compare/v1.72.0...v1.73.0) (2025-01-29)
+
+
+### Features
+
+* add player, camera and light effects to lesson number 66 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([1b51378](https://github.com/d3p1/three.js-journey/commit/1b513786cd6e16b1fa6e212de2248ac1d79e75bd))
+
 # [1.72.0](https://github.com/d3p1/three.js-journey/compare/v1.71.0...v1.72.0) (2025-01-29)
 
 
