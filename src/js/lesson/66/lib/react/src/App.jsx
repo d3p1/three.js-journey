@@ -5,7 +5,7 @@
 import {OrbitControls} from '@react-three/drei'
 import {Physics} from '@react-three/rapier'
 import Light from './app/stage/Light.jsx'
-import Level from './app/Level.jsx'
+import {Level} from './app/Level.jsx'
 
 export default function App() {
   return (
