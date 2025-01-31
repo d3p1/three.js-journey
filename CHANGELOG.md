@@ -1,3 +1,10 @@
+## [1.74.1](https://github.com/d3p1/three.js-journey/compare/v1.74.0...v1.74.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* adjust font for lesson 66 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([1bb116c](https://github.com/d3p1/three.js-journey/commit/1bb116c874bb81d8fb3ce8737967607aeea80061))
+
 # [1.74.0](https://github.com/d3p1/three.js-journey/compare/v1.73.0...v1.74.0) (2025-01-31)
 
 
