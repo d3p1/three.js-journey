@@ -1,3 +1,10 @@
+## [1.74.2](https://github.com/d3p1/three.js-journey/compare/v1.74.1...v1.74.2) (2025-01-31)
+
+
+### Bug Fixes
+
+* adjust production build for lesson 66 [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([ad522c7](https://github.com/d3p1/three.js-journey/commit/ad522c7f6557a706774f11ab463848228a607332))
+
 ## [1.74.1](https://github.com/d3p1/three.js-journey/compare/v1.74.0...v1.74.1) (2025-01-31)
 
 
