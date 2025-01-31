@@ -7,10 +7,14 @@ import {useEffect, useRef} from 'react'
 import {useFrame} from '@react-three/fiber'
 import {RigidBody, useRapier} from '@react-three/rapier'
 import {useKeyboardControls} from '@react-three/drei'
+import {FIELD_SIZE} from './Level.jsx'
+import {useGame, READY_PHASE_KEY} from '../store/useGame.jsx'
 
 const PLAYER_RADIUS = 0.3
 
 const MAX_JUMP_DISTANCE = 0.15
+
+const FALL_THRESHOLD = -4
 
 const CAMERA_POSITION_Z_OFFSET = 2.25
 const CAMERA_POSITION_Y_OFFSET = 0.65
@@ -22,10 +26,23 @@ const CAMERA_SPEED = 5
 export default function Player() {
   const player = useRef(null)
   const [subscribeKeys, getKeys] = useKeyboardControls()
+  const trapCount = useGame((state) => state.trapCount)
+  const start = useGame((state) => state.start)
+  const restart = useGame((state) => state.restart)
+  const complete = useGame((state) => state.complete)
 
   const {rapier, world} = useRapier()
 
   useEffect(() => {
+    const unsubscribePhase = useGame.subscribe(
+      (state) => state.phase,
+      (phase) => {
+        if (phase === READY_PHASE_KEY) {
+          _restart(player.current)
+        }
+      },
+    )
+
     const unsubscribeKeys = subscribeKeys(
       (state) => state.jump,
       (value) => {
@@ -35,7 +52,11 @@ export default function Player() {
       },
     )
 
+    const unsubscribeAnyKeys = subscribeKeys(() => start())
+
     return () => {
+      unsubscribePhase()
+      unsubscribeAnyKeys()
       unsubscribeKeys()
     }
   }, [])
@@ -43,6 +64,7 @@ export default function Player() {
   useFrame((state, delta) => {
     _move(player.current, getKeys(), delta)
     _translateCamera(state.camera, player.current, delta)
+    _processProgress(player.current, trapCount, complete, restart)
   })
 
   return (
@@ -62,6 +84,25 @@ export default function Player() {
       </mesh>
     </RigidBody>
   )
+}
+
+function _restart(player) {
+  player.setTranslation({x: 0, y: 1, z: 0})
+  player.setLinvel({x: 0, y: 1, z: 0})
+  player.setAngvel({x: 0, y: 1, z: 0})
+}
+
+function _processProgress(player, trapCount, complete, restart) {
+  const finishFieldDistance = 2 + trapCount * FIELD_SIZE
+  const playerPosition = player.translation()
+
+  if (playerPosition.z < -finishFieldDistance) {
+    complete()
+  }
+
+  if (playerPosition.y < FALL_THRESHOLD) {
+    restart()
+  }
 }
 
 function _translateCamera(camera, player, delta) {

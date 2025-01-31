@@ -6,10 +6,10 @@ import * as THREE from 'three'
 import {useMemo, useRef, useState} from 'react'
 import {CuboidCollider, RigidBody} from '@react-three/rapier'
 import {useFrame} from '@react-three/fiber'
-import {useGLTF} from '@react-three/drei'
+import {Float, Text, useGLTF} from '@react-three/drei'
 
-const FIELD_SIZE = 4
-const FIELD_THICKNESS = 0.2
+export const FIELD_SIZE = 4
+export const FIELD_THICKNESS = 0.2
 
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 const floor1Material = new THREE.MeshStandardMaterial({color: 'limegreen'})
@@ -20,6 +20,7 @@ const wallMaterial = new THREE.MeshStandardMaterial({color: 'slategrey'})
 export function Level({
   count = 5,
   types = [FieldSpinner, FieldLimbo, FieldAxe],
+  seed = 0,
 }) {
   const [boundLength] = useState(FIELD_SIZE * (count + 2))
   const [boundScale] = useState([0.3, 1.5, boundLength])
@@ -41,11 +42,26 @@ export function Level({
     }
 
     return blocks
-  }, [count, types])
+  }, [count, types, seed])
 
   return (
     <>
-      <FieldEndpoint position={[0, 0, 0]} />
+      <FieldEndpoint position={[0, 0, 0]}>
+        <Float floatIntensity={0.25} rotationIntensity={0.25}>
+          <Text
+            font="./media/fonts/BebasNeue-Regular.ttf"
+            scale={0.5}
+            maxWidth={0.25}
+            lineHeight={0.75}
+            textAlign="right"
+            position={[0.75, 0.65, 0]}
+            rotation-y={-0.25}
+          >
+            Marbel Race
+            <meshBasicMaterial toneMapped={false} />
+          </Text>
+        </Float>
+      </FieldEndpoint>
 
       {...blocks.map((Block, index) => (
         <Block key={index} position={[0, 0, -(index + 1) * FIELD_SIZE]} />
@@ -59,6 +75,14 @@ export function Level({
           restitution={0.2}
           friction={0}
         >
+          <Text
+            font="./media/fonts/BebasNeue-Regular.ttf"
+            scale={1}
+            position={[0, 2.25, 2]}
+          >
+            FINISH
+            <meshBasicMaterial toneMapped={false} />
+          </Text>
           <primitive object={hamburger.scene} scale={0.2} />
         </RigidBody>
       </FieldEndpoint>

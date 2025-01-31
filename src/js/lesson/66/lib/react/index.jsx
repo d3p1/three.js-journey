@@ -3,9 +3,10 @@
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
 import {Canvas} from '@react-three/fiber'
+import {KeyboardControls} from '@react-three/drei'
 import BaseIndex from '../../../../core/lesson/react-lesson/index.jsx'
 import App from './src/App.jsx'
-import {KeyboardControls} from '@react-three/drei'
+import Menu from './src/app/menu/Menu.jsx'
 
 export default class Index extends BaseIndex {
   /**
@@ -35,7 +36,7 @@ export default class Index extends BaseIndex {
         >
           <App />
         </Canvas>
-        ,
+        <Menu />
       </KeyboardControls>,
     )
   }

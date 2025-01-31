@@ -1,0 +1,79 @@
+/**
+ * @description Styles
+ * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
+ */
+@font-face {
+    font-family: 'Bebas Neue';
+    font-style: normal;
+    src: url('./media/fonts/BebasNeue-Regular.ttf');
+}
+
+.menu {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: hsl(0, 0%, 100%);
+    font-family: 'Bebas Neue', cursive;
+}
+
+.menu__timer {
+    width: 100%;
+    font-size: 6vh;
+    text-align: center;
+    background-color: #00000033;
+}
+
+.menu__restart {
+    width: 100%;
+    font-size: 6vh;
+    text-align: center;
+    background-color: #00000033;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.menu__controls {
+    width: 20%;
+    display: grid;
+    grid-template-areas:
+            '. w .'
+            'a s d'
+            'space space space';
+    gap: 1rem;
+}
+
+.menu__controls-key {
+    text-align: center;
+    padding: 1rem;
+    border: 2px solid hsl(0, 0%, 100%);
+    background-color: #ffffff44;
+}
+
+.menu__controls-key--w {
+    grid-area: w;
+}
+
+.menu__controls-key--a {
+    grid-area: a;
+}
+
+.menu__controls-key--s {
+    grid-area: s;
+}
+
+.menu__controls-key--d {
+    grid-area: d;
+}
+
+.menu__controls-key--space {
+    grid-area: space;
+    padding: 2rem;
+}
+
+.menu__controls-key--active {
+    background-color: #ffffff99;
+}

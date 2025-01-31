@@ -7,18 +7,22 @@ import {Physics} from '@react-three/rapier'
 import Light from './app/stage/Light.jsx'
 import {Level} from './app/Level.jsx'
 import Player from './app/Player.jsx'
+import {useGame} from './store/useGame.jsx'
 
 export default function App() {
+  const trapCount = useGame((state) => state.trapCount)
+  const trapSeed = useGame((state) => state.trapSeed)
+
   return (
     <>
-      <color args={['ivory']} attach="background" />
+      <color args={['#bdedfc']} attach="background" />
 
       <OrbitControls makeDefault={true} />
 
       <Light />
 
       <Physics debug={false}>
-        <Level />
+        <Level count={trapCount} seed={trapSeed} />
         <Player />
       </Physics>
     </>

@@ -28,8 +28,10 @@ export default class ReactLesson extends Lesson {
     }
 
     this.appElement = document.createElement('div')
+    this.appElement.style.position = 'fixed'
     this.appElement.style.width = '100vw'
     this.appElement.style.height = '100vh'
+    this.appElement.style.zIndex = '-1'
     document.body.appendChild(this.appElement)
 
     this.app.init(this.appElement)
