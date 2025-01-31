@@ -2,12 +2,6 @@
  * @description Styles
  * @author      C. M. de Picciotto <d3p1@d3p1.dev> (https://d3p1.dev/)
  */
-@font-face {
-    font-family: 'Bebas Neue';
-    font-style: normal;
-    src: url('./media/fonts/BebasNeue-Regular.ttf');
-}
-
 .menu {
     position: fixed;
     inset: 0;
