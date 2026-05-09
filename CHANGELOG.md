@@ -1,3 +1,10 @@
+## [1.74.3](https://github.com/d3p1/three.js-journey/compare/v1.74.2...v1.74.3) (2026-05-09)
+
+
+### Bug Fixes
+
+* improve code style [[#1](https://github.com/d3p1/three.js-journey/issues/1)] ([3083693](https://github.com/d3p1/three.js-journey/commit/3083693f6ac9a9bb322e93a3995b60cb75372797))
+
 ## [1.74.2](https://github.com/d3p1/three.js-journey/compare/v1.74.1...v1.74.2) (2025-01-31)
 
 
