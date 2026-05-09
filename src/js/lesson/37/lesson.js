@@ -11,254 +11,260 @@ import halftoneVertexShader from './shader/halftone/vertex.glsl'
 import halftoneFragmentShader from './shader/halftone/fragment.glsl'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {THREE.Mesh}
-   */
-  suzanne = null
+    /**
+     * @type {THREE.Mesh}
+     */
+    suzanne = null
 
-  /**
-   * @type {THREE.Mesh}
-   */
-  torusKnot
+    /**
+     * @type {THREE.Mesh}
+     */
+    torusKnot
 
-  /**
-   * @type {THREE.Mesh}
-   */
-  sphere
+    /**
+     * @type {THREE.Mesh}
+     */
+    sphere
 
-  /**
-   * @type {THREE.ShaderMaterial}
-   */
-  halftoneMaterial
+    /**
+     * @type {THREE.ShaderMaterial}
+     */
+    halftoneMaterial
 
-  /**
-   * @type {number}
-   */
-  halftoneRepetitions = 100
+    /**
+     * @type {number}
+     */
+    halftoneRepetitions = 100
 
-  /**
-   * @type {string}
-   */
-  halftoneColor = '#8e19b8'
+    /**
+     * @type {string}
+     */
+    halftoneColor = '#8e19b8'
 
-  /**
-   * @type {string}
-   */
-  halftoneBaseColor = '#ff794d'
+    /**
+     * @type {string}
+     */
+    halftoneBaseColor = '#ff794d'
 
-  /**
-   * @type {string}
-   */
-  backgroundColor = '#26132f'
+    /**
+     * @type {string}
+     */
+    backgroundColor = '#26132f'
 
-  /**
-   * @type {boolean}
-   */
-  hasGuiTweaks = true
+    /**
+     * @type {boolean}
+     */
+    hasGuiTweaks = true
 
-  /**
-   * @type {boolean}
-   */
-  hasAnimation = true
+    /**
+     * @type {boolean}
+     */
+    hasAnimation = true
 
-  /**
-   * @type {Function}
-   */
-  #boundResizeRenderer
+    /**
+     * @type {Function}
+     */
+    #boundResizeRenderer
 
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '37'
-  }
-
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Halftone Shading'
-  }
-
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/halftone-shading-shaders'
-  }
-
-  /**
-   * Update lesson
-   *
-   * @param   {number} t
-   * @returns {void}
-   */
-  update(t) {
-    const sec = t * 0.001
-
-    if (this.suzanne) {
-      this.suzanne.rotation.x = -sec * 0.1
-      this.suzanne.rotation.y = sec * 0.2
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '37'
     }
 
-    this.sphere.rotation.x = -sec * 0.1
-    this.sphere.rotation.y = sec * 0.2
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Halftone Shading'
+    }
 
-    this.torusKnot.rotation.x = -sec * 0.1
-    this.torusKnot.rotation.y = sec * 0.2
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/halftone-shading-shaders'
+    }
 
-    this.control.update()
-  }
+    /**
+     * Update lesson
+     *
+     * @param   {number} t
+     * @returns {void}
+     */
+    update(t) {
+        const sec = t * 0.001
 
-  /**
-   * Init lesson
-   *
-   * @returns {void}
-   */
-  init() {
-    super.init()
+        if (this.suzanne) {
+            this.suzanne.rotation.x = -sec * 0.1
+            this.suzanne.rotation.y = sec * 0.2
+        }
 
-    this.#initGuiTweaks()
-    this.#initMeshes()
-    this.#setupCamera()
-    this.#setupRenderer()
-  }
+        this.sphere.rotation.x = -sec * 0.1
+        this.sphere.rotation.y = sec * 0.2
 
-  /**
-   * Dispose lesson
-   *
-   * @returns {void}
-   */
-  dispose() {
-    this.canvas.removeEventListener('resize', this.#boundResizeRenderer)
+        this.torusKnot.rotation.x = -sec * 0.1
+        this.torusKnot.rotation.y = sec * 0.2
 
-    super.dispose()
-  }
+        this.control.update()
+    }
 
-  /**
-   * GUI tweaks
-   *
-   * @returns {void}
-   */
-  #initGuiTweaks() {
-    const halftoneDownward = this.guiControl.addFolder('Halftone Downward')
+    /**
+     * Init lesson
+     *
+     * @returns {void}
+     */
+    init() {
+        super.init()
 
-    halftoneDownward
-      .add({repetitions: this.halftoneRepetitions}, 'repetitions')
-      .min(10)
-      .max(300)
-      .step(1)
-      .onChange((value) => {
-        this.halftoneMaterial.uniforms.uRepetitions.value = value
-      })
+        this.#initGuiTweaks()
+        this.#initMeshes()
+        this.#setupCamera()
+        this.#setupRenderer()
+    }
 
-    halftoneDownward
-      .addColor({color: this.halftoneColor}, 'color')
-      .onChange((value) => {
-        this.halftoneMaterial.uniforms.uColor.value.set(value)
-      })
+    /**
+     * Dispose lesson
+     *
+     * @returns {void}
+     */
+    dispose() {
+        this.canvas.removeEventListener('resize', this.#boundResizeRenderer)
 
-    halftoneDownward
-      .addColor({baseColor: this.halftoneBaseColor}, 'baseColor')
-      .onChange((value) => {
-        this.halftoneMaterial.uniforms.uBaseColor.value.set(value)
-      })
+        super.dispose()
+    }
 
-    this.guiControl
-      .addColor({backgroundColor: this.backgroundColor}, 'backgroundColor')
-      .onChange((value) => {
-        this.renderer.setClearColor(value)
-      })
-  }
+    /**
+     * GUI tweaks
+     *
+     * @returns {void}
+     */
+    #initGuiTweaks() {
+        const halftoneDownward = this.guiControl.addFolder('Halftone Downward')
 
-  /**
-   * Init meshes
-   *
-   * @returns {void}
-   */
-  #initMeshes() {
-    const gltfLoader = new GLTFLoader()
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/three.js-journey/js/utils/loader/draco/')
-    gltfLoader.setDRACOLoader(dracoLoader)
+        halftoneDownward
+            .add({repetitions: this.halftoneRepetitions}, 'repetitions')
+            .min(10)
+            .max(300)
+            .step(1)
+            .onChange((value) => {
+                this.halftoneMaterial.uniforms.uRepetitions.value = value
+            })
 
-    this.halftoneMaterial = new THREE.ShaderMaterial({
-      vertexShader: halftoneVertexShader,
-      fragmentShader: halftoneFragmentShader,
-      uniforms: {
-        uBaseColor: new THREE.Uniform(new THREE.Color(this.halftoneBaseColor)),
-        uColor: new THREE.Uniform(new THREE.Color(this.halftoneColor)),
-        uRepetitions: new THREE.Uniform(this.halftoneRepetitions),
-        uResolution: new THREE.Uniform(this.#getResolution()),
-      },
-    })
+        halftoneDownward
+            .addColor({color: this.halftoneColor}, 'color')
+            .onChange((value) => {
+                this.halftoneMaterial.uniforms.uColor.value.set(value)
+            })
 
-    this.sphere = new THREE.Mesh(
-      new THREE.SphereGeometry(),
-      this.halftoneMaterial,
-    )
-    this.sphere.position.x = -3
-    this.scene.add(this.sphere)
+        halftoneDownward
+            .addColor({baseColor: this.halftoneBaseColor}, 'baseColor')
+            .onChange((value) => {
+                this.halftoneMaterial.uniforms.uBaseColor.value.set(value)
+            })
 
-    this.torusKnot = new THREE.Mesh(
-      new THREE.TorusKnotGeometry(0.6, 0.25, 128, 32),
-      this.halftoneMaterial,
-    )
-    this.torusKnot.position.x = 3
-    this.scene.add(this.torusKnot)
+        this.guiControl
+            .addColor(
+                {backgroundColor: this.backgroundColor},
+                'backgroundColor',
+            )
+            .onChange((value) => {
+                this.renderer.setClearColor(value)
+            })
+    }
 
-    gltfLoader.load(
-      '/three.js-journey/media/models/Suzanne/suzanne.glb',
-      (gltf) => {
-        const scene = gltf.scene
-        scene.traverse((model) => {
-          if (model.isMesh) {
-            model.material = this.halftoneMaterial
-            this.suzanne = model
-            this.scene.add(this.suzanne)
-          }
+    /**
+     * Init meshes
+     *
+     * @returns {void}
+     */
+    #initMeshes() {
+        const gltfLoader = new GLTFLoader()
+        const dracoLoader = new DRACOLoader()
+        dracoLoader.setDecoderPath('/three.js-journey/js/utils/loader/draco/')
+        gltfLoader.setDRACOLoader(dracoLoader)
+
+        this.halftoneMaterial = new THREE.ShaderMaterial({
+            vertexShader: halftoneVertexShader,
+            fragmentShader: halftoneFragmentShader,
+            uniforms: {
+                uBaseColor: new THREE.Uniform(
+                    new THREE.Color(this.halftoneBaseColor),
+                ),
+                uColor: new THREE.Uniform(new THREE.Color(this.halftoneColor)),
+                uRepetitions: new THREE.Uniform(this.halftoneRepetitions),
+                uResolution: new THREE.Uniform(this.#getResolution()),
+            },
         })
-      },
-    )
-  }
 
-  /**
-   * Setup camera
-   *
-   * @returns {void}
-   */
-  #setupCamera() {
-    this.camera.position.set(3, 3, 3)
-  }
+        this.sphere = new THREE.Mesh(
+            new THREE.SphereGeometry(),
+            this.halftoneMaterial,
+        )
+        this.sphere.position.x = -3
+        this.scene.add(this.sphere)
 
-  /**
-   * Setup renderer
-   *
-   * @returns {void}
-   */
-  #setupRenderer() {
-    this.renderer.setClearColor(this.backgroundColor)
+        this.torusKnot = new THREE.Mesh(
+            new THREE.TorusKnotGeometry(0.6, 0.25, 128, 32),
+            this.halftoneMaterial,
+        )
+        this.torusKnot.position.x = 3
+        this.scene.add(this.torusKnot)
 
-    this.#boundResizeRenderer = () => {
-      this.halftoneMaterial.uniforms.uResolution.value = this.#getResolution()
+        gltfLoader.load(
+            '/three.js-journey/media/models/Suzanne/suzanne.glb',
+            (gltf) => {
+                const scene = gltf.scene
+                scene.traverse((model) => {
+                    if (model.isMesh) {
+                        model.material = this.halftoneMaterial
+                        this.suzanne = model
+                        this.scene.add(this.suzanne)
+                    }
+                })
+            },
+        )
     }
-  }
 
-  /**
-   * Get resolution
-   *
-   * @return {THREE.Vector2}
-   */
-  #getResolution() {
-    return new THREE.Vector2(
-      this.canvas.width * this.renderer.getPixelRatio(),
-      this.canvas.height * this.renderer.getPixelRatio(),
-    )
-  }
+    /**
+     * Setup camera
+     *
+     * @returns {void}
+     */
+    #setupCamera() {
+        this.camera.position.set(3, 3, 3)
+    }
+
+    /**
+     * Setup renderer
+     *
+     * @returns {void}
+     */
+    #setupRenderer() {
+        this.renderer.setClearColor(this.backgroundColor)
+
+        this.#boundResizeRenderer = () => {
+            this.halftoneMaterial.uniforms.uResolution.value =
+                this.#getResolution()
+        }
+    }
+
+    /**
+     * Get resolution
+     *
+     * @return {THREE.Vector2}
+     */
+    #getResolution() {
+        return new THREE.Vector2(
+            this.canvas.width * this.renderer.getPixelRatio(),
+            this.canvas.height * this.renderer.getPixelRatio(),
+        )
+    }
 }

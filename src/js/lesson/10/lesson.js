@@ -7,220 +7,220 @@ import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {THREE.LoadingManager}
-   */
-  loaderManager
+    /**
+     * @type {THREE.LoadingManager}
+     */
+    loaderManager
 
-  /**
-   * @type {THREE.TextureLoader}
-   */
-  textureLoader
+    /**
+     * @type {THREE.TextureLoader}
+     */
+    textureLoader
 
-  /**
-   * @type {THREE.Texture}
-   */
-  doorMapTexture
+    /**
+     * @type {THREE.Texture}
+     */
+    doorMapTexture
 
-  /**
-   * @type {boolean}
-   */
-  hasGuiTweaks = true
+    /**
+     * @type {boolean}
+     */
+    hasGuiTweaks = true
 
-  /**
-   * @type {boolean}
-   */
-  hasAnimation = true
+    /**
+     * @type {boolean}
+     */
+    hasAnimation = true
 
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '10'
-  }
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '10'
+    }
 
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Textures'
-  }
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Textures'
+    }
 
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/textures'
-  }
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/textures'
+    }
 
-  /**
-   * Update
-   *
-   * @returns {void}
-   */
-  update() {
-    this.control.update()
-  }
+    /**
+     * Update
+     *
+     * @returns {void}
+     */
+    update() {
+        this.control.update()
+    }
 
-  /**
-   * Init lesson
-   *
-   * @returns {void}
-   */
-  init() {
-    super.init()
+    /**
+     * Init lesson
+     *
+     * @returns {void}
+     */
+    init() {
+        super.init()
 
-    this.#initTexture()
-    this.#initMesh()
-    this.#initGuiTweaks()
-  }
+        this.#initTexture()
+        this.#initMesh()
+        this.#initGuiTweaks()
+    }
 
-  /**
-   * Init texture
-   *
-   * @returns {void}
-   */
-  #initTexture() {
-    this.loaderManager = new THREE.LoadingManager()
-    this.textureLoader = new THREE.TextureLoader(this.loaderManager)
-    this.texture = this.textureLoader.load(
-      '/three.js-journey/media/images/textures/door/color.jpg',
-    )
-    this.texture.colorSpace = THREE.SRGBColorSpace
-  }
+    /**
+     * Init texture
+     *
+     * @returns {void}
+     */
+    #initTexture() {
+        this.loaderManager = new THREE.LoadingManager()
+        this.textureLoader = new THREE.TextureLoader(this.loaderManager)
+        this.texture = this.textureLoader.load(
+            '/three.js-journey/media/images/textures/door/color.jpg',
+        )
+        this.texture.colorSpace = THREE.SRGBColorSpace
+    }
 
-  /**
-   * Init mesh
-   *
-   * @returns {void}
-   */
-  #initMesh() {
-    const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
-    const boxMaterial = new THREE.MeshBasicMaterial({map: this.texture})
-    this.mesh = new THREE.Mesh(boxGeometry, boxMaterial)
-    this.scene.add(this.mesh)
-  }
+    /**
+     * Init mesh
+     *
+     * @returns {void}
+     */
+    #initMesh() {
+        const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
+        const boxMaterial = new THREE.MeshBasicMaterial({map: this.texture})
+        this.mesh = new THREE.Mesh(boxGeometry, boxMaterial)
+        this.scene.add(this.mesh)
+    }
 
-  /**
-   * Init GUI tweaks
-   *
-   * @returns {void}
-   */
-  #initGuiTweaks() {
-    this.guiControl
-      .add(this.texture.repeat, 'x')
-      .min(1)
-      .max(5)
-      .step(0.01)
-      .name('textureX')
+    /**
+     * Init GUI tweaks
+     *
+     * @returns {void}
+     */
+    #initGuiTweaks() {
+        this.guiControl
+            .add(this.texture.repeat, 'x')
+            .min(1)
+            .max(5)
+            .step(0.01)
+            .name('textureX')
 
-    this.guiControl
-      .add(this.texture.repeat, 'y')
-      .min(1)
-      .max(5)
-      .step(0.01)
-      .name('textureY')
+        this.guiControl
+            .add(this.texture.repeat, 'y')
+            .min(1)
+            .max(5)
+            .step(0.01)
+            .name('textureY')
 
-    this.guiControl
-      .add({offset: 0}, 'offset')
-      .min(0)
-      .max(1)
-      .step(0.01)
-      .name('textureOffset')
-      .onChange((value) => {
-        this.texture.offset.x = value
-        this.texture.offset.y = value
-      })
+        this.guiControl
+            .add({offset: 0}, 'offset')
+            .min(0)
+            .max(1)
+            .step(0.01)
+            .name('textureOffset')
+            .onChange((value) => {
+                this.texture.offset.x = value
+                this.texture.offset.y = value
+            })
 
-    this.guiControl
-      .add({rotation: 0}, 'rotation')
-      .min(0)
-      .max(2 * Math.PI)
-      .step(0.01)
-      .onChange((value) => {
-        this.texture.center.x = 0.5
-        this.texture.center.y = 0.5
-        this.texture.rotation = value
-      })
+        this.guiControl
+            .add({rotation: 0}, 'rotation')
+            .min(0)
+            .max(2 * Math.PI)
+            .step(0.01)
+            .onChange((value) => {
+                this.texture.center.x = 0.5
+                this.texture.center.y = 0.5
+                this.texture.rotation = value
+            })
 
-    this.guiControl
-      .add(
-        {
-          addXRepeat: () => {
-            this.texture.wrapS = THREE.RepeatWrapping
-            this.texture.needsUpdate = true
-          },
-        },
-        'addXRepeat',
-      )
-      .name('Repeat texture in X')
+        this.guiControl
+            .add(
+                {
+                    addXRepeat: () => {
+                        this.texture.wrapS = THREE.RepeatWrapping
+                        this.texture.needsUpdate = true
+                    },
+                },
+                'addXRepeat',
+            )
+            .name('Repeat texture in X')
 
-    this.guiControl
-      .add(
-        {
-          addYRepeat: () => {
-            this.texture.wrapT = THREE.RepeatWrapping
-            this.texture.needsUpdate = true
-          },
-        },
-        'addYRepeat',
-      )
-      .name('Repeat texture in Y')
+        this.guiControl
+            .add(
+                {
+                    addYRepeat: () => {
+                        this.texture.wrapT = THREE.RepeatWrapping
+                        this.texture.needsUpdate = true
+                    },
+                },
+                'addYRepeat',
+            )
+            .name('Repeat texture in Y')
 
-    this.guiControl
-      .add(
-        {
-          updateMinFilterToLinearFilter: () => {
-            this.texture.minFilter = THREE.LinearMipmapLinearFilter
-            this.texture.generateMipmaps = true
-            this.texture.needsUpdate = true
-          },
-        },
-        'updateMinFilterToLinearFilter',
-      )
-      .name('Update min filter to linear filter')
+        this.guiControl
+            .add(
+                {
+                    updateMinFilterToLinearFilter: () => {
+                        this.texture.minFilter = THREE.LinearMipmapLinearFilter
+                        this.texture.generateMipmaps = true
+                        this.texture.needsUpdate = true
+                    },
+                },
+                'updateMinFilterToLinearFilter',
+            )
+            .name('Update min filter to linear filter')
 
-    this.guiControl
-      .add(
-        {
-          updateMinFilterToNearestFilter: () => {
-            this.texture.minFilter = THREE.NearestFilter
-            this.texture.generateMipmaps = false
-            this.texture.needsUpdate = true
-          },
-        },
-        'updateMinFilterToNearestFilter',
-      )
-      .name('Update min filter to nearest filter')
+        this.guiControl
+            .add(
+                {
+                    updateMinFilterToNearestFilter: () => {
+                        this.texture.minFilter = THREE.NearestFilter
+                        this.texture.generateMipmaps = false
+                        this.texture.needsUpdate = true
+                    },
+                },
+                'updateMinFilterToNearestFilter',
+            )
+            .name('Update min filter to nearest filter')
 
-    this.guiControl
-      .add(
-        {
-          updateMagFilterToLinearFilter: () => {
-            this.texture.magFilter = THREE.LinearFilter
-            this.texture.needsUpdate = true
-          },
-        },
-        'updateMagFilterToLinearFilter',
-      )
-      .name('Update mag filter to linear filter')
+        this.guiControl
+            .add(
+                {
+                    updateMagFilterToLinearFilter: () => {
+                        this.texture.magFilter = THREE.LinearFilter
+                        this.texture.needsUpdate = true
+                    },
+                },
+                'updateMagFilterToLinearFilter',
+            )
+            .name('Update mag filter to linear filter')
 
-    this.guiControl
-      .add(
-        {
-          updateMagFilterToNearestFilter: () => {
-            this.texture.magFilter = THREE.NearestFilter
-            this.texture.needsUpdate = true
-          },
-        },
-        'updateMagFilterToNearestFilter',
-      )
-      .name('Update mag filter to nearest filter')
-  }
+        this.guiControl
+            .add(
+                {
+                    updateMagFilterToNearestFilter: () => {
+                        this.texture.magFilter = THREE.NearestFilter
+                        this.texture.needsUpdate = true
+                    },
+                },
+                'updateMagFilterToNearestFilter',
+            )
+            .name('Update mag filter to nearest filter')
+    }
 }

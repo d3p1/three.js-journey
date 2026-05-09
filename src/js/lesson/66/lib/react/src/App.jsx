@@ -10,21 +10,21 @@ import Player from './app/Player.jsx'
 import {useGame} from './store/useGame.jsx'
 
 export default function App() {
-  const trapCount = useGame((state) => state.trapCount)
-  const trapSeed = useGame((state) => state.trapSeed)
+    const trapCount = useGame((state) => state.trapCount)
+    const trapSeed = useGame((state) => state.trapSeed)
 
-  return (
-    <>
-      <color args={['#bdedfc']} attach="background" />
+    return (
+        <>
+            <color args={['#bdedfc']} attach="background" />
 
-      <OrbitControls makeDefault={true} />
+            <OrbitControls makeDefault={true} />
 
-      <Light />
+            <Light />
 
-      <Physics debug={false}>
-        <Level count={trapCount} seed={trapSeed} />
-        <Player />
-      </Physics>
-    </>
-  )
+            <Physics debug={false}>
+                <Level count={trapCount} seed={trapSeed} />
+                <Player />
+            </Physics>
+        </>
+    )
 }

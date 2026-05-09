@@ -7,94 +7,97 @@ import * as THREE from 'three'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {boolean}
-   */
-  hasAnimation = true
+    /**
+     * @type {boolean}
+     */
+    hasAnimation = true
 
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '08'
-  }
-
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Geometries'
-  }
-
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/geometries'
-  }
-
-  /**
-   * Update
-   *
-   * @returns {void}
-   */
-  update() {
-    this.control.update()
-  }
-
-  /**
-   * Init lesson
-   *
-   * @returns {void}
-   */
-  init() {
-    super.init()
-    this.#initMesh()
-  }
-
-  /**
-   * Init mesh
-   *
-   * @returns {void}
-   */
-  #initMesh() {
-    const boxMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true,
-    })
-    this.mesh = new THREE.Mesh(this.#initBufferGeometry(), boxMaterial)
-    this.scene.add(this.mesh)
-  }
-
-  /**
-   * Init buffer geometry
-   *
-   * @returns {THREE.BufferGeometry}
-   */
-  #initBufferGeometry() {
-    const bufferGeometry = new THREE.BufferGeometry()
-    bufferGeometry.setAttribute('position', this.#initBufferPositionAttribute())
-    return bufferGeometry
-  }
-
-  /**
-   * Init buffer position attribute
-   *
-   * @returns {THREE.BufferAttribute}
-   */
-  #initBufferPositionAttribute() {
-    const triangles = 50
-    const vertexCount = triangles * 3 * 3
-    const vertexCollection = new Float32Array(vertexCount)
-    for (let i = 0; i < vertexCount; i++) {
-      vertexCollection[i] = (Math.random() - 0.5) * 2
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '08'
     }
-    return new THREE.BufferAttribute(vertexCollection, 3)
-  }
+
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Geometries'
+    }
+
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/geometries'
+    }
+
+    /**
+     * Update
+     *
+     * @returns {void}
+     */
+    update() {
+        this.control.update()
+    }
+
+    /**
+     * Init lesson
+     *
+     * @returns {void}
+     */
+    init() {
+        super.init()
+        this.#initMesh()
+    }
+
+    /**
+     * Init mesh
+     *
+     * @returns {void}
+     */
+    #initMesh() {
+        const boxMaterial = new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            wireframe: true,
+        })
+        this.mesh = new THREE.Mesh(this.#initBufferGeometry(), boxMaterial)
+        this.scene.add(this.mesh)
+    }
+
+    /**
+     * Init buffer geometry
+     *
+     * @returns {THREE.BufferGeometry}
+     */
+    #initBufferGeometry() {
+        const bufferGeometry = new THREE.BufferGeometry()
+        bufferGeometry.setAttribute(
+            'position',
+            this.#initBufferPositionAttribute(),
+        )
+        return bufferGeometry
+    }
+
+    /**
+     * Init buffer position attribute
+     *
+     * @returns {THREE.BufferAttribute}
+     */
+    #initBufferPositionAttribute() {
+        const triangles = 50
+        const vertexCount = triangles * 3 * 3
+        const vertexCollection = new Float32Array(vertexCount)
+        for (let i = 0; i < vertexCount; i++) {
+            vertexCollection[i] = (Math.random() - 0.5) * 2
+        }
+        return new THREE.BufferAttribute(vertexCollection, 3)
+    }
 }

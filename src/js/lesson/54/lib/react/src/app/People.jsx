@@ -5,36 +5,36 @@
 import React, {useEffect, useState} from 'react'
 
 export default function People() {
-  const [people, setPeople] = useState([])
+    const [people, setPeople] = useState([])
 
-  const getPeople = () => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then((response) => response.json())
-      .then((result) => setPeople(result))
-  }
+    const getPeople = () => {
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then((response) => response.json())
+            .then((result) => setPeople(result))
+    }
 
-  useEffect(() => {
-    getPeople()
-  }, [])
+    useEffect(() => {
+        getPeople()
+    }, [])
 
-  return (
-    <div style={{marginTop: '5rem'}}>
-      <h2 style={{marginBottom: '1rem', textAlign: 'center'}}>People</h2>
+    return (
+        <div style={{marginTop: '5rem'}}>
+            <h2 style={{marginBottom: '1rem', textAlign: 'center'}}>People</h2>
 
-      <ul
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          width: '90vw',
-        }}
-      >
-        {people.map((person, id) => (
-          <li style={{listStyle: 'none'}} key={id}>
-            {person.name}
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
+            <ul
+                style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    width: '90vw',
+                }}
+            >
+                {people.map((person, id) => (
+                    <li style={{listStyle: 'none'}} key={id}>
+                        {person.name}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    )
 }

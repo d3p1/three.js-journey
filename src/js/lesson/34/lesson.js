@@ -10,227 +10,229 @@ import Firework from './app/lib/firework.js'
 import * as THREE from 'three'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {Firework[]}
-   */
-  fireworks = []
+    /**
+     * @type {Firework[]}
+     */
+    fireworks = []
 
-  /**
-   * @type {boolean}
-   */
-  hasGuiTweaks = false
+    /**
+     * @type {boolean}
+     */
+    hasGuiTweaks = false
 
-  /**
-   * @type {boolean}
-   */
-  hasAnimation = true
+    /**
+     * @type {boolean}
+     */
+    hasAnimation = true
 
-  /**
-   * @type {Function}
-   */
-  #boundFireworkClick
+    /**
+     * @type {Function}
+     */
+    #boundFireworkClick
 
-  /**
-   * @type {object}
-   */
-  #skyParameters = {
-    turbidity: 10,
-    rayleigh: 3,
-    mieCoefficient: 0.005,
-    mieDirectionalG: 0.95,
-    elevation: -2.2,
-    azimuth: 180,
-  }
-
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '34'
-  }
-
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Fireworks'
-  }
-
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/fireworks-shaders'
-  }
-
-  /**
-   * Update the lesson
-   *
-   * @returns {void}
-   */
-  update() {
-    this.control.update()
-  }
-
-  /**
-   * Init the lesson
-   *
-   * @returns {void}
-   */
-  init() {
-    super.init()
-
-    this.#initSky()
-    this.#initFirework()
-    this.#initFireworkClickEvent()
-    this.#setupCamera()
-  }
-
-  /**
-   * Resize renderer
-   *
-   * @returns {void}
-   */
-  resizeRenderer() {
-    super.resizeRenderer()
-
-    if (this.fireworks.length) {
-      this.fireworks.forEach((firework) => {
-        this.#computeFireworkParticleSize(firework)
-      })
+    /**
+     * @type {object}
+     */
+    #skyParameters = {
+        turbidity: 10,
+        rayleigh: 3,
+        mieCoefficient: 0.005,
+        mieDirectionalG: 0.95,
+        elevation: -2.2,
+        azimuth: 180,
     }
-  }
 
-  /**
-   * Dispose the lesson
-   *
-   * @returns {void}
-   */
-  dispose() {
-    this.#disposeFireworks()
-    this.canvas.removeEventListener('click', this.#boundFireworkClick)
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '34'
+    }
 
-    super.dispose()
-  }
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Fireworks'
+    }
 
-  /**
-   * Init sky
-   *
-   * @returns {void}
-   */
-  #initSky() {
-    const sky = new Sky()
-    sky.scale.setScalar(450000)
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/fireworks-shaders'
+    }
 
-    const sun = new THREE.Vector3()
-    const uniforms = sky.material.uniforms
-    uniforms['turbidity'].value = this.#skyParameters.turbidity
-    uniforms['rayleigh'].value = this.#skyParameters.rayleigh
-    uniforms['mieCoefficient'].value = this.#skyParameters.mieCoefficient
-    uniforms['mieDirectionalG'].value = this.#skyParameters.mieDirectionalG
-    const phi = THREE.MathUtils.degToRad(90 - this.#skyParameters.elevation)
-    const theta = THREE.MathUtils.degToRad(this.#skyParameters.azimuth)
-    sun.setFromSphericalCoords(1, phi, theta)
-    uniforms['sunPosition'].value.copy(sun)
+    /**
+     * Update the lesson
+     *
+     * @returns {void}
+     */
+    update() {
+        this.control.update()
+    }
 
-    this.scene.add(sky)
-  }
+    /**
+     * Init the lesson
+     *
+     * @returns {void}
+     */
+    init() {
+        super.init()
 
-  /**
-   * Init firework click event
-   *
-   * @returns {void}
-   */
-  #initFireworkClickEvent() {
-    this.#boundFireworkClick = this.#initFirework.bind(this)
+        this.#initSky()
+        this.#initFirework()
+        this.#initFireworkClickEvent()
+        this.#setupCamera()
+    }
 
-    this.canvas.addEventListener('click', this.#boundFireworkClick)
-  }
+    /**
+     * Resize renderer
+     *
+     * @returns {void}
+     */
+    resizeRenderer() {
+        super.resizeRenderer()
 
-  /**
-   * Init firework
-   *
-   * @returns {void}
-   */
-  #initFirework() {
-    const firework = new Firework({
-      position: new THREE.Vector3(
-        (Math.random() - 0.5) * 3,
-        (Math.random() - 0.5) * 3,
-        (Math.random() - 0.5) * 3,
-      ),
-      particles: 1500 + Math.floor(1000 * Math.random()),
-      particleSize: 0.08 + 0.02 * Math.random(),
-      particleColor: `rgb(${Math.floor(255 * Math.random())}, ${Math.floor(
-        255 * Math.random(),
-      )}, ${Math.floor(255 * Math.random())})`,
-      radius: 1 + Math.random(),
-      texture: Math.floor(12 * Math.random()),
-    })
-    this.#computeFireworkParticleSize(firework)
-    this.scene.add(firework.instance)
-    this.fireworks.push(firework)
+        if (this.fireworks.length) {
+            this.fireworks.forEach((firework) => {
+                this.#computeFireworkParticleSize(firework)
+            })
+        }
+    }
 
-    gsap.to(firework.material.uniforms.uProgress, {
-      value: 1,
-      duration: 3,
-      ease: 'linear',
-      onComplete: () => {
-        this.#disposeFirework(firework)
-      },
-    })
-  }
+    /**
+     * Dispose the lesson
+     *
+     * @returns {void}
+     */
+    dispose() {
+        this.#disposeFireworks()
+        this.canvas.removeEventListener('click', this.#boundFireworkClick)
 
-  /**
-   * Disposes firework
-   *
-   * @returns {void}
-   */
-  #disposeFireworks() {
-    this.fireworks.forEach((firework) => {
-      if (firework.instance) {
-        this.#disposeFirework(firework)
-      }
-    })
-    this.fireworks = []
-  }
+        super.dispose()
+    }
 
-  /**
-   * Dispose firework
-   *
-   * @param   {Firework} firework
-   * @returns {void}
-   */
-  #disposeFirework(firework) {
-    this.scene.remove(firework.instance)
-    firework.dispose()
-  }
+    /**
+     * Init sky
+     *
+     * @returns {void}
+     */
+    #initSky() {
+        const sky = new Sky()
+        sky.scale.setScalar(450000)
 
-  /**
-   * Compute firework particle size
-   *
-   * @param   {Firework} firework
-   * @returns {void}
-   */
-  #computeFireworkParticleSize(firework) {
-    firework.material.uniforms.uSize.value =
-      firework.parameters.particleSize *
-      this.canvas.height *
-      this.renderer.getPixelRatio()
-  }
+        const sun = new THREE.Vector3()
+        const uniforms = sky.material.uniforms
+        uniforms['turbidity'].value = this.#skyParameters.turbidity
+        uniforms['rayleigh'].value = this.#skyParameters.rayleigh
+        uniforms['mieCoefficient'].value = this.#skyParameters.mieCoefficient
+        uniforms['mieDirectionalG'].value = this.#skyParameters.mieDirectionalG
+        const phi = THREE.MathUtils.degToRad(90 - this.#skyParameters.elevation)
+        const theta = THREE.MathUtils.degToRad(this.#skyParameters.azimuth)
+        sun.setFromSphericalCoords(1, phi, theta)
+        uniforms['sunPosition'].value.copy(sun)
 
-  /**
-   * Setup camera
-   *
-   * @returns {void}
-   */
-  #setupCamera() {
-    this.camera.position.set(4, 4, 4)
-  }
+        this.scene.add(sky)
+    }
+
+    /**
+     * Init firework click event
+     *
+     * @returns {void}
+     */
+    #initFireworkClickEvent() {
+        this.#boundFireworkClick = this.#initFirework.bind(this)
+
+        this.canvas.addEventListener('click', this.#boundFireworkClick)
+    }
+
+    /**
+     * Init firework
+     *
+     * @returns {void}
+     */
+    #initFirework() {
+        const firework = new Firework({
+            position: new THREE.Vector3(
+                (Math.random() - 0.5) * 3,
+                (Math.random() - 0.5) * 3,
+                (Math.random() - 0.5) * 3,
+            ),
+            particles: 1500 + Math.floor(1000 * Math.random()),
+            particleSize: 0.08 + 0.02 * Math.random(),
+            particleColor: `rgb(${Math.floor(
+                255 * Math.random(),
+            )}, ${Math.floor(255 * Math.random())}, ${Math.floor(
+                255 * Math.random(),
+            )})`,
+            radius: 1 + Math.random(),
+            texture: Math.floor(12 * Math.random()),
+        })
+        this.#computeFireworkParticleSize(firework)
+        this.scene.add(firework.instance)
+        this.fireworks.push(firework)
+
+        gsap.to(firework.material.uniforms.uProgress, {
+            value: 1,
+            duration: 3,
+            ease: 'linear',
+            onComplete: () => {
+                this.#disposeFirework(firework)
+            },
+        })
+    }
+
+    /**
+     * Disposes firework
+     *
+     * @returns {void}
+     */
+    #disposeFireworks() {
+        this.fireworks.forEach((firework) => {
+            if (firework.instance) {
+                this.#disposeFirework(firework)
+            }
+        })
+        this.fireworks = []
+    }
+
+    /**
+     * Dispose firework
+     *
+     * @param   {Firework} firework
+     * @returns {void}
+     */
+    #disposeFirework(firework) {
+        this.scene.remove(firework.instance)
+        firework.dispose()
+    }
+
+    /**
+     * Compute firework particle size
+     *
+     * @param   {Firework} firework
+     * @returns {void}
+     */
+    #computeFireworkParticleSize(firework) {
+        firework.material.uniforms.uSize.value =
+            firework.parameters.particleSize *
+            this.canvas.height *
+            this.renderer.getPixelRatio()
+    }
+
+    /**
+     * Setup camera
+     *
+     * @returns {void}
+     */
+    #setupCamera() {
+        this.camera.position.set(4, 4, 4)
+    }
 }

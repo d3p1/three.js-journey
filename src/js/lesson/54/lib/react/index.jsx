@@ -7,16 +7,16 @@ import BaseIndex from '../../../../core/lesson/react-lesson/index.jsx'
 import App from './src/App.jsx'
 
 export default class Index extends BaseIndex {
-  /**
-   * Render
-   *
-   * @returns {void}
-   */
-  render() {
-    this.root.render(
-      <App counterCount={2}>
-        <h1 style={{textTransform: 'uppercase'}}>My First React App</h1>
-      </App>,
-    )
-  }
+    /**
+     * Render
+     *
+     * @returns {void}
+     */
+    render() {
+        this.root.render(
+            <App counterCount={2}>
+                <h1 style={{textTransform: 'uppercase'}}>My First React App</h1>
+            </App>,
+        )
+    }
 }

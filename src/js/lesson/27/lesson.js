@@ -10,106 +10,106 @@ import flagFragmentShader from './shader/flag/fragment.glsl'
 import flagImage from './media/images/argentinian-flag.png'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {THREE.ShaderMaterial|THREE.RawShaderMaterial}
-   */
-  material
+    /**
+     * @type {THREE.ShaderMaterial|THREE.RawShaderMaterial}
+     */
+    material
 
-  /**
-   * @type {boolean}
-   */
-  hasAnimation = true
+    /**
+     * @type {boolean}
+     */
+    hasAnimation = true
 
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '27'
-  }
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '27'
+    }
 
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Shaders'
-  }
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Shaders'
+    }
 
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/shaders'
-  }
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/shaders'
+    }
 
-  /**
-   * Update
-   *
-   * @param   {number} t
-   * @returns {void}
-   */
-  update(t) {
-    this.material.uniforms.uTime.value = t * 0.001
+    /**
+     * Update
+     *
+     * @param   {number} t
+     * @returns {void}
+     */
+    update(t) {
+        this.material.uniforms.uTime.value = t * 0.001
 
-    this.control.update()
-  }
+        this.control.update()
+    }
 
-  /**
-   * Init lesson
-   *
-   * @returns {void}
-   */
-  init() {
-    super.init()
+    /**
+     * Init lesson
+     *
+     * @returns {void}
+     */
+    init() {
+        super.init()
 
-    this.#initFlag()
-    this.#initGuiTweaks()
-  }
+        this.#initFlag()
+        this.#initGuiTweaks()
+    }
 
-  /**
-   * Init flag
-   *
-   * @returns {void}
-   */
-  #initFlag() {
-    const textureLoader = new THREE.TextureLoader()
-    const flagTexture = textureLoader.load(flagImage)
+    /**
+     * Init flag
+     *
+     * @returns {void}
+     */
+    #initFlag() {
+        const textureLoader = new THREE.TextureLoader()
+        const flagTexture = textureLoader.load(flagImage)
 
-    const geometry = new THREE.PlaneGeometry(2, 2, 64, 64)
+        const geometry = new THREE.PlaneGeometry(2, 2, 64, 64)
 
-    this.material = new THREE.ShaderMaterial({
-      vertexShader: flagVertexShader,
-      fragmentShader: flagFragmentShader,
-      uniforms: {
-        uFrequency: {value: new THREE.Vector2(10, 5)},
-        uTime: {value: 0},
-        uTexture: {value: flagTexture},
-      },
-    })
-    const flag = new THREE.Mesh(geometry, this.material)
-    flag.scale.y = 2 / 3
-    this.scene.add(flag)
-  }
+        this.material = new THREE.ShaderMaterial({
+            vertexShader: flagVertexShader,
+            fragmentShader: flagFragmentShader,
+            uniforms: {
+                uFrequency: {value: new THREE.Vector2(10, 5)},
+                uTime: {value: 0},
+                uTexture: {value: flagTexture},
+            },
+        })
+        const flag = new THREE.Mesh(geometry, this.material)
+        flag.scale.y = 2 / 3
+        this.scene.add(flag)
+    }
 
-  /**
-   * Init GUI tweaks
-   *
-   * @returns {void}
-   */
-  #initGuiTweaks() {
-    const frequencyFolder = this.guiControl.addFolder('Frequency')
-    frequencyFolder
-      .add(this.material.uniforms.uFrequency.value, 'x')
-      .min(0)
-      .max(20)
-    frequencyFolder
-      .add(this.material.uniforms.uFrequency.value, 'y')
-      .min(0)
-      .max(20)
-  }
+    /**
+     * Init GUI tweaks
+     *
+     * @returns {void}
+     */
+    #initGuiTweaks() {
+        const frequencyFolder = this.guiControl.addFolder('Frequency')
+        frequencyFolder
+            .add(this.material.uniforms.uFrequency.value, 'x')
+            .min(0)
+            .max(20)
+        frequencyFolder
+            .add(this.material.uniforms.uFrequency.value, 'y')
+            .min(0)
+            .max(20)
+    }
 }

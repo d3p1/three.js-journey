@@ -16,24 +16,24 @@ let world = null
  * @returns {void}
  */
 onmessage = (e) => {
-  const {type, payload} = e.data
+    const {type, payload} = e.data
 
-  switch (type) {
-    case 'init':
-      initWorld(payload)
-      break
+    switch (type) {
+        case 'init':
+            initWorld(payload)
+            break
 
-    case 'add':
-      addToWorld(payload)
-      break
+        case 'add':
+            addToWorld(payload)
+            break
 
-    case 'update':
-      updateWorld(payload)
-      break
+        case 'update':
+            updateWorld(payload)
+            break
 
-    case 'dispose':
-      disposeWorld()
-  }
+        case 'dispose':
+            disposeWorld()
+    }
 }
 
 /**
@@ -43,12 +43,12 @@ onmessage = (e) => {
  * @returns {void}
  */
 const initWorld = (payload) => {
-  world = new PhysicsWorld(
-    payload.gravity,
-    payload.friction,
-    payload.restitution,
-    payload.bodyCollisionHandler,
-  )
+    world = new PhysicsWorld(
+        payload.gravity,
+        payload.friction,
+        payload.restitution,
+        payload.bodyCollisionHandler,
+    )
 }
 
 /**
@@ -58,27 +58,27 @@ const initWorld = (payload) => {
  * @returns {void}
  */
 const addToWorld = (payload) => {
-  if (world) {
-    switch (payload.bodyType) {
-      case 'box':
-        world.addBox(
-          payload.id,
-          payload.width,
-          payload.height,
-          payload.depth,
-          payload.position,
-        )
-        break
+    if (world) {
+        switch (payload.bodyType) {
+            case 'box':
+                world.addBox(
+                    payload.id,
+                    payload.width,
+                    payload.height,
+                    payload.depth,
+                    payload.position,
+                )
+                break
 
-      case 'sphere':
-        world.addSphere(payload.id, payload.radius, payload.position)
-        break
+            case 'sphere':
+                world.addSphere(payload.id, payload.radius, payload.position)
+                break
 
-      case 'plane':
-        world.addPlane(payload.id, payload.position)
-        break
+            case 'plane':
+                world.addPlane(payload.id, payload.position)
+                break
+        }
     }
-  }
 }
 
 /**
@@ -88,19 +88,19 @@ const addToWorld = (payload) => {
  * @returns {void}
  */
 const updateWorld = (payload) => {
-  world.update(payload.delta)
-  const data = world.bodies.map((item) => {
-    return {
-      id: item.id,
-      position: item.body.position,
-      quaternion: item.body.quaternion,
-      width: item.body.shape,
-    }
-  })
-  postMessage({
-    type: 'refresh',
-    payload: data,
-  })
+    world.update(payload.delta)
+    const data = world.bodies.map((item) => {
+        return {
+            id: item.id,
+            position: item.body.position,
+            quaternion: item.body.quaternion,
+            width: item.body.shape,
+        }
+    })
+    postMessage({
+        type: 'refresh',
+        payload: data,
+    })
 }
 
 /**
@@ -109,5 +109,5 @@ const updateWorld = (payload) => {
  * @returns {void}
  */
 const disposeWorld = () => {
-  world.dispose()
+    world.dispose()
 }

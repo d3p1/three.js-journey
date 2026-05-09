@@ -6,159 +6,167 @@
  */
 -->
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Three.js</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-<h2 class="lesson-title"></h2>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Three.js</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="css/styles.css" />
+    </head>
+    <body>
+        <h2 class="lesson-title"></h2>
 
-<div class="controls">
-  <div class="controls__arrow controls__arrow--left">&#9664;</div>
+        <div class="controls">
+            <div class="controls__arrow controls__arrow--left">&#9664;</div>
 
-  <div class="controls__commands">
-    <h2 class="controls__commands-title">[COMMANDS]</h2>
-    <p class="controls__commands-description">
-      Press the <code>h</code> keyword to view the debug panel
-    </p>
-  </div>
+            <div class="controls__commands">
+                <h2 class="controls__commands-title">[COMMANDS]</h2>
+                <p class="controls__commands-description">
+                    Press the <code>h</code> keyword to view the debug panel
+                </p>
+            </div>
 
-  <div class="controls__arrow controls__arrow--right">&#9654;</div>
-</div>
+            <div class="controls__arrow controls__arrow--right">&#9654;</div>
+        </div>
 
-<script type="module">
-  import Bootstrap from './js/bootstrap.js'
-  import Lesson03 from './js/lesson/03/lesson.js'
-  import Lesson04 from './js/lesson/04/lesson.js'
-  import Lesson05 from './js/lesson/05/lesson.js'
-  import Lesson06 from './js/lesson/06/lesson.js'
-  import Lesson07 from './js/lesson/07/lesson.js'
-  import Lesson08 from './js/lesson/08/lesson.js'
-  import Lesson09 from './js/lesson/09/lesson.js'
-  import Lesson10 from './js/lesson/10/lesson.js'
-  import Lesson11 from './js/lesson/11/lesson.js'
-  import Lesson12 from './js/lesson/12/lesson.js'
-  import Lesson14 from './js/lesson/14/lesson.js'
-  import Lesson15 from './js/lesson/15/lesson.js'
-  import Lesson16 from './js/lesson/16/lesson.js'
-  import Lesson17 from './js/lesson/17/lesson.js'
-  import Lesson18 from './js/lesson/18/lesson.js'
-  import Lesson19 from './js/lesson/19/lesson.js'
-  import Lesson20 from './js/lesson/20/lesson.js'
-  import Lesson21 from './js/lesson/21/lesson.js'
-  import Lesson22 from './js/lesson/22/lesson.js'
-  import Lesson23 from './js/lesson/23/lesson.js'
-  import Lesson24 from './js/lesson/24/lesson.js'
-  import Lesson25 from './js/lesson/25/lesson.js'
-  import Lesson26 from './js/lesson/26/lesson.js'
-  import Lesson27 from './js/lesson/27/lesson.js'
-  import Lesson28 from './js/lesson/28/lesson.js'
-  import Lesson29 from './js/lesson/29/lesson.js'
-  import Lesson30 from './js/lesson/30/lesson.js'
-  import Lesson31 from './js/lesson/31/lesson.js'
-  import Lesson32 from './js/lesson/32/lesson.js'
-  import Lesson33 from './js/lesson/33/lesson.js'
-  import Lesson34 from './js/lesson/34/lesson.js'
-  import Lesson35 from './js/lesson/35/lesson.js'
-  import Lesson36 from './js/lesson/36/lesson.js'
-  import Lesson37 from './js/lesson/37/lesson.js'
-  import Lesson38 from './js/lesson/38/lesson.js'
-  import Lesson39 from './js/lesson/39/lesson.js'
-  import Lesson40 from './js/lesson/40/lesson.js'
-  import Lesson41 from './js/lesson/41/lesson.js'
-  import Lesson42 from './js/lesson/42/lesson.js'
-  import Lesson43 from './js/lesson/43/lesson.js'
-  import Lesson44 from './js/lesson/44/lesson.js'
-  import Lesson45 from './js/lesson/45/lesson.js'
-  import Lesson46 from './js/lesson/46/lesson.js'
-  import Lesson47 from './js/lesson/47/lesson.js'
-  import Lesson48 from './js/lesson/48/lesson.js'
-  import Lesson51 from './js/lesson/51/lesson.js'
-  import Lesson52 from './js/lesson/52/lesson.js'
-  import Lesson54 from './js/lesson/54/lesson.js'
-  import Lesson55 from './js/lesson/55/lesson.js'
-  import Lesson56 from './js/lesson/56/lesson.js'
-  import Lesson57 from './js/lesson/57/lesson.js'
-  import Lesson58 from './js/lesson/58/lesson.js'
-  import Lesson59 from './js/lesson/59/lesson.js'
-  import Lesson60 from './js/lesson/60/lesson.js'
-  import Lesson61 from './js/lesson/61/lesson.js'
-  import Lesson62 from './js/lesson/62/lesson.js'
-  import Lesson63 from './js/lesson/63/lesson.js'
-  import Lesson64 from './js/lesson/64/lesson.js'
-  import Lesson65 from './js/lesson/65/lesson.js'
-  import Lesson66 from './js/lesson/66/lesson.js'
+        <script type="module">
+            import Bootstrap from './js/bootstrap.js'
+            import Lesson03 from './js/lesson/03/lesson.js'
+            import Lesson04 from './js/lesson/04/lesson.js'
+            import Lesson05 from './js/lesson/05/lesson.js'
+            import Lesson06 from './js/lesson/06/lesson.js'
+            import Lesson07 from './js/lesson/07/lesson.js'
+            import Lesson08 from './js/lesson/08/lesson.js'
+            import Lesson09 from './js/lesson/09/lesson.js'
+            import Lesson10 from './js/lesson/10/lesson.js'
+            import Lesson11 from './js/lesson/11/lesson.js'
+            import Lesson12 from './js/lesson/12/lesson.js'
+            import Lesson14 from './js/lesson/14/lesson.js'
+            import Lesson15 from './js/lesson/15/lesson.js'
+            import Lesson16 from './js/lesson/16/lesson.js'
+            import Lesson17 from './js/lesson/17/lesson.js'
+            import Lesson18 from './js/lesson/18/lesson.js'
+            import Lesson19 from './js/lesson/19/lesson.js'
+            import Lesson20 from './js/lesson/20/lesson.js'
+            import Lesson21 from './js/lesson/21/lesson.js'
+            import Lesson22 from './js/lesson/22/lesson.js'
+            import Lesson23 from './js/lesson/23/lesson.js'
+            import Lesson24 from './js/lesson/24/lesson.js'
+            import Lesson25 from './js/lesson/25/lesson.js'
+            import Lesson26 from './js/lesson/26/lesson.js'
+            import Lesson27 from './js/lesson/27/lesson.js'
+            import Lesson28 from './js/lesson/28/lesson.js'
+            import Lesson29 from './js/lesson/29/lesson.js'
+            import Lesson30 from './js/lesson/30/lesson.js'
+            import Lesson31 from './js/lesson/31/lesson.js'
+            import Lesson32 from './js/lesson/32/lesson.js'
+            import Lesson33 from './js/lesson/33/lesson.js'
+            import Lesson34 from './js/lesson/34/lesson.js'
+            import Lesson35 from './js/lesson/35/lesson.js'
+            import Lesson36 from './js/lesson/36/lesson.js'
+            import Lesson37 from './js/lesson/37/lesson.js'
+            import Lesson38 from './js/lesson/38/lesson.js'
+            import Lesson39 from './js/lesson/39/lesson.js'
+            import Lesson40 from './js/lesson/40/lesson.js'
+            import Lesson41 from './js/lesson/41/lesson.js'
+            import Lesson42 from './js/lesson/42/lesson.js'
+            import Lesson43 from './js/lesson/43/lesson.js'
+            import Lesson44 from './js/lesson/44/lesson.js'
+            import Lesson45 from './js/lesson/45/lesson.js'
+            import Lesson46 from './js/lesson/46/lesson.js'
+            import Lesson47 from './js/lesson/47/lesson.js'
+            import Lesson48 from './js/lesson/48/lesson.js'
+            import Lesson51 from './js/lesson/51/lesson.js'
+            import Lesson52 from './js/lesson/52/lesson.js'
+            import Lesson54 from './js/lesson/54/lesson.js'
+            import Lesson55 from './js/lesson/55/lesson.js'
+            import Lesson56 from './js/lesson/56/lesson.js'
+            import Lesson57 from './js/lesson/57/lesson.js'
+            import Lesson58 from './js/lesson/58/lesson.js'
+            import Lesson59 from './js/lesson/59/lesson.js'
+            import Lesson60 from './js/lesson/60/lesson.js'
+            import Lesson61 from './js/lesson/61/lesson.js'
+            import Lesson62 from './js/lesson/62/lesson.js'
+            import Lesson63 from './js/lesson/63/lesson.js'
+            import Lesson64 from './js/lesson/64/lesson.js'
+            import Lesson65 from './js/lesson/65/lesson.js'
+            import Lesson66 from './js/lesson/66/lesson.js'
 
-  const lessons = [
-    new Lesson03(),
-    new Lesson04(),
-    new Lesson05(),
-    new Lesson06(),
-    new Lesson07(),
-    new Lesson08(),
-    new Lesson09(),
-    new Lesson10(),
-    new Lesson11(),
-    new Lesson12(),
-    new Lesson14(),
-    new Lesson15(),
-    new Lesson16(),
-    new Lesson17(),
-    new Lesson18(),
-    new Lesson19(),
-    new Lesson20(),
-    new Lesson21(),
-    new Lesson22(),
-    new Lesson23(),
-    new Lesson24(),
-    new Lesson25(),
-    new Lesson26(),
-    new Lesson27(),
-    new Lesson28(),
-    new Lesson29(),
-    new Lesson30(),
-    new Lesson31(),
-    new Lesson32(),
-    new Lesson33(),
-    new Lesson34(),
-    new Lesson35(),
-    new Lesson36(),
-    new Lesson37(),
-    new Lesson38(),
-    new Lesson39(),
-    new Lesson40(),
-    new Lesson41(),
-    new Lesson42(),
-    new Lesson43(),
-    new Lesson44(),
-    new Lesson45(),
-    new Lesson46(),
-    new Lesson47(),
-    new Lesson48(),
-    new Lesson51(),
-    new Lesson52(),
-    new Lesson54(),
-    new Lesson55(),
-    new Lesson56(),
-    new Lesson57(),
-    new Lesson58(),
-    new Lesson59(),
-    new Lesson60(),
-    new Lesson61(),
-    new Lesson62(),
-    new Lesson63(),
-    new Lesson64(),
-    new Lesson65(),
-    new Lesson66(),
-  ]
+            const lessons = [
+                new Lesson03(),
+                new Lesson04(),
+                new Lesson05(),
+                new Lesson06(),
+                new Lesson07(),
+                new Lesson08(),
+                new Lesson09(),
+                new Lesson10(),
+                new Lesson11(),
+                new Lesson12(),
+                new Lesson14(),
+                new Lesson15(),
+                new Lesson16(),
+                new Lesson17(),
+                new Lesson18(),
+                new Lesson19(),
+                new Lesson20(),
+                new Lesson21(),
+                new Lesson22(),
+                new Lesson23(),
+                new Lesson24(),
+                new Lesson25(),
+                new Lesson26(),
+                new Lesson27(),
+                new Lesson28(),
+                new Lesson29(),
+                new Lesson30(),
+                new Lesson31(),
+                new Lesson32(),
+                new Lesson33(),
+                new Lesson34(),
+                new Lesson35(),
+                new Lesson36(),
+                new Lesson37(),
+                new Lesson38(),
+                new Lesson39(),
+                new Lesson40(),
+                new Lesson41(),
+                new Lesson42(),
+                new Lesson43(),
+                new Lesson44(),
+                new Lesson45(),
+                new Lesson46(),
+                new Lesson47(),
+                new Lesson48(),
+                new Lesson51(),
+                new Lesson52(),
+                new Lesson54(),
+                new Lesson55(),
+                new Lesson56(),
+                new Lesson57(),
+                new Lesson58(),
+                new Lesson59(),
+                new Lesson60(),
+                new Lesson61(),
+                new Lesson62(),
+                new Lesson63(),
+                new Lesson64(),
+                new Lesson65(),
+                new Lesson66(),
+            ]
 
-  const boot = new Bootstrap(lessons.reverse(), '.lesson-title', '.controls__arrow--left', '.controls__arrow--right')
-  boot.run()
-</script>
-</body>
+            const boot = new Bootstrap(
+                lessons.reverse(),
+                '.lesson-title',
+                '.controls__arrow--left',
+                '.controls__arrow--right',
+            )
+            boot.run()
+        </script>
+    </body>
 </html>

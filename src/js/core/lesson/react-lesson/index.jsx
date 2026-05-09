@@ -7,37 +7,37 @@
 import {createRoot, Root} from 'react-dom/client'
 
 export default class Index {
-  /**
-   * @type {Root}
-   */
-  root
+    /**
+     * @type {Root}
+     */
+    root
 
-  /**
-   * Init
-   *
-   * @param   {HTMLElement} rootElement
-   * @returns {void}
-   * @throws  {Error}
-   */
-  init(rootElement) {
-    this.root = createRoot(rootElement)
-  }
+    /**
+     * Init
+     *
+     * @param   {HTMLElement} rootElement
+     * @returns {void}
+     * @throws  {Error}
+     */
+    init(rootElement) {
+        this.root = createRoot(rootElement)
+    }
 
-  /**
-   * Render
-   *
-   * @returns {void}
-   */
-  render() {
-    throw new Error('You should implement a `render` method')
-  }
+    /**
+     * Render
+     *
+     * @returns {void}
+     */
+    render() {
+        throw new Error('You should implement a `render` method')
+    }
 
-  /**
-   * Dispose
-   *
-   * @returns {void}
-   */
-  dispose() {
-    this.root.unmount()
-  }
+    /**
+     * Dispose
+     *
+     * @returns {void}
+     */
+    dispose() {
+        this.root.unmount()
+    }
 }

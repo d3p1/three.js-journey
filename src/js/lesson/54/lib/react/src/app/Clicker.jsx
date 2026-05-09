@@ -5,35 +5,35 @@
 import React, {useEffect, useState, useRef} from 'react'
 
 export default function Clicker({keyName, color, increment}) {
-  const [count, setCount] = useState(
-    parseInt(window.localStorage.getItem(keyName) ?? 0),
-  )
+    const [count, setCount] = useState(
+        parseInt(window.localStorage.getItem(keyName) ?? 0),
+    )
 
-  const buttonRef = useRef(null)
+    const buttonRef = useRef(null)
 
-  useEffect(() => {
-    buttonRef.current.style.textAlign = 'center'
+    useEffect(() => {
+        buttonRef.current.style.textAlign = 'center'
 
-    return () => {
-      window.localStorage.removeItem(keyName)
+        return () => {
+            window.localStorage.removeItem(keyName)
+        }
+    }, [])
+
+    useEffect(() => {
+        window.localStorage.setItem(keyName, count.toString())
+    }, [count])
+
+    const onClick = () => {
+        setCount((value) => value + 1)
+        increment()
     }
-  }, [])
 
-  useEffect(() => {
-    window.localStorage.setItem(keyName, count.toString())
-  }, [count])
-
-  const onClick = () => {
-    setCount((value) => value + 1)
-    increment()
-  }
-
-  return (
-    <>
-      <div style={{margin: '2rem', color: color}}>Clicks: {count}</div>
-      <button ref={buttonRef} style={{padding: '1rem'}} onClick={onClick}>
-        Click me
-      </button>
-    </>
-  )
+    return (
+        <>
+            <div style={{margin: '2rem', color: color}}>Clicks: {count}</div>
+            <button ref={buttonRef} style={{padding: '1rem'}} onClick={onClick}>
+                Click me
+            </button>
+        </>
+    )
 }

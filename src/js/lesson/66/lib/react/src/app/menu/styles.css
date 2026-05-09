@@ -34,9 +34,9 @@
     width: 20%;
     display: grid;
     grid-template-areas:
-            '. w .'
-            'a s d'
-            'space space space';
+        '. w .'
+        'a s d'
+        'space space space';
     gap: 1rem;
 }
 

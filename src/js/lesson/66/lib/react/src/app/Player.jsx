@@ -24,160 +24,162 @@ const CAMERA_MAX_TARGET_OFFSET = 0.25
 const CAMERA_SPEED = 5
 
 export default function Player() {
-  const player = useRef(null)
-  const [subscribeKeys, getKeys] = useKeyboardControls()
-  const trapCount = useGame((state) => state.trapCount)
-  const start = useGame((state) => state.start)
-  const restart = useGame((state) => state.restart)
-  const complete = useGame((state) => state.complete)
+    const player = useRef(null)
+    const [subscribeKeys, getKeys] = useKeyboardControls()
+    const trapCount = useGame((state) => state.trapCount)
+    const start = useGame((state) => state.start)
+    const restart = useGame((state) => state.restart)
+    const complete = useGame((state) => state.complete)
 
-  const {rapier, world} = useRapier()
+    const {rapier, world} = useRapier()
 
-  useEffect(() => {
-    const unsubscribePhase = useGame.subscribe(
-      (state) => state.phase,
-      (phase) => {
-        if (phase === READY_PHASE_KEY) {
-          _restart(player.current)
+    useEffect(() => {
+        const unsubscribePhase = useGame.subscribe(
+            (state) => state.phase,
+            (phase) => {
+                if (phase === READY_PHASE_KEY) {
+                    _restart(player.current)
+                }
+            },
+        )
+
+        const unsubscribeKeys = subscribeKeys(
+            (state) => state.jump,
+            (value) => {
+                if (value) {
+                    _jump(rapier, world, player.current)
+                }
+            },
+        )
+
+        const unsubscribeAnyKeys = subscribeKeys(() => start())
+
+        return () => {
+            unsubscribePhase()
+            unsubscribeAnyKeys()
+            unsubscribeKeys()
         }
-      },
+    }, [])
+
+    useFrame((state, delta) => {
+        _move(player.current, getKeys(), delta)
+        _translateCamera(state.camera, player.current, delta)
+        _processProgress(player.current, trapCount, complete, restart)
+    })
+
+    return (
+        <RigidBody
+            ref={player}
+            colliders="ball"
+            position={[0, 1, 0]}
+            restitution={0.2}
+            friction={1}
+            canSleep={false}
+            linearDamping={0.5}
+            angularDamping={0.5}
+        >
+            <mesh castShadow={true}>
+                <icosahedronGeometry args={[PLAYER_RADIUS, 1]} />
+                <meshStandardMaterial flatShading={true} color="mediumpurple" />
+            </mesh>
+        </RigidBody>
     )
-
-    const unsubscribeKeys = subscribeKeys(
-      (state) => state.jump,
-      (value) => {
-        if (value) {
-          _jump(rapier, world, player.current)
-        }
-      },
-    )
-
-    const unsubscribeAnyKeys = subscribeKeys(() => start())
-
-    return () => {
-      unsubscribePhase()
-      unsubscribeAnyKeys()
-      unsubscribeKeys()
-    }
-  }, [])
-
-  useFrame((state, delta) => {
-    _move(player.current, getKeys(), delta)
-    _translateCamera(state.camera, player.current, delta)
-    _processProgress(player.current, trapCount, complete, restart)
-  })
-
-  return (
-    <RigidBody
-      ref={player}
-      colliders="ball"
-      position={[0, 1, 0]}
-      restitution={0.2}
-      friction={1}
-      canSleep={false}
-      linearDamping={0.5}
-      angularDamping={0.5}
-    >
-      <mesh castShadow={true}>
-        <icosahedronGeometry args={[PLAYER_RADIUS, 1]} />
-        <meshStandardMaterial flatShading={true} color="mediumpurple" />
-      </mesh>
-    </RigidBody>
-  )
 }
 
 function _restart(player) {
-  player.setTranslation({x: 0, y: 1, z: 0})
-  player.setLinvel({x: 0, y: 1, z: 0})
-  player.setAngvel({x: 0, y: 1, z: 0})
+    player.setTranslation({x: 0, y: 1, z: 0})
+    player.setLinvel({x: 0, y: 1, z: 0})
+    player.setAngvel({x: 0, y: 1, z: 0})
 }
 
 function _processProgress(player, trapCount, complete, restart) {
-  const finishFieldDistance = 2 + trapCount * FIELD_SIZE
-  const playerPosition = player.translation()
+    const finishFieldDistance = 2 + trapCount * FIELD_SIZE
+    const playerPosition = player.translation()
 
-  if (playerPosition.z < -finishFieldDistance) {
-    complete()
-  }
+    if (playerPosition.z < -finishFieldDistance) {
+        complete()
+    }
 
-  if (playerPosition.y < FALL_THRESHOLD) {
-    restart()
-  }
+    if (playerPosition.y < FALL_THRESHOLD) {
+        restart()
+    }
 }
 
 function _translateCamera(camera, player, delta) {
-  const playerPosition = player.translation()
+    const playerPosition = player.translation()
 
-  const finalCameraPosition = new THREE.Vector3()
-  finalCameraPosition.copy(playerPosition)
-  finalCameraPosition.z += CAMERA_POSITION_Z_OFFSET
-  finalCameraPosition.y += CAMERA_POSITION_Y_OFFSET
+    const finalCameraPosition = new THREE.Vector3()
+    finalCameraPosition.copy(playerPosition)
+    finalCameraPosition.z += CAMERA_POSITION_Z_OFFSET
+    finalCameraPosition.y += CAMERA_POSITION_Y_OFFSET
 
-  const initialCameraTarget = new THREE.Vector3()
-  const finalCameraTarget = new THREE.Vector3()
-  initialCameraTarget.copy(playerPosition)
-  finalCameraTarget.copy(playerPosition)
-  finalCameraTarget.y += CAMERA_TARGET_Y_OFFSET
+    const initialCameraTarget = new THREE.Vector3()
+    const finalCameraTarget = new THREE.Vector3()
+    initialCameraTarget.copy(playerPosition)
+    finalCameraTarget.copy(playerPosition)
+    finalCameraTarget.y += CAMERA_TARGET_Y_OFFSET
 
-  if (
-    camera.position.distanceTo(finalCameraPosition) > CAMERA_MAX_POSITION_OFFSET
-  ) {
-    camera.position.lerp(finalCameraPosition, CAMERA_SPEED * delta)
-  } else {
-    camera.position.copy(finalCameraPosition)
-  }
+    if (
+        camera.position.distanceTo(finalCameraPosition) >
+        CAMERA_MAX_POSITION_OFFSET
+    ) {
+        camera.position.lerp(finalCameraPosition, CAMERA_SPEED * delta)
+    } else {
+        camera.position.copy(finalCameraPosition)
+    }
 
-  if (
-    initialCameraTarget.distanceTo(finalCameraTarget) > CAMERA_MAX_TARGET_OFFSET
-  ) {
-    camera.lookAt(
-      initialCameraTarget.lerp(finalCameraTarget, CAMERA_SPEED * delta),
-    )
-  } else {
-    camera.lookAt(finalCameraTarget)
-  }
+    if (
+        initialCameraTarget.distanceTo(finalCameraTarget) >
+        CAMERA_MAX_TARGET_OFFSET
+    ) {
+        camera.lookAt(
+            initialCameraTarget.lerp(finalCameraTarget, CAMERA_SPEED * delta),
+        )
+    } else {
+        camera.lookAt(finalCameraTarget)
+    }
 }
 
 function _jump(rapier, world, player) {
-  const rayOrigin = player.translation()
-  rayOrigin.y -= PLAYER_RADIUS + 0.1
-  const rayDirection = {x: 0, y: -1, z: 0}
-  const ray = new rapier.Ray(rayOrigin, rayDirection)
-  const {timeOfImpact} = world.castRay(ray, 10, true)
+    const rayOrigin = player.translation()
+    rayOrigin.y -= PLAYER_RADIUS + 0.1
+    const rayDirection = {x: 0, y: -1, z: 0}
+    const ray = new rapier.Ray(rayOrigin, rayDirection)
+    const {timeOfImpact} = world.castRay(ray, 10, true)
 
-  if (timeOfImpact < MAX_JUMP_DISTANCE) {
-    player.applyImpulse({x: 0, y: 0.5, z: 0})
-  }
+    if (timeOfImpact < MAX_JUMP_DISTANCE) {
+        player.applyImpulse({x: 0, y: 0.5, z: 0})
+    }
 }
 
 function _move(player, keys, delta) {
-  const {forward, rightward, backward, leftward} = keys
+    const {forward, rightward, backward, leftward} = keys
 
-  const impulse = {x: 0, y: 0, z: 0}
-  const torque = {x: 0, y: 0, z: 0}
-  const impulseStrength = 0.6 * delta
-  const torqueStrength = 0.2 * delta
+    const impulse = {x: 0, y: 0, z: 0}
+    const torque = {x: 0, y: 0, z: 0}
+    const impulseStrength = 0.6 * delta
+    const torqueStrength = 0.2 * delta
 
-  if (forward) {
-    impulse.z -= impulseStrength
-    torque.x -= torqueStrength
-  }
+    if (forward) {
+        impulse.z -= impulseStrength
+        torque.x -= torqueStrength
+    }
 
-  if (rightward) {
-    impulse.x += impulseStrength
-    torque.z -= torqueStrength
-  }
+    if (rightward) {
+        impulse.x += impulseStrength
+        torque.z -= torqueStrength
+    }
 
-  if (backward) {
-    impulse.z += impulseStrength
-    torque.x += torqueStrength
-  }
+    if (backward) {
+        impulse.z += impulseStrength
+        torque.x += torqueStrength
+    }
 
-  if (leftward) {
-    impulse.x -= impulseStrength
-    torque.z += torqueStrength
-  }
+    if (leftward) {
+        impulse.x -= impulseStrength
+        torque.z += torqueStrength
+    }
 
-  player.applyImpulse(impulse)
-  player.applyTorqueImpulse(torque)
+    player.applyImpulse(impulse)
+    player.applyTorqueImpulse(torque)
 }

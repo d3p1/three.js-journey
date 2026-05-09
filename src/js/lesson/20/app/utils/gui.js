@@ -5,21 +5,19 @@
 import GUI from 'lil-gui'
 
 export default class Gui {
-  /**
-   * Add action to GUI
-   *
-   * @param {GUI}      gui
-   * @param {Function} callback
-   * @param {string}   name
-   */
-  static addAction(gui, callback, name) {
-    gui
-      .add(
-        {
-          exec: callback,
-        },
-        'exec',
-      )
-      .name(name)
-  }
+    /**
+     * Add action to GUI
+     *
+     * @param {GUI}      gui
+     * @param {Function} callback
+     * @param {string}   name
+     */
+    static addAction(gui, callback, name) {
+        gui.add(
+            {
+                exec: callback,
+            },
+            'exec',
+        ).name(name)
+    }
 }

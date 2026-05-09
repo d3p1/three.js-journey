@@ -7,23 +7,23 @@ import BaseIndex from '../../../../core/lesson/react-lesson/index.jsx'
 import App from './src/App.jsx'
 
 export default class Index extends BaseIndex {
-  /**
-   * Render
-   *
-   * @returns {void}
-   */
-  render() {
-    this.root.render(
-      <Canvas
-        camera={{
-          fov: 45,
-          near: 0.1,
-          far: 200,
-          position: [-4, 3, 6],
-        }}
-      >
-        <App />
-      </Canvas>,
-    )
-  }
+    /**
+     * Render
+     *
+     * @returns {void}
+     */
+    render() {
+        this.root.render(
+            <Canvas
+                camera={{
+                    fov: 45,
+                    near: 0.1,
+                    far: 200,
+                    position: [-4, 3, 6],
+                }}
+            >
+                <App />
+            </Canvas>,
+        )
+    }
 }

@@ -7,38 +7,38 @@ import ReactLesson from '../../core/lesson/react-lesson.js'
 import Index from './lib/react/index.jsx'
 
 export default class Lesson extends ReactLesson {
-  /**
-   * Constructor
-   */
-  constructor() {
-    super()
-    this.app = new Index()
-  }
+    /**
+     * Constructor
+     */
+    constructor() {
+        super()
+        this.app = new Index()
+    }
 
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '56'
-  }
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '56'
+    }
 
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Drei'
-  }
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Drei'
+    }
 
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/r3f-drei'
-  }
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/r3f-drei'
+    }
 }

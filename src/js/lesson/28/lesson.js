@@ -9,71 +9,71 @@ import patternVertexShader from './shader/pattern/vertex.glsl'
 import patternFragmentShader from './shader/pattern/fragment.glsl'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {boolean}
-   */
-  hasAnimation = true
+    /**
+     * @type {boolean}
+     */
+    hasAnimation = true
 
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '28'
-  }
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '28'
+    }
 
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Shader patterns'
-  }
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Shader patterns'
+    }
 
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/shader-patterns'
-  }
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/shader-patterns'
+    }
 
-  /**
-   * Update
-   *
-   * @returns {void}
-   */
-  update() {
-    this.control.update()
-  }
+    /**
+     * Update
+     *
+     * @returns {void}
+     */
+    update() {
+        this.control.update()
+    }
 
-  /**
-   * Init lesson
-   *
-   * @returns {void}
-   */
-  init() {
-    super.init()
+    /**
+     * Init lesson
+     *
+     * @returns {void}
+     */
+    init() {
+        super.init()
 
-    this.#initPlane()
-  }
+        this.#initPlane()
+    }
 
-  /**
-   * Init plane
-   *
-   * @returns {void}
-   */
-  #initPlane() {
-    const geometry = new THREE.PlaneGeometry(2, 2, 64, 64)
-    const material = new THREE.ShaderMaterial({
-      vertexShader: patternVertexShader,
-      fragmentShader: patternFragmentShader,
-      side: THREE.DoubleSide,
-    })
-    const plane = new THREE.Mesh(geometry, material)
-    this.scene.add(plane)
-  }
+    /**
+     * Init plane
+     *
+     * @returns {void}
+     */
+    #initPlane() {
+        const geometry = new THREE.PlaneGeometry(2, 2, 64, 64)
+        const material = new THREE.ShaderMaterial({
+            vertexShader: patternVertexShader,
+            fragmentShader: patternFragmentShader,
+            side: THREE.DoubleSide,
+        })
+        const plane = new THREE.Mesh(geometry, material)
+        this.scene.add(plane)
+    }
 }

@@ -10,37 +10,39 @@ import Hamburger from './app/Hamburger.jsx'
 import Fox from './app/Fox.jsx'
 
 export default function App() {
-  return (
-    <>
-      <Perf position="top-left" />
+    return (
+        <>
+            <Perf position="top-left" />
 
-      <OrbitControls makeDefault={true} />
+            <OrbitControls makeDefault={true} />
 
-      <color args={['ivory']} attach="background" />
+            <color args={['ivory']} attach="background" />
 
-      <directionalLight
-        castShadow={true}
-        position={[1, 2, 3]}
-        intensity={4.5}
-        shadow-normalBias={0.04}
-      />
-      <ambientLight intensity={1.5} />
+            <directionalLight
+                castShadow={true}
+                position={[1, 2, 3]}
+                intensity={4.5}
+                shadow-normalBias={0.04}
+            />
+            <ambientLight intensity={1.5} />
 
-      <Suspense fallback={<Placeholder position-y={0.5} scale={[2, 3, 2]} />}>
-        <Hamburger scale={0.35} />
-      </Suspense>
+            <Suspense
+                fallback={<Placeholder position-y={0.5} scale={[2, 3, 2]} />}
+            >
+                <Hamburger scale={0.35} />
+            </Suspense>
 
-      <Fox />
+            <Fox />
 
-      <mesh
-        receiveShadow={true}
-        position-y={-1}
-        rotation-x={-Math.PI / 2}
-        scale={10}
-      >
-        <planeGeometry />
-        <meshStandardMaterial color="greenyellow" />
-      </mesh>
-    </>
-  )
+            <mesh
+                receiveShadow={true}
+                position-y={-1}
+                rotation-x={-Math.PI / 2}
+                scale={10}
+            >
+                <planeGeometry />
+                <meshStandardMaterial color="greenyellow" />
+            </mesh>
+        </>
+    )
 }

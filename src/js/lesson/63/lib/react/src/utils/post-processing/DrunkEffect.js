@@ -7,32 +7,32 @@ import {Effect, BlendFunction} from 'postprocessing'
 import drunkFragmentShader from './shader/drunk/fragment.glsl'
 
 export default class DrunkEffect extends Effect {
-  /**
-   * Constructor
-   *
-   * @param {object} props
-   */
-  constructor({
-    frequency = 10,
-    amplitude = 0.1,
-    blendFunction = BlendFunction.DARKEN,
-  }) {
-    super('DrunkEffect', drunkFragmentShader, {
-      blendFunction,
-      uniforms: new Map([
-        ['uFrequency', new THREE.Uniform(frequency)],
-        ['uAmplitude', new THREE.Uniform(amplitude)],
-        ['uTime', new THREE.Uniform(0)],
-      ]),
-    })
-  }
+    /**
+     * Constructor
+     *
+     * @param {object} props
+     */
+    constructor({
+        frequency = 10,
+        amplitude = 0.1,
+        blendFunction = BlendFunction.DARKEN,
+    }) {
+        super('DrunkEffect', drunkFragmentShader, {
+            blendFunction,
+            uniforms: new Map([
+                ['uFrequency', new THREE.Uniform(frequency)],
+                ['uAmplitude', new THREE.Uniform(amplitude)],
+                ['uTime', new THREE.Uniform(0)],
+            ]),
+        })
+    }
 
-  /**
-   * Update
-   *
-   * @returns {void}
-   */
-  update(renderer, inputBuffer, delta) {
-    this.uniforms.get('uTime').value += delta
-  }
+    /**
+     * Update
+     *
+     * @returns {void}
+     */
+    update(renderer, inputBuffer, delta) {
+        this.uniforms.get('uTime').value += delta
+    }
 }

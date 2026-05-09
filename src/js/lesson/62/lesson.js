@@ -7,38 +7,38 @@ import ReactLesson from '../../core/lesson/react-lesson.js'
 import Index from './lib/react/index.jsx'
 
 export default class Lesson extends ReactLesson {
-  /**
-   * Constructor
-   */
-  constructor() {
-    super()
-    this.app = new Index()
-  }
+    /**
+     * Constructor
+     */
+    constructor() {
+        super()
+        this.app = new Index()
+    }
 
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '62'
-  }
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '62'
+    }
 
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Mouse Events'
-  }
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Mouse Events'
+    }
 
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/mouse-events-with-r3f'
-  }
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/mouse-events-with-r3f'
+    }
 }

@@ -6,7 +6,7 @@ import {forwardRef} from 'react'
 import BaseDrunkEffect from '../DrunkEffect.js'
 
 export default forwardRef(function DrunkEffect(props, ref) {
-  const effect = new BaseDrunkEffect(props)
+    const effect = new BaseDrunkEffect(props)
 
-  return <primitive object={effect} ref={ref} />
+    return <primitive object={effect} ref={ref} />
 })

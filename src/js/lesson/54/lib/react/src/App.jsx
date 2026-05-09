@@ -8,55 +8,59 @@ import People from './app/People.jsx'
 import './App.css'
 
 export default function App({counterCount, children}) {
-  const [hasClicker, setHasClicker] = useState(true)
-  const [count, setCount] = useState(0)
+    const [hasClicker, setHasClicker] = useState(true)
+    const [count, setCount] = useState(0)
 
-  const toggleClicker = () => {
-    setHasClicker((value) => !value)
-  }
-
-  const increment = () => {
-    setCount((value) => value + 1)
-  }
-
-  const counterColors = useMemo(() => {
-    const colors = []
-    for (let i = 0; i < counterCount; i++) {
-      colors.push(`hsl(${Math.random() * 360}deg, 100%, 50%)`)
+    const toggleClicker = () => {
+        setHasClicker((value) => !value)
     }
-    return colors
-  }, [counterCount])
 
-  return (
-    <div className="app">
-      {children}
+    const increment = () => {
+        setCount((value) => value + 1)
+    }
 
-      <p
-        style={{margin: '2rem', textTransform: 'uppercase', fontWeight: 'bold'}}
-      >
-        Global clicks: {count}
-      </p>
+    const counterColors = useMemo(() => {
+        const colors = []
+        for (let i = 0; i < counterCount; i++) {
+            colors.push(`hsl(${Math.random() * 360}deg, 100%, 50%)`)
+        }
+        return colors
+    }, [counterCount])
 
-      <button
-        style={{marginBottom: '2rem', padding: '1.5rem'}}
-        onClick={toggleClicker}
-      >
-        {hasClicker ? 'Hide Clicker' : 'Show Clicker'}
-      </button>
-      {hasClicker && (
-        <>
-          {[...Array(counterCount)].map((value, key) => (
-            <Clicker
-              key={key}
-              keyName={`count${key}`}
-              color={counterColors[key]}
-              increment={increment}
-            />
-          ))}
-        </>
-      )}
+    return (
+        <div className="app">
+            {children}
 
-      <People />
-    </div>
-  )
+            <p
+                style={{
+                    margin: '2rem',
+                    textTransform: 'uppercase',
+                    fontWeight: 'bold',
+                }}
+            >
+                Global clicks: {count}
+            </p>
+
+            <button
+                style={{marginBottom: '2rem', padding: '1.5rem'}}
+                onClick={toggleClicker}
+            >
+                {hasClicker ? 'Hide Clicker' : 'Show Clicker'}
+            </button>
+            {hasClicker && (
+                <>
+                    {[...Array(counterCount)].map((value, key) => (
+                        <Clicker
+                            key={key}
+                            keyName={`count${key}`}
+                            color={counterColors[key]}
+                            increment={increment}
+                        />
+                    ))}
+                </>
+            )}
+
+            <People />
+        </div>
+    )
 }

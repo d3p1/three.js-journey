@@ -8,31 +8,31 @@ import BaseIndex from '../../../../core/lesson/react-lesson/index.jsx'
 import App from './src/App.jsx'
 
 export default class Index extends BaseIndex {
-  /**
-   * Render
-   *
-   * @returns {void}
-   */
-  render() {
-    this.root.render(
-      <Canvas
-        flat={false}
-        orthographic={false}
-        dpr={[1, 2]}
-        gl={{
-          antialias: true,
-          toneMapping: THREE.ACESFilmicToneMapping,
-          outputColorSpace: THREE.SRGBColorSpace,
-        }}
-        camera={{
-          fov: 75,
-          near: 0.01,
-          far: 100,
-          position: [3, 2, 6],
-        }}
-      >
-        <App />
-      </Canvas>,
-    )
-  }
+    /**
+     * Render
+     *
+     * @returns {void}
+     */
+    render() {
+        this.root.render(
+            <Canvas
+                flat={false}
+                orthographic={false}
+                dpr={[1, 2]}
+                gl={{
+                    antialias: true,
+                    toneMapping: THREE.ACESFilmicToneMapping,
+                    outputColorSpace: THREE.SRGBColorSpace,
+                }}
+                camera={{
+                    fov: 75,
+                    near: 0.01,
+                    far: 100,
+                    position: [3, 2, 6],
+                }}
+            >
+                <App />
+            </Canvas>,
+        )
+    }
 }

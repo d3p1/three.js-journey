@@ -10,185 +10,185 @@ import {DRACOLoader} from 'three/addons/loaders/DRACOLoader.js'
 import GeneralLesson from '../../core/lesson/general-lesson.js'
 
 export default class Lesson extends GeneralLesson {
-  /**
-   * @type {Timer}
-   */
-  timer
+    /**
+     * @type {Timer}
+     */
+    timer
 
-  /**
-   * @type {THREE.AnimationMixer}
-   */
-  foxMixer = null
+    /**
+     * @type {THREE.AnimationMixer}
+     */
+    foxMixer = null
 
-  /**
-   * @type {boolean}
-   */
-  hasAnimation = true
+    /**
+     * @type {boolean}
+     */
+    hasAnimation = true
 
-  /**
-   * Get lesson number
-   *
-   * @returns {string}
-   */
-  get number() {
-    return '21'
-  }
-
-  /**
-   * Get lesson title
-   *
-   * @returns {string}
-   */
-  get title() {
-    return 'Imported models'
-  }
-
-  /**
-   * Get lesson link
-   *
-   * @returns {string}
-   */
-  get link() {
-    return 'https://threejs-journey.com/lessons/imported-models'
-  }
-
-  /**
-   * Update
-   *
-   * @param   {number} t
-   * @returns {void}
-   */
-  update(t) {
-    this.timer.update(t)
-
-    this.control.update()
-    if (this.foxMixer) {
-      this.foxMixer.update(this.timer.getDelta())
+    /**
+     * Get lesson number
+     *
+     * @returns {string}
+     */
+    get number() {
+        return '21'
     }
-  }
 
-  /**
-   * Init lesson
-   *
-   * @returns {void}
-   */
-  init() {
-    super.init()
+    /**
+     * Get lesson title
+     *
+     * @returns {string}
+     */
+    get title() {
+        return 'Imported models'
+    }
 
-    this.#initTimer()
-    this.#initLights()
-    this.#initPlane()
-    this.#initModels()
-    this.#setupCamera()
-    this.#setupRenderer()
-  }
+    /**
+     * Get lesson link
+     *
+     * @returns {string}
+     */
+    get link() {
+        return 'https://threejs-journey.com/lessons/imported-models'
+    }
 
-  /**
-   * Setup camera
-   *
-   * @returns {void}
-   */
-  #setupCamera() {
-    this.camera.fov = 75
-    this.camera.near = 0.1
-    this.camera.far = 100
-    this.camera.position.set(3, 3, 8)
-  }
+    /**
+     * Update
+     *
+     * @param   {number} t
+     * @returns {void}
+     */
+    update(t) {
+        this.timer.update(t)
 
-  /**
-   * Setup renderer
-   *
-   * @returns {void}
-   */
-  #setupRenderer() {
-    this.renderer.shadowMap.enabled = true
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
-  }
+        this.control.update()
+        if (this.foxMixer) {
+            this.foxMixer.update(this.timer.getDelta())
+        }
+    }
 
-  /**
-   * Init model
-   *
-   * @returns {void}
-   */
-  #initModels() {
-    const gltfLoader = new GLTFLoader()
-    const dracoLoader = new DRACOLoader()
-    dracoLoader.setDecoderPath('/three.js-journey/js/utils/loader/draco/')
-    gltfLoader.setDRACOLoader(dracoLoader)
+    /**
+     * Init lesson
+     *
+     * @returns {void}
+     */
+    init() {
+        super.init()
 
-    gltfLoader.load(
-      '/three.js-journey/media/models/Duck/glTF-Draco/Duck.gltf',
-      (model) => {
-        model.scene.position.set(3, 0, 3)
-        this.scene.add(model.scene)
-      },
-    )
+        this.#initTimer()
+        this.#initLights()
+        this.#initPlane()
+        this.#initModels()
+        this.#setupCamera()
+        this.#setupRenderer()
+    }
 
-    gltfLoader.load(
-      '/three.js-journey/media/models/FlightHelmet/glTF/FlightHelmet.gltf',
-      (model) => {
-        model.scene.position.set(-3, 0, -3)
-        model.scene.scale.set(4, 4, 4)
-        this.scene.add(model.scene)
-      },
-    )
+    /**
+     * Setup camera
+     *
+     * @returns {void}
+     */
+    #setupCamera() {
+        this.camera.fov = 75
+        this.camera.near = 0.1
+        this.camera.far = 100
+        this.camera.position.set(3, 3, 8)
+    }
 
-    gltfLoader.load(
-      '/three.js-journey/media/models/Fox/glTF/Fox.gltf',
-      (model) => {
-        model.scene.scale.set(0.025, 0.025, 0.025)
-        this.scene.add(model.scene)
+    /**
+     * Setup renderer
+     *
+     * @returns {void}
+     */
+    #setupRenderer() {
+        this.renderer.shadowMap.enabled = true
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    }
 
-        this.foxMixer = new THREE.AnimationMixer(model.scene)
-        const action = this.foxMixer.clipAction(model.animations[2])
-        action.play()
-      },
-    )
-  }
+    /**
+     * Init model
+     *
+     * @returns {void}
+     */
+    #initModels() {
+        const gltfLoader = new GLTFLoader()
+        const dracoLoader = new DRACOLoader()
+        dracoLoader.setDecoderPath('/three.js-journey/js/utils/loader/draco/')
+        gltfLoader.setDRACOLoader(dracoLoader)
 
-  /**
-   * Init timer
-   *
-   * @returns {void}
-   */
-  #initTimer() {
-    this.timer = new Timer()
-  }
+        gltfLoader.load(
+            '/three.js-journey/media/models/Duck/glTF-Draco/Duck.gltf',
+            (model) => {
+                model.scene.position.set(3, 0, 3)
+                this.scene.add(model.scene)
+            },
+        )
 
-  /**
-   * Init plane
-   *
-   * @returns {void}
-   */
-  #initPlane() {
-    const geometry = new THREE.PlaneGeometry(10, 10, 10)
-    const material = new THREE.MeshStandardMaterial({
-      roughness: 0.3,
-      metalness: 0.7,
-    })
-    const plane = new THREE.Mesh(geometry, material)
-    plane.rotation.x = -Math.PI / 2
-    this.scene.add(plane)
-  }
+        gltfLoader.load(
+            '/three.js-journey/media/models/FlightHelmet/glTF/FlightHelmet.gltf',
+            (model) => {
+                model.scene.position.set(-3, 0, -3)
+                model.scene.scale.set(4, 4, 4)
+                this.scene.add(model.scene)
+            },
+        )
 
-  /**
-   * Init lights
-   *
-   * @returns {void}
-   */
-  #initLights() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1)
-    this.scene.add(ambientLight)
+        gltfLoader.load(
+            '/three.js-journey/media/models/Fox/glTF/Fox.gltf',
+            (model) => {
+                model.scene.scale.set(0.025, 0.025, 0.025)
+                this.scene.add(model.scene)
 
-    const dirLight = new THREE.DirectionalLight(0xffffff, 3)
-    dirLight.position.set(3, 3, 0)
-    dirLight.castShadow = true
-    dirLight.shadow.mapSize.set(1024, 1024)
-    dirLight.shadow.camera.far = 15
-    dirLight.shadow.camera.left = -7
-    dirLight.shadow.camera.top = 7
-    dirLight.shadow.camera.right = 7
-    dirLight.shadow.camera.bottom = -7
-    this.scene.add(dirLight)
-  }
+                this.foxMixer = new THREE.AnimationMixer(model.scene)
+                const action = this.foxMixer.clipAction(model.animations[2])
+                action.play()
+            },
+        )
+    }
+
+    /**
+     * Init timer
+     *
+     * @returns {void}
+     */
+    #initTimer() {
+        this.timer = new Timer()
+    }
+
+    /**
+     * Init plane
+     *
+     * @returns {void}
+     */
+    #initPlane() {
+        const geometry = new THREE.PlaneGeometry(10, 10, 10)
+        const material = new THREE.MeshStandardMaterial({
+            roughness: 0.3,
+            metalness: 0.7,
+        })
+        const plane = new THREE.Mesh(geometry, material)
+        plane.rotation.x = -Math.PI / 2
+        this.scene.add(plane)
+    }
+
+    /**
+     * Init lights
+     *
+     * @returns {void}
+     */
+    #initLights() {
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1)
+        this.scene.add(ambientLight)
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 3)
+        dirLight.position.set(3, 3, 0)
+        dirLight.castShadow = true
+        dirLight.shadow.mapSize.set(1024, 1024)
+        dirLight.shadow.camera.far = 15
+        dirLight.shadow.camera.left = -7
+        dirLight.shadow.camera.top = 7
+        dirLight.shadow.camera.right = 7
+        dirLight.shadow.camera.bottom = -7
+        this.scene.add(dirLight)
+    }
 }
